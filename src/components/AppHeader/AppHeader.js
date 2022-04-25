@@ -1,24 +1,26 @@
 import React from 'react';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Box } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Box } from '@ya.praktikum/react-developer-burger-ui-components';
+import appHeaderStyles from './appHeader.module.css';
 
 class AppHeader extends React.Component {
     render() {
         return(
-        <header style={{ backgroundColor: '#1C1C21' }} className="pl-40 pr-40 pb-40 pt-40">
+        <header className={ appHeaderStyles.header }>
             <nav>
-                <ul>
+                <ul className="text text_type_main-default">
                     <li>
-                        <BurgerIcon type="primary" />
+                        <BurgerIcon type="primary" /> <span >Конструктор</span>
                     </li>
                     <li>
-
+                        <ListIcon type="secondary" /> <span className="text_color_inactive">Лента заказов</span>
                     </li>
-                    <Logo />
                 </ul>
             </nav>
+            <Logo />
         </header>
         )
     }
