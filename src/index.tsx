@@ -3,17 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import AppHeader from './components/AppHeader/AppHeader.js';
+import App from './components/App/App.jsx';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <>
-        <Button type="primary" size="small">
-      Нажми на меня
-      </Button>
-      <AppHeader></AppHeader>
-      </>
+    <App></App>
+      
   </React.StrictMode>,
   document.getElementById('root')
 );

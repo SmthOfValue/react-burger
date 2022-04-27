@@ -1,0 +1,13 @@
+.type {
+    min-width: 600px; 
+}
+
+.ingredients {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 32px 24px;
+    grid-template-columns: 1fr 1fr;
+    max-width: 600px;
+    
+}
