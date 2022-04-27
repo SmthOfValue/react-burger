@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Box, Counter, Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import Ingredient from '../Ingredient/Ingredient.jsx';
+import { Typography, Box, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientsGroup from '../IngredientsGroup/IngredientsGroup.jsx';
 
@@ -8,8 +7,8 @@ import IngredientsGroup from '../IngredientsGroup/IngredientsGroup.jsx';
 const BurgerIngredients = ({ingredients}) => {
     const [current, setCurrent] = React.useState('булки');
         return(
-            <section>
-                <h1 className="text text_type_main-large">Соберите бургер</h1>
+            <section className={burgerIngredientsStyles.section}>
+                <h1 className="mb-5 text text_type_main-large">Соберите бургер</h1>
                 <div style={{ display: 'flex' }}>
                     <Tab value="булки" active={current === 'булки'} onClick={setCurrent}>
                         Булки
@@ -21,12 +20,11 @@ const BurgerIngredients = ({ingredients}) => {
                         Начинки
                     </Tab>
                 </div>
-                <ul className={burgerIngredientsStyles.types}>
+                <ul className={burgerIngredientsStyles.list}>
                     <IngredientsGroup ingredients={ingredients} type="bun">Булки</IngredientsGroup>
                     <IngredientsGroup ingredients={ingredients} type="sauce">Соусы</IngredientsGroup>
                     <IngredientsGroup ingredients={ingredients} type="main">Начинки</IngredientsGroup>
-                </ul>
-             
+                </ul>             
             </section>
         )
 }
