@@ -1,0 +1,6 @@
+.main {
+    max-width: 1240px;
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+}
