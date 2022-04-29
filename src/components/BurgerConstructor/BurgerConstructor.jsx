@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Typography, Box, ConstructorElement, Button, CurrencyIcon, LockIcon, DragIcon, DeleteIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorStyles from './BurgerConstructor.module.css';
 
 const BurgerConstructor = ({selectedIngredients}) => {
+    //отделяю булки от всего остального в списке ингредиентов
     const bun = selectedIngredients.find((ingredient) => ingredient.type === "bun");
     const middleIngredients = selectedIngredients.filter((ingredient) => ingredient.type !== "bun");
+    //создаю список начинок и соусов для рендера
     const middleIngredientsList = middleIngredients.map((selectedIngredient, index) => (
         <li key={index} className={BurgerConstructorStyles.element}>
             <span className="mr-2">
@@ -22,7 +25,7 @@ const BurgerConstructor = ({selectedIngredients}) => {
     ))    
     return (
         <section className={`mt-15 ml-4 ${BurgerConstructorStyles.section}`}>
-            <div className={`ml-4 ${BurgerConstructorStyles.ingredient}`}>
+                <div className={`ml-4 ${BurgerConstructorStyles.ingredient}`}>
                 <ConstructorElement
                     type="top"
                     isLocked={true}       
@@ -52,6 +55,25 @@ const BurgerConstructor = ({selectedIngredients}) => {
             </div>
         </section>
     )
+}
+const ingredientPropTypes = PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.oneOf(["main", "sauce", "bun"]),
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    calories: PropTypes.number,
+    price: PropTypes.number,
+    image: PropTypes.string,
+    image_mobile: PropTypes.string,
+    image_large: PropTypes.string,
+    __v: PropTypes.number
+});
+
+
+BurgerConstructor.propTypes = {
+    selectedIngredients: PropTypes.arrayOf(ingredientPropTypes.isRequired)
 }
 
 export default BurgerConstructor;

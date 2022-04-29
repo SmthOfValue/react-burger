@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Typography, Box, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientStyles from './ingredient.module.css';
 
@@ -16,6 +17,13 @@ const Ingredient = ({image, price, name}) => {
             <Counter count={1} size="default" />
         </li>
     )
+}
+
+Ingredient.propTypes = {
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    image: PropTypes.string,
 }
 
 export default Ingredient;
