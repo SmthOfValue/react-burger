@@ -211,6 +211,6 @@ const ingredients = [
     }
 ] 
 
-const selectedIngredients = [ingredients[0], ingredients[5], ingredients[4], ingredients[6], ingredients[7], ingredients[7]]
+const selectedIngredients = [ingredients[0], ingredients[5], ingredients[4], ingredients[6], ingredients[7], ingredients[7], ingredients[4], ingredients[2]]
 
 export {ingredients, selectedIngredients};

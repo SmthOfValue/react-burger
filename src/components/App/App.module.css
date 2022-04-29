@@ -2,5 +2,6 @@
     max-width: 1240px;
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
     margin: 0 auto;
 }

@@ -7,48 +7,47 @@ const BurgerConstructor = ({selectedIngredients}) => {
     const middleIngredients = selectedIngredients.filter((ingredient) => ingredient.type !== "bun");
     const middleIngredientsList = middleIngredients.map((selectedIngredient, index) => (
         <li key={index} className={BurgerConstructorStyles.element}>
-            {!(index === 0 || index === selectedIngredients.length-1) &&
             <span className="mr-2">
                 <DragIcon type="primary"></DragIcon>
-            </span>}
-            <span className={`${(index === 0 || index === selectedIngredients.length-1) && "ml-8"} ${BurgerConstructorStyles.ingredient}`}>
-                <ConstructorElement
-                type={index === 0 ? "top" : index === selectedIngredients.length-1 && "bottom"}
-                isLocked={index === 0 ? true : index === selectedIngredients.length-1 && true}            
-                text={selectedIngredient.name}
-                price={selectedIngredient.price}
-                thumbnail={selectedIngredient.image}
-                // className={BurgerConstructorStyles.element}
+            </span>
+            <span className={BurgerConstructorStyles.ingredient}>
+                <ConstructorElement                
+                    isLocked={false}            
+                    text={selectedIngredient.name}
+                    price={selectedIngredient.price}
+                    thumbnail={selectedIngredient.image}
                 />
             </span>
         </li>
     ))    
     return (
-        <section className={`mt-15 ${BurgerConstructorStyles.section}`}>
-             <ConstructorElement
-                type="top"
-                isLocked={true}       
-                text={`${bun.name} (верх)`}
-                price={bun.price}
-                thumbnail={bun.image}
-                // className={BurgerConstructorStyles.element}
+        <section className={`mt-15 ml-4 ${BurgerConstructorStyles.section}`}>
+            <div className={`ml-4 ${BurgerConstructorStyles.ingredient}`}>
+                <ConstructorElement
+                    type="top"
+                    isLocked={true}       
+                    text={`${bun.name} (верх)`}
+                    price={bun.price}
+                    thumbnail={bun.image}
                 />
-            <ul className={`ml-4 ${BurgerConstructorStyles.list}`}> 
+            </div>
+            <ul className={` ${BurgerConstructorStyles.list}`}> 
                 {middleIngredientsList}       
             </ul>
-            <ConstructorElement
-                type="bottom"
-                isLocked={true}       
-                text={`${bun.name} (низ)`}
-                price={bun.price}
-                thumbnail={bun.image}
-                // className={BurgerConstructorStyles.element}
+            <div className={`ml-4 ${BurgerConstructorStyles.ingredient}`}>
+                <ConstructorElement
+                    type="bottom"
+                    isLocked={true}       
+                    text={`${bun.name} (низ)`}
+                    price={bun.price}
+                    thumbnail={bun.image}
                 />
-            <div>
-                <span className={``}>
-                    <p className=""></p>
+            </div>
+            <div className={`mt-6 mr-4 ${BurgerConstructorStyles.checkout}`}>
+                <p className={`text text_type_digits-medium mr-10 ${BurgerConstructorStyles.total}`}>
+                    <span className="mr-2">6196</span>
                     <CurrencyIcon type="primary"/>
-                </span>
+                </p>
                 <Button>Оформить заказ</Button>
             </div>
         </section>
