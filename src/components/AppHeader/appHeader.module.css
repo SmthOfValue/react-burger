@@ -10,17 +10,16 @@
     justify-content: flex-start;
 }
 
-.item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
 
 .link {
     display: flex;
     flex-direction: row;
     align-items: center;
     
+}
+
+.link:hover {
+    cursor: pointer;
 }
 
 .nav {

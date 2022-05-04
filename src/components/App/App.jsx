@@ -6,13 +6,13 @@ import BurgerConstructor from '../BurgerConstructor/BurgerConstructor.jsx';
 import {ingredients, selectedIngredients} from '../../utils/data.js';
 import AppStyles from './App.module.css';
 
-const App = (props) => {
+const App = () => {
     return (
         <>
             <AppHeader></AppHeader>
             <main className={AppStyles.main}>
-                <BurgerIngredients ingredients={ingredients}></BurgerIngredients>
-                <BurgerConstructor selectedIngredients={selectedIngredients}></BurgerConstructor>
+                <BurgerIngredients ingredients={ingredients} />
+                <BurgerConstructor selectedIngredients={selectedIngredients} />
             </main>
         </>
     )

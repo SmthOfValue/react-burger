@@ -3,10 +3,16 @@ import PropTypes from 'prop-types';
 import { Typography, Box, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientsGroup from '../IngredientsGroup/IngredientsGroup.jsx';
+import {ingredientPropType} from '../../utils/prop-types.js';
 
 
 const BurgerIngredients = ({ingredients}) => {
     const [current, setCurrent] = React.useState('булки');
+    //функция фильтрации массива ингредиентов по типу ингредиента
+    const filterByType = (ingredientsArray, typeName) => {
+        return ingredientsArray.filter((ingredient) => ingredient.type === typeName);
+    }
+    
         return(
             <section className={`mr-10 ${burgerIngredientsStyles.section}`}>
                 <h1 className="mb-5 text text_type_main-large">Соберите бургер</h1>
@@ -22,32 +28,17 @@ const BurgerIngredients = ({ingredients}) => {
                     </Tab>
                 </div>
                 <ul className={burgerIngredientsStyles.list}>
-                    <IngredientsGroup ingredients={ingredients} type="bun">Булки</IngredientsGroup>
-                    <IngredientsGroup ingredients={ingredients} type="sauce">Соусы</IngredientsGroup>
-                    <IngredientsGroup ingredients={ingredients} type="main">Начинки</IngredientsGroup>
+                    <IngredientsGroup ingredients={filterByType(ingredients, "bun")} type="bun">Булки</IngredientsGroup>
+                    <IngredientsGroup ingredients={filterByType(ingredients, "sauce")} type="sauce">Соусы</IngredientsGroup>
+                    <IngredientsGroup ingredients={filterByType(ingredients, "main")} type="main">Начинки</IngredientsGroup>
                 </ul>             
             </section>
         )
 }
 
-const ingredientPropTypes = PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    type: PropTypes.oneOf(["main", "sauce", "bun"]),
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    price: PropTypes.number,
-    image: PropTypes.string,
-    image_mobile: PropTypes.string,
-    image_large: PropTypes.string,
-    __v: PropTypes.number
-});
-
 
 BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired)
+    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
 }
 
 

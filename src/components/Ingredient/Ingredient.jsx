@@ -6,7 +6,7 @@ import ingredientStyles from './ingredient.module.css';
 const Ingredient = ({image, price, name}) => {
     return (
         <li className={ingredientStyles.item}>
-            <img src={image} className={ingredientStyles.image}/>
+            <img src={image} className={ingredientStyles.image} alt={name} />
             <span className={`mt-1 mb-1 ${ingredientStyles.price}`}>
                 <p className="mr-2 text text_type_digits-default">{price}</p>
                 <CurrencyIcon type="primary"/>
@@ -20,10 +20,9 @@ const Ingredient = ({image, price, name}) => {
 }
 
 Ingredient.propTypes = {
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    price: PropTypes.number,
-    image: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
 }
 
 export default Ingredient;

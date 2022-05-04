@@ -8,17 +8,21 @@ const AppHeader = () => {
             <div className={appHeaderStyles.content}>
                 <nav className={appHeaderStyles.nav}>
                     <ul className={ `text text_type_main-default ${ appHeaderStyles.list}` }>
-                        <li className={`pr-5 pl-5 pt-4 pb-4 mr-2 mt-4 mb-4 ${ appHeaderStyles.item }`}>
-                            <BurgerIcon type="primary" />
-                            <span className="ml-2">
-                                Конструктор
-                            </span>
+                        <li className={`pr-5 pl-5 pt-4 pb-4 mr-2 mt-4 mb-4`}>
+                            <a className={appHeaderStyles.link}>
+                                <BurgerIcon type="primary" />
+                                <span className="ml-2">
+                                    Конструктор
+                                </span>
+                            </a>
                         </li>
-                        <li className={`pr-5 pl-5 pt-4 pb-4 mt-4 mb-4 ${ appHeaderStyles.item }`}>
-                            <ListIcon type="secondary" />
-                            <span className="ml-2 text_color_inactive">
-                                Лента заказов
-                            </span>
+                        <li className={`pr-5 pl-5 pt-4 pb-4 mt-4 mb-4`}>
+                            <a className={appHeaderStyles.link}>
+                                <ListIcon type="secondary" />
+                                <span className="ml-2 text_color_inactive">
+                                    Лента заказов
+                                </span>
+                            </a>
                         </li>
                     </ul>
                 </nav>
