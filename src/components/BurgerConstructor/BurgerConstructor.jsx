@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Typography, Box, ConstructorElement, Button, CurrencyIcon, LockIcon, DragIcon, DeleteIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Typography, Box, ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorStyles from './BurgerConstructor.module.css';
 import {ingredientPropType} from '../../utils/prop-types.js';
 
@@ -9,8 +9,8 @@ const BurgerConstructor = ({selectedIngredients, onCheckoutClick}) => {
     const bun = selectedIngredients.find((ingredient) => ingredient.type === "bun");
     const middleIngredients = selectedIngredients.filter((ingredient) => ingredient.type !== "bun");
     //создаю список начинок и соусов для рендера
-    const middleIngredientsList = middleIngredients.map((selectedIngredient, index) => (
-        <li key={index} className={BurgerConstructorStyles.element}>
+    const middleIngredientsList = middleIngredients.map((selectedIngredient) => (
+        <li key={selectedIngredient._id} className={BurgerConstructorStyles.element}>
             <span className="mr-2">
                 <DragIcon type="primary"></DragIcon>
             </span>

@@ -1,13 +1,12 @@
-import {React, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AppHeader from '../AppHeader/AppHeader.jsx';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients.jsx';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor.jsx';
 import Modal from '../Modal/Modal.jsx';
 import AppStyles from './App.module.css';
-import { ingredientsUrl } from '../../utils/constants.js';
 import OrderDetails from '../OrderDetails/OrderDetails.jsx';
 import IngredientDetails from '../IngredientDetails/IngredientDetails.jsx';
-
+import { getIngredients } from '../../utils/burger-api.js';
 
 
 const App = () => {
@@ -22,28 +21,11 @@ const App = () => {
         isLoaded: false
     });
 
-    const getIngredients = () => {
-        fetch(ingredientsUrl)
-        .then (res => res.json())
-        .then (res => setState({
-                ...state,
-                allIngredients: res.data,
-                selectedIngredients: [res.data[0], res.data[5], res.data[4], res.data[6], res.data[7], res.data[7], res.data[4], res.data[2]],
-                isLoaded: true
-            })           
-        )
-        .catch(error => {
-            setState({...state, isLoaded: true})
-            console.log(error);
-        })
-    }
-
     const closeAllModals = () => {
         setIsOrderDetailsOpened(false);
         setIngredientDetailsOpened(false);
-        
     };
-
+   
     //обработчик нажатия на кнопку "Оформить заказ", который передается в конструктор
     const openOrderDetails = () => {
         setIsOrderDetailsOpened(true);
@@ -58,6 +40,16 @@ const App = () => {
     //запрос ингредиентов с сервера
     useEffect(() => {
         getIngredients()
+            .then(res => setState({
+                ...state,
+                allIngredients: res.data,
+                selectedIngredients: [res.data[0], res.data[5], res.data[4], res.data[6], res.data[7], res.data[2]],
+                isLoaded: true
+            })           
+    )
+            .catch(error => {
+                setState({...state, isLoaded: true})
+            })
     }, []);
 
 

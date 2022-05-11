@@ -11,7 +11,7 @@ const IngredientDetails = ({ingredient}) => {
     
     return (
     <div className={`pb-15 ${IngredientDetailsStyles.container}`}>
-        <img src={image} className={IngredientDetailsStyles.image} />
+        <img src={image} alt={name} className={IngredientDetailsStyles.image} />
         <p className=' mt-4 text text_type_main-default'>{name}</p>
         <ul className={`mt-8 ${IngredientDetailsStyles.nutrition}`}>
             <IngredientNutritionItem title="Калории, ккал" nutritionValue={calories} />

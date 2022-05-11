@@ -3,12 +3,12 @@ import { Typography, Box } from '@ya.praktikum/react-developer-burger-ui-compone
 import PropTypes from 'prop-types';
 import IngredientNutritionItemStyles from './IngredientNutritionItem.module.css';
 
-const IngredientNutritionItem = (props) => {
+const IngredientNutritionItem = ({title, nutritionValue}) => {
 
     return (
         <li className={`mr-5 ${IngredientNutritionItemStyles.item}`}>
-            <p className='mb-2 text text_type_main-small text_color_inactive'>{props.title}</p>
-            <p className='text text_type_digits-default text_color_inactive'>{props.nutritionValue}</p>
+            <p className='mb-2 text text_type_main-small text_color_inactive'>{title}</p>
+            <p className='text text_type_digits-default text_color_inactive'>{nutritionValue}</p>
         </li>
     );
 }

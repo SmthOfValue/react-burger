@@ -7,7 +7,7 @@ import {ingredientPropType} from '../../utils/prop-types.js';
 
 
 const BurgerIngredients = ({ingredients, onIngredientClick}) => {
-    const [current, setCurrent] = React.useState('булки');
+    const [current, setCurrent] = useState('булки');
     //функция фильтрации массива ингредиентов по типу ингредиента
     const filterByType = (ingredientsArray, typeName) => {
         return ingredientsArray.filter((ingredient) => ingredient.type === typeName);
@@ -28,9 +28,9 @@ const BurgerIngredients = ({ingredients, onIngredientClick}) => {
                     </Tab>
                 </div>
                 <ul className={burgerIngredientsStyles.list}>
-                    <IngredientsGroup ingredients={filterByType(ingredients, "bun")} type="bun" onIngredientClick={onIngredientClick}>Булки</IngredientsGroup>
-                    <IngredientsGroup ingredients={filterByType(ingredients, "sauce")} type="sauce" onIngredientClick={onIngredientClick}>Соусы</IngredientsGroup>
-                    <IngredientsGroup ingredients={filterByType(ingredients, "main")} type="main" onIngredientClick={onIngredientClick}>Начинки</IngredientsGroup>
+                    <IngredientsGroup ingredients={filterByType(ingredients, "bun")} onIngredientClick={onIngredientClick}>Булки</IngredientsGroup>
+                    <IngredientsGroup ingredients={filterByType(ingredients, "sauce")} onIngredientClick={onIngredientClick}>Соусы</IngredientsGroup>
+                    <IngredientsGroup ingredients={filterByType(ingredients, "main")} onIngredientClick={onIngredientClick}>Начинки</IngredientsGroup>
                 </ul>             
             </section>
         )

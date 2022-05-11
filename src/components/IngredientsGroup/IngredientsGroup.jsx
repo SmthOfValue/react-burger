@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Typography, Box, Counter, Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Typography, Box } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from '../Ingredient/Ingredient.jsx';
 import ingredientsGroupStyles from './IngredientsGroup.module.css';
 import {ingredientPropType} from '../../utils/prop-types.js';
 
 
-const IngredientsGroup = (props) => {
+const IngredientsGroup = ({children, ingredients, onIngredientClick}) => {
         return(               
             <li className={`mt-10 ${ingredientsGroupStyles.group}`}>
-                <p className={`mb-6 text text_type_main-medium ${ingredientsGroupStyles.type}`}>{props.children}</p>
+                <p className={`mb-6 text text_type_main-medium ${ingredientsGroupStyles.type}`}>{children}</p>
                 <ul className={ingredientsGroupStyles.ingredients}>
-                    {props.ingredients.map((ingredient) => (
+                    {ingredients.map((ingredient) => (
                         <Ingredient 
                         key={ingredient._id}
                         ingredient={ingredient}
-                        onIngredientClick={props.onIngredientClick}/>
+                        onIngredientClick={onIngredientClick}/>
                     ))}
                 </ul>
             </li>
@@ -25,7 +25,6 @@ const IngredientsGroup = (props) => {
 IngredientsGroup.propTypes = {
     ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
     children: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(["main", "sauce", "bun"]).isRequired,
     onIngredientClick: PropTypes.func.isRequired
 }
 
