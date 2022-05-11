@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Box, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientStyles from './ingredient.module.css';
+import {ingredientPropType} from '../../utils/prop-types.js';
 
-const Ingredient = ({image, price, name}) => {
+const Ingredient = ({ingredient, onIngredientClick}) => {
     return (
-        <li className={ingredientStyles.item}>
-            <img src={image} className={ingredientStyles.image} alt={name} />
+        <li className={ingredientStyles.item} onClick={() => onIngredientClick(ingredient)}>
+            <img src={ingredient.image} className={ingredientStyles.image} alt={ingredient.name} />
             <span className={`mt-1 mb-1 ${ingredientStyles.price}`}>
-                <p className="mr-2 text text_type_digits-default">{price}</p>
+                <p className="mr-2 text text_type_digits-default">{ingredient.price}</p>
                 <CurrencyIcon type="primary"/>
             </span>
             <p className={`text text_type_main-default ${ingredientStyles.name}`}>
-                {name}
+                {ingredient.name}
             </p>
             <Counter count={1} size="default" />
         </li>
@@ -20,9 +21,8 @@ const Ingredient = ({image, price, name}) => {
 }
 
 Ingredient.propTypes = {
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
+    ingredient: ingredientPropType.isRequired,
+    onIngredientClick: PropTypes.func.isRequired
 }
 
 export default Ingredient;

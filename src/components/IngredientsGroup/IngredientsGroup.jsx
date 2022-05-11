@@ -12,7 +12,10 @@ const IngredientsGroup = (props) => {
                 <p className={`mb-6 text text_type_main-medium ${ingredientsGroupStyles.type}`}>{props.children}</p>
                 <ul className={ingredientsGroupStyles.ingredients}>
                     {props.ingredients.map((ingredient) => (
-                        <Ingredient key={ingredient._id} image={ingredient.image} price={ingredient.price} name={ingredient.name}/>
+                        <Ingredient 
+                        key={ingredient._id}
+                        ingredient={ingredient}
+                        onIngredientClick={props.onIngredientClick}/>
                     ))}
                 </ul>
             </li>
@@ -22,7 +25,8 @@ const IngredientsGroup = (props) => {
 IngredientsGroup.propTypes = {
     ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
     children: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(["main", "sauce", "bun"]).isRequired
+    type: PropTypes.oneOf(["main", "sauce", "bun"]).isRequired,
+    onIngredientClick: PropTypes.func.isRequired
 }
 
 

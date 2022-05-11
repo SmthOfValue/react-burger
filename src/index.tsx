@@ -6,10 +6,11 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import App from './components/App/App.jsx';
 
 
+
 ReactDOM.render(
   <React.StrictMode>
     <App></App>
-      
+    
   </React.StrictMode>,
   document.getElementById('root')
 );

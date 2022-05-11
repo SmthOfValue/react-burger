@@ -4,7 +4,7 @@ import { Typography, Box, ConstructorElement, Button, CurrencyIcon, LockIcon, Dr
 import BurgerConstructorStyles from './BurgerConstructor.module.css';
 import {ingredientPropType} from '../../utils/prop-types.js';
 
-const BurgerConstructor = ({selectedIngredients}) => {
+const BurgerConstructor = ({selectedIngredients, onCheckoutClick}) => {
     //отделяю булки от всего остального в списке ингредиентов
     const bun = selectedIngredients.find((ingredient) => ingredient.type === "bun");
     const middleIngredients = selectedIngredients.filter((ingredient) => ingredient.type !== "bun");
@@ -23,7 +23,9 @@ const BurgerConstructor = ({selectedIngredients}) => {
                 />
             </span>
         </li>
-    ))    
+    ))   
+    
+   
     return (
         <section className={`mt-15 ml-4 ${BurgerConstructorStyles.section}`}>
                 <div className={`ml-4 ${BurgerConstructorStyles.ingredient}`}>
@@ -52,7 +54,7 @@ const BurgerConstructor = ({selectedIngredients}) => {
                     <span className="mr-2">6196</span>
                     <CurrencyIcon type="primary"/>
                 </p>
-                <Button>Оформить заказ</Button>
+                <Button onClick={onCheckoutClick}>Оформить заказ</Button>
             </div>
         </section>
     )
@@ -61,7 +63,8 @@ const BurgerConstructor = ({selectedIngredients}) => {
 
 
 BurgerConstructor.propTypes = {
-    selectedIngredients: PropTypes.arrayOf(ingredientPropType).isRequired
+    selectedIngredients: PropTypes.arrayOf(ingredientPropType).isRequired,
+    onCheckoutClick: PropTypes.func.isRequired
 }
 
 export default BurgerConstructor;

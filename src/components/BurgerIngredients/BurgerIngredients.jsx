@@ -6,7 +6,7 @@ import IngredientsGroup from '../IngredientsGroup/IngredientsGroup.jsx';
 import {ingredientPropType} from '../../utils/prop-types.js';
 
 
-const BurgerIngredients = ({ingredients}) => {
+const BurgerIngredients = ({ingredients, onIngredientClick}) => {
     const [current, setCurrent] = React.useState('булки');
     //функция фильтрации массива ингредиентов по типу ингредиента
     const filterByType = (ingredientsArray, typeName) => {
@@ -28,9 +28,9 @@ const BurgerIngredients = ({ingredients}) => {
                     </Tab>
                 </div>
                 <ul className={burgerIngredientsStyles.list}>
-                    <IngredientsGroup ingredients={filterByType(ingredients, "bun")} type="bun">Булки</IngredientsGroup>
-                    <IngredientsGroup ingredients={filterByType(ingredients, "sauce")} type="sauce">Соусы</IngredientsGroup>
-                    <IngredientsGroup ingredients={filterByType(ingredients, "main")} type="main">Начинки</IngredientsGroup>
+                    <IngredientsGroup ingredients={filterByType(ingredients, "bun")} type="bun" onIngredientClick={onIngredientClick}>Булки</IngredientsGroup>
+                    <IngredientsGroup ingredients={filterByType(ingredients, "sauce")} type="sauce" onIngredientClick={onIngredientClick}>Соусы</IngredientsGroup>
+                    <IngredientsGroup ingredients={filterByType(ingredients, "main")} type="main" onIngredientClick={onIngredientClick}>Начинки</IngredientsGroup>
                 </ul>             
             </section>
         )
@@ -38,7 +38,8 @@ const BurgerIngredients = ({ingredients}) => {
 
 
 BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
+    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
+    onIngredientClick: PropTypes.func.isRequired
 }
 
 
