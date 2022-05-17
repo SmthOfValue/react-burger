@@ -1,0 +1,68 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    /* align-items: center; */
+    width: 600px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0 8px 0 0;
+    overflow-y: scroll;
+    max-height: 40vh;
+}
+
+.list::-webkit-scrollbar {
+    width: 8px;
+    
+}
+
+.list::-webkit-scrollbar-track {
+    background-color: #2F2F37;
+    
+    
+}
+
+.list::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+    
+}
+
+.element {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ingredient {
+    width: 536px;
+    display: flex;
+    align-self: center;
+}
+
+.total {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.checkout {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    
+    
+}
+
+.container {
+    height: 36px;
+    width: 36px;
+}

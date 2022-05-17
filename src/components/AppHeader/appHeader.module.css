@@ -1,0 +1,40 @@
+.header {    
+    background-color: #1C1C21; 
+    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.list {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    justify-content: flex-start;
+}
+
+
+.link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.nav {
+   flex: 1;
+}
+
+.content {
+    margin: 0 auto;
+    max-width: 1280px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    flex: 1;
+}
