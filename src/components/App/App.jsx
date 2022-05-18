@@ -6,7 +6,8 @@ import Modal from '../Modal/Modal.jsx';
 import AppStyles from './App.module.css';
 import OrderDetails from '../OrderDetails/OrderDetails.jsx';
 import IngredientDetails from '../IngredientDetails/IngredientDetails.jsx';
-import { getIngredients } from '../../utils/burger-api.js';
+import { getIngredients, getOrderNumber } from '../../utils/burger-api.js';
+import { IngredientsContext } from '../../utils/IngredientsContext.js';
 
 
 const App = () => {
@@ -14,6 +15,8 @@ const App = () => {
     const [isIngredientDetailsOpened, setIngredientDetailsOpened] = useState(false); 
     //стейт для ингредиента, который будет показан в попапе ингредиента
     const [ingredientInModal, setIngredientInModal] = useState({});
+    //стейт для номера заказа
+    const [orderInfo, setOrderInfo] = useState({});
     
     const [state, setState] = useState({
         allIngredients: [],
@@ -26,9 +29,19 @@ const App = () => {
         setIngredientDetailsOpened(false);
     };
    
-    //обработчик нажатия на кнопку "Оформить заказ", который передается в конструктор
+    //обработчик нажатия на кнопку "Оформить заказ"
     const openOrderDetails = () => {
-        setIsOrderDetailsOpened(true);
+        const idArray = state.selectedIngredients.map((ingredient) => ingredient._id);
+        getOrderNumber(idArray)
+            .then(res => setOrderInfo({
+                number: res.order.number,
+                error: false
+            }))
+            .catch(error => setOrderInfo({
+                number: 0,
+                error: true
+            }))
+            .finally (() => setIsOrderDetailsOpened(true));        
     }
 
     //обработчик клика на ингредиент
@@ -57,18 +70,19 @@ const App = () => {
         <>
             <AppHeader></AppHeader>
             <main className={AppStyles.main}>
-                {state.isLoaded &&
-                    <>
-                        <BurgerIngredients ingredients={state.allIngredients} onIngredientClick={openIngredientDetails} />
-                        <BurgerConstructor selectedIngredients={state.selectedIngredients} onCheckoutClick={openOrderDetails}/>
-                    </>
+                {state.isLoaded &&                    
+                    <IngredientsContext.Provider value={state}>
+                        <BurgerIngredients onIngredientClick={openIngredientDetails} />
+                        <BurgerConstructor onCheckoutClick={openOrderDetails}/>
+                    </IngredientsContext.Provider>  
                 }
             </main>
             {isOrderDetailsOpened &&
                 <Modal
                     onCloseClick={closeAllModals}
+                    
                 >
-                    <OrderDetails />
+                    <OrderDetails orderInfo={orderInfo} />
                 </Modal>
             }
             {isIngredientDetailsOpened &&
