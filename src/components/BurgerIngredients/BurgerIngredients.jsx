@@ -4,7 +4,7 @@ import { Typography, Box, Tab } from '@ya.praktikum/react-developer-burger-ui-co
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientsGroup from '../IngredientsGroup/IngredientsGroup.jsx';
 import {ingredientPropType} from '../../utils/prop-types.js';
-import { IngredientsContext } from '../../utils/IngredientsContext';
+import { IngredientsContext } from '../../services/IngredientsContext';
 
 
 const BurgerIngredients = ({ onIngredientClick }) => {

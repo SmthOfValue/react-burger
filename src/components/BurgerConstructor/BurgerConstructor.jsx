@@ -1,9 +1,9 @@
-import React, { useContext, useReducer, useEffect } from 'react';
+import React, { useContext, useReducer, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Box, ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorStyles from './BurgerConstructor.module.css';
 import {ingredientPropType} from '../../utils/prop-types.js';
-import { IngredientsContext } from '../../utils/IngredientsContext.js';
+import { IngredientsContext } from '../../services/IngredientsContext.js';
 import { getOrderNumber } from '../../utils/burger-api.js';
 
 const BurgerConstructor = ({ onCheckoutClick }) => {
@@ -14,12 +14,18 @@ const BurgerConstructor = ({ onCheckoutClick }) => {
         middleIngredients: []
     }
     //плейсхолдер ингредиентов для проверки подсчета стоимости заказа
-    const selectedIngredients = {
-        bun: useContext(IngredientsContext).selectedIngredients.find((ingredient) => ingredient.type === "bun"),
-        middleIngredients: useContext(IngredientsContext).selectedIngredients.filter((ingredient) => ingredient.type !== "bun")
-    };
+    const constructorContext = useContext(IngredientsContext);
+    const bun = constructorContext.selectedIngredients.find((ingredient) => ingredient.type === "bun");
+    const middleIngredients = constructorContext.selectedIngredients.filter((ingredient) => ingredient.type !== "bun");
+    const selectedIngredients = useMemo(() => {
+        return {
+            bun: bun,
+            middleIngredients: middleIngredients
+        }
+    }, [constructorContext] )
+     
     //изначальное значение стоимости заказа
-    const initialTotalPrice = { totalPrice: 0};
+    const initialTotalPrice = { totalPrice: 0 };
 
     //функция reducer для подсчета стоимости заказа: считает стоимость ингредиентов между булок и прибавляет их к удвоенной цене за булку, т.к. булок две
     const reducer = (state, action) => {
@@ -39,7 +45,7 @@ const BurgerConstructor = ({ onCheckoutClick }) => {
     //стоимость заказа
     const [totalPrice, dispatch] = useReducer(reducer, initialTotalPrice);
     //подсчет стоимости заказа при монтировании компонента
-    useEffect(() => dispatch({type: "update"}), [])
+    useEffect(() => dispatch({type: "update"}), [selectedIngredients])
 
     //создаю список начинок и соусов для рендера
     const middleIngredientsList = selectedIngredients.middleIngredients.map((selectedIngredient) => (

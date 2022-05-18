@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 import AppHeader from '../AppHeader/AppHeader.jsx';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients.jsx';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor.jsx';
@@ -7,7 +8,7 @@ import AppStyles from './App.module.css';
 import OrderDetails from '../OrderDetails/OrderDetails.jsx';
 import IngredientDetails from '../IngredientDetails/IngredientDetails.jsx';
 import { getIngredients, getOrderNumber } from '../../utils/burger-api.js';
-import { IngredientsContext } from '../../utils/IngredientsContext.js';
+import { IngredientsContext } from '../../services/IngredientsContext.js';
 
 
 const App = () => {
@@ -21,7 +22,7 @@ const App = () => {
     const [state, setState] = useState({
         allIngredients: [],
         selectedIngredients: [],
-        isLoaded: false
+        isLoading: true
     });
 
     const closeAllModals = () => {
@@ -57,11 +58,11 @@ const App = () => {
                 ...state,
                 allIngredients: res.data,
                 selectedIngredients: [res.data[0], res.data[5], res.data[4], res.data[6], res.data[7], res.data[2]],
-                isLoaded: true
+                isLoading: false
             })           
     )
             .catch(error => {
-                setState({...state, isLoaded: true})
+                setState({...state, isLoading: false})
             })
     }, []);
 
@@ -70,11 +71,14 @@ const App = () => {
         <>
             <AppHeader></AppHeader>
             <main className={AppStyles.main}>
-                {state.isLoaded &&                    
+                {!state.isLoading &&                    
                     <IngredientsContext.Provider value={state}>
                         <BurgerIngredients onIngredientClick={openIngredientDetails} />
                         <BurgerConstructor onCheckoutClick={openOrderDetails}/>
                     </IngredientsContext.Provider>  
+                }
+                {state.isLoading &&
+                    <p className={`text text_type_main-large ${AppStyles.loader}`}>Загрузка...</p>
                 }
             </main>
             {isOrderDetailsOpened &&
