@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Box, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientsGroup from '../IngredientsGroup/IngredientsGroup.jsx';
 import {ingredientPropType} from '../../utils/prop-types.js';
+import { IngredientsContext } from '../../services/IngredientsContext';
 
 
-const BurgerIngredients = ({ingredients, onIngredientClick}) => {
+const BurgerIngredients = ({ onIngredientClick }) => {
+    const ingredients = useContext(IngredientsContext).allIngredients;
+    
+    
+
     const [current, setCurrent] = useState('булки');
     //функция фильтрации массива ингредиентов по типу ингредиента
     const filterByType = (ingredientsArray, typeName) => {
@@ -38,7 +43,6 @@ const BurgerIngredients = ({ingredients, onIngredientClick}) => {
 
 
 BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
     onIngredientClick: PropTypes.func.isRequired
 }
 
