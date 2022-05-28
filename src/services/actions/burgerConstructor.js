@@ -1,1 +1,1 @@
-export const INGREDIENT_ADD = 'INGREDIENT_ADD';
+export const ADD_INGREDIENT = 'ADD_INGREDIENT';

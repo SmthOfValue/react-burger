@@ -18,7 +18,7 @@ export function getIngredients() {
                 });
             } else {
                 dispatch({
-                    type:"GET_INGREDIENTS_ERROR"
+                    type: GET_INGREDIENTS_ERROR
                 });
             }
         });

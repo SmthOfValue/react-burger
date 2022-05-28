@@ -6,7 +6,7 @@ const checkResponse = (res) => {
 };
 
 //запрос на получение списка ингредиентов
-const getIngredients = () => {
+const getIngredientsRequest = () => {
     return fetch(`${NORMA_API}/ingredients`)
         .then(res => checkResponse(res))
 };
@@ -23,4 +23,4 @@ const getOrderNumber = (ingredientsIdArray) => {
         .then(res => checkResponse(res))
 };
 
-export {getIngredients, getOrderNumber};
+export {getIngredientsRequest, getOrderNumber};

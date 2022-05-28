@@ -1,16 +1,24 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Box, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientsGroup from '../IngredientsGroup/IngredientsGroup.jsx';
 import {ingredientPropType} from '../../utils/prop-types.js';
-import { IngredientsContext } from '../../services/IngredientsContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { getIngredients } from '../../services/actions/ingredients.js';
+
 
 
 const BurgerIngredients = ({ onIngredientClick }) => {
-    const ingredients = useContext(IngredientsContext).allIngredients;
-    
-    
+    //const ingredients = useContext(IngredientsContext).allIngredients;
+    const dispatch = useDispatch();
+    const {ingredients, ingredientsRequest} = useSelector(state => state);
+
+    useEffect(
+        () => {
+            dispatch(getIngredients());
+        }, 
+        []);
 
     const [current, setCurrent] = useState('булки');
     //функция фильтрации массива ингредиентов по типу ингредиента
@@ -32,11 +40,13 @@ const BurgerIngredients = ({ onIngredientClick }) => {
                         Начинки
                     </Tab>
                 </div>
+                {!ingredientsRequest &&
                 <ul className={burgerIngredientsStyles.list}>
                     <IngredientsGroup ingredients={filterByType(ingredients, "bun")} onIngredientClick={onIngredientClick}>Булки</IngredientsGroup>
                     <IngredientsGroup ingredients={filterByType(ingredients, "sauce")} onIngredientClick={onIngredientClick}>Соусы</IngredientsGroup>
                     <IngredientsGroup ingredients={filterByType(ingredients, "main")} onIngredientClick={onIngredientClick}>Начинки</IngredientsGroup>
-                </ul>             
+                </ul>    
+                }         
             </section>
         )
 }

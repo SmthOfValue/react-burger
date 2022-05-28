@@ -7,7 +7,7 @@ import Modal from '../Modal/Modal.jsx';
 import AppStyles from './App.module.css';
 import OrderDetails from '../OrderDetails/OrderDetails.jsx';
 import IngredientDetails from '../IngredientDetails/IngredientDetails.jsx';
-import { getIngredients, getOrderNumber } from '../../utils/burger-api.js';
+import { getIngredientsRequest, getOrderNumber } from '../../utils/burger-api.js';
 import { IngredientsContext } from '../../services/IngredientsContext.js';
 
 
@@ -53,7 +53,7 @@ const App = () => {
 
     //запрос ингредиентов с сервера
     useEffect(() => {
-        getIngredients()
+        getIngredientsRequest()
             .then(res => setState({
                 ...state,
                 allIngredients: res.data,
@@ -71,11 +71,13 @@ const App = () => {
         <>
             <AppHeader></AppHeader>
             <main className={AppStyles.main}>
-                {!state.isLoading &&                    
+                {!state.isLoading &&   
+                <>                
+                    <BurgerIngredients onIngredientClick={openIngredientDetails} />
                     <IngredientsContext.Provider value={state}>
-                        <BurgerIngredients onIngredientClick={openIngredientDetails} />
                         <BurgerConstructor onCheckoutClick={openOrderDetails}/>
                     </IngredientsContext.Provider>  
+                </>
                 }
                 {state.isLoading &&
                     <p className={`text text_type_main-large ${AppStyles.loader}`}>Загрузка...</p>
