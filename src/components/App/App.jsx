@@ -8,10 +8,17 @@ import AppStyles from './App.module.css';
 import OrderDetails from '../OrderDetails/OrderDetails.jsx';
 import IngredientDetails from '../IngredientDetails/IngredientDetails.jsx';
 import { getIngredientsRequest, getOrderNumber } from '../../utils/burger-api.js';
-import { IngredientsContext } from '../../services/IngredientsContext.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { RESET_INGREDIENT_MODAL } from '../../services/actions/ingredientDetails.js';
 
 
 const App = () => {
+    
+    const dispatch = useDispatch();
+
+    const detailedIngredientModalIsOpen = useSelector(store => store.detailedIngredient.modalIsOpen);
+
+
     const [isOrderDetailsOpened, setIsOrderDetailsOpened] = useState(false); 
     const [isIngredientDetailsOpened, setIngredientDetailsOpened] = useState(false); 
     //стейт для ингредиента, который будет показан в попапе ингредиента
@@ -26,8 +33,9 @@ const App = () => {
     });
 
     const closeAllModals = () => {
-        setIsOrderDetailsOpened(false);
-        setIngredientDetailsOpened(false);
+        dispatch({
+            type: RESET_INGREDIENT_MODAL
+        })
     };
    
     //обработчик нажатия на кнопку "Оформить заказ"
@@ -74,9 +82,8 @@ const App = () => {
                 {!state.isLoading &&   
                 <>                
                     <BurgerIngredients onIngredientClick={openIngredientDetails} />
-                    <IngredientsContext.Provider value={state}>
-                        <BurgerConstructor onCheckoutClick={openOrderDetails}/>
-                    </IngredientsContext.Provider>  
+                    <BurgerConstructor />
+                    
                 </>
                 }
                 {state.isLoading &&
@@ -91,12 +98,12 @@ const App = () => {
                     <OrderDetails orderInfo={orderInfo} />
                 </Modal>
             }
-            {isIngredientDetailsOpened &&
+            {detailedIngredientModalIsOpen &&
                 <Modal
                     title="Детали ингредиента"
                     onCloseClick={closeAllModals}
                 >
-                    <IngredientDetails ingredient={ingredientInModal} />
+                    <IngredientDetails />
                 </Modal>
             }
         </>

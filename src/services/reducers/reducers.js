@@ -10,28 +10,37 @@ import {
     GET_ORDER_ERROR
 } from '../actions/orderDetails.js';
 import {
-    SHOW_INGREDIENT_DETAILS,
-    DISCARD_INGREDIENT_DETAILS
+    SET_INGREDIENT_MODAL,
+    RESET_INGREDIENT_MODAL
 } from '../actions/ingredientDetails.js';
 import {
     ADD_INGREDIENT
 } from '../actions/burgerConstructor.js'
 
-const initialState = {
+const ingredientsInitialState = {
     ingredients: [],
     ingredientsRequest: false,
     ingredientsError: false,
+}
 
-    constructorIngredients: [],
-    detailedIngredient: {},
+const constructorInitialState = {
+    bun: {},
+    data: []
+}
 
+const detailedIngredientInitialState = {
+    ingredientInModal: {},
+    modalIsOpen: false
+}
+
+const orderInitialState = {
     order: {},
     orderRequest: false,
     orderError: false
 }
 
 
-const rootReducer = (state = initialState, action) => {
+const ingredientsReducer = (state = ingredientsInitialState, action) => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {
@@ -53,25 +62,52 @@ const rootReducer = (state = initialState, action) => {
                 ingredientsRequest: false,
                 ingredientsError: true
             }
+        }        
+        default: {
+            return state;
         }
+    }
+}
+
+const constructorReducer = (state = constructorInitialState, action) => {
+    switch (action.type) {
         case ADD_INGREDIENT: {
             return {
                 ...state,
-                constructorIngredients: action.constructorIngredients
+                bun: action.constructorIngredients.bun,
+                data: action.constructorIngredients.data
             };
         }
-        case SHOW_INGREDIENT_DETAILS: {
+        default: {
+            return state;
+        }
+    }
+}
+
+const detailedIngredientReducer = (state = detailedIngredientInitialState, action) => {
+    switch (action.type) {
+        case SET_INGREDIENT_MODAL: {
             return {
                 ...state,
-                detailedIngredient: action.ingredient
+                ingredientInModal: action.payload,
+                modalIsOpen: true
             };            
         }
-        case DISCARD_INGREDIENT_DETAILS: {
+        case RESET_INGREDIENT_MODAL: {
             return {
                 ...state,
-                detailedIngredient: initialState.detailedIngredient
+                ingredientInModal: detailedIngredientInitialState.ingredientInModal,
+                modalIsOpen: false
             };
         }
+        default: {
+            return state;
+        }
+    }    
+}
+
+const orderReducer = (state = orderInitialState, action) => {
+    switch (action.type) {
         case GET_ORDER_REQUEST: {
             return {
                 ...state,
@@ -99,74 +135,11 @@ const rootReducer = (state = initialState, action) => {
     }
 }
 
-// const constructorReducer = (state = initialState, action) => {
-//     switch (action.type) {
-//         case ADD_INGREDIENT: {
-//             return {
-//                 ...state,
-//                 constructorIngredients: action.constructorIngredients
-//             };
-//         }
-//         default: {
-//             return state;
-//         }
-//     }
-// }
-
-// const detailedIngredientReducer = (state = initialState, action) => {
-//     switch (action.type) {
-//         case SHOW_INGREDIENT_DETAILS: {
-//             return {
-//                 ...state,
-//                 detailedIngredient: action.ingredient
-//             };            
-//         }
-//         case DISCARD_INGREDIENT_DETAILS: {
-//             return {
-//                 ...state,
-//                 detailedIngredient: initialState.detailedIngredient
-//             };
-//         }
-//         default: {
-//             return state;
-//         }
-//     }    
-// }
-
-// const orderReducer = (state = initialState, action) => {
-//     switch (action.type) {
-//         case GET_ORDER_REQUEST: {
-//             return {
-//                 ...state,
-//                 orderRequest: true
-//             };            
-//         }
-//         case GET_ORDER_SUCCESS: {
-//             return {
-//                 ...state,
-//                 order: action.order,
-//                 orderRequest: false,
-//                 orderError: false
-//             };
-//         }
-//         case GET_ORDER_ERROR: {
-//             return {
-//                 ...state,
-//                 orderRequest: false,
-//                 orderError: true
-//             }
-//         }
-//         default: {
-//             return state;
-//         }
-//     }
-// }
-
-// const rootReducer = combineReducers({
-//     ingredients: ingredientsReducer,
-//     constructorIngredients: constructorReducer,
-//     detailedIngredient: detailedIngredientReducer,
-//     order: orderReducer
-// }) 
+const rootReducer = combineReducers({
+    ingredients: ingredientsReducer,
+    constructorIngredients: constructorReducer,
+    detailedIngredient: detailedIngredientReducer,
+    order: orderReducer
+}) 
 
 export {rootReducer};

@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Typography, Box, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientsGroup from '../IngredientsGroup/IngredientsGroup.jsx';
@@ -12,7 +11,7 @@ import { getIngredients } from '../../services/actions/ingredients.js';
 const BurgerIngredients = ({ onIngredientClick }) => {
     //const ingredients = useContext(IngredientsContext).allIngredients;
     const dispatch = useDispatch();
-    const {ingredients, ingredientsRequest} = useSelector(state => state);
+    const {ingredients, ingredientsRequest} = useSelector(state => state.ingredients);
 
     useEffect(
         () => {
@@ -52,9 +51,7 @@ const BurgerIngredients = ({ onIngredientClick }) => {
 }
 
 
-BurgerIngredients.propTypes = {
-    onIngredientClick: PropTypes.func.isRequired
-}
+
 
 
 
