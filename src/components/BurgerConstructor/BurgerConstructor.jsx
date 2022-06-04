@@ -6,11 +6,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import {ingredientPropType} from '../../utils/prop-types.js';
 import { IngredientsContext } from '../../services/IngredientsContext.js';
 import { getOrder } from '../../services/actions/orderDetails.js';
+import {useDrop} from 'react-dnd';
 
 const BurgerConstructor = ({ onCheckoutClick }) => {
 
     const dispatch = useDispatch();
     const constructorIngredients = useSelector(store => store.constructorIngredients);
+
+    const [{}, drop] = useDrop(() => ({
+        accept: "ingredient"
+      }))
 
 
     //плейсхолдер ингредиентов для проверки подсчета стоимости заказа
@@ -86,8 +91,18 @@ const BurgerConstructor = ({ onCheckoutClick }) => {
                         thumbnail={constructorIngredients.bun.image}
                     />}
                 </div>
-            <ul className={` ${BurgerConstructorStyles.list}`}> 
-                {middleIngredientsList}       
+            <ul className={` ${BurgerConstructorStyles.list}`}>
+                {middleIngredientsList.length === 0 &&
+                    <ConstructorElement
+                    isLocked={true}       
+                    text="Перетащите сюда соусы или начинки"
+                    price="0"
+                    thumbnail="https://cdn-icons-png.flaticon.com/512/791/791590.png"
+                />
+                }
+                {middleIngredientsList.length > 0 && 
+                {middleIngredientsList}   
+                }
             </ul>
             <div className={`ml-4 ${BurgerConstructorStyles.ingredient}`}>
                 {!constructorIngredients.bun.name &&

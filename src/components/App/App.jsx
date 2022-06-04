@@ -10,6 +10,8 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails.jsx';
 import { getIngredientsRequest, getOrderNumber } from '../../utils/burger-api.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { RESET_INGREDIENT_MODAL } from '../../services/actions/ingredientDetails.js';
+import {DndProvider} from 'react-dnd';
+import {HTML5Backend} from 'react-dnd-html5-backend';
 
 
 const App = () => {
@@ -80,10 +82,11 @@ const App = () => {
             <AppHeader></AppHeader>
             <main className={AppStyles.main}>
                 {!state.isLoading &&   
-                <>                
-                    <BurgerIngredients onIngredientClick={openIngredientDetails} />
-                    <BurgerConstructor />
-                    
+                <>      
+                    <DndProvider backend={HTML5Backend}>         
+                        <BurgerIngredients onIngredientClick={openIngredientDetails} />
+                        <BurgerConstructor />
+                    </DndProvider> 
                 </>
                 }
                 {state.isLoading &&
