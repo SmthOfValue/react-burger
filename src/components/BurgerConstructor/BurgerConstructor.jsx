@@ -68,25 +68,46 @@ const BurgerConstructor = ({ onCheckoutClick }) => {
     return (
         <section className={`mt-15 ml-4 ${BurgerConstructorStyles.section}`}>
                 <div className={`ml-4 ${BurgerConstructorStyles.ingredient}`}>
-                <ConstructorElement
-                    type="top"
-                    isLocked={true}       
-                    text={`${constructorIngredients.bun.name} (верх)`}
-                    price={constructorIngredients.bun.price}
-                    thumbnail={constructorIngredients.bun.image}
-                />
-            </div>
+                    {!constructorIngredients.bun.name &&
+                        <ConstructorElement
+                        type="top"
+                        isLocked={true}       
+                        text="Перетащите сюда булку"
+                        price="0"
+                        thumbnail="https://cdn-icons-png.flaticon.com/512/1725/1725713.png"
+                    />
+                    }
+                    {constructorIngredients.bun.name &&
+                    <ConstructorElement
+                        type="top"
+                        isLocked={true}       
+                        text={`${constructorIngredients.bun.name} (верх)`}
+                        price={constructorIngredients.bun.price}
+                        thumbnail={constructorIngredients.bun.image}
+                    />}
+                </div>
             <ul className={` ${BurgerConstructorStyles.list}`}> 
                 {middleIngredientsList}       
             </ul>
             <div className={`ml-4 ${BurgerConstructorStyles.ingredient}`}>
-                <ConstructorElement
-                    type="bottom"
-                    isLocked={true}       
-                    text={`${constructorIngredients.bun.name} (низ)`}
-                    price={constructorIngredients.bun.price}
-                    thumbnail={constructorIngredients.bun.image}
-                />
+                {!constructorIngredients.bun.name &&
+                            <ConstructorElement
+                            type="bottom"
+                            isLocked={true}       
+                            text="Перетащите сюда булку"
+                            price="0"
+                            thumbnail="https://cdn-icons-png.flaticon.com/512/1725/1725713.png"
+                        />
+                }
+                {constructorIngredients.bun.name &&
+                    <ConstructorElement
+                        type="bottom"
+                        isLocked={true}       
+                        text={`${constructorIngredients.bun.name} (низ)`}
+                        price={constructorIngredients.bun.price}
+                        thumbnail={constructorIngredients.bun.image}
+                    />
+                }
             </div>
             <div className={`mt-6 mr-4 ${BurgerConstructorStyles.checkout}`}>
                 <p className={`text text_type_digits-medium mr-10 ${BurgerConstructorStyles.total}`}>

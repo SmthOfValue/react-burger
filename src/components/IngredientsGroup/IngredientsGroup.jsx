@@ -8,7 +8,7 @@ import {ingredientPropType} from '../../utils/prop-types.js';
 import {SET_INGREDIENT_MODAL} from '../../services/actions/ingredientDetails.js';
 
 
-const IngredientsGroup = ({children, ingredients}) => {
+const IngredientsGroup = ({children, ingredients, titleId, scrollRef}) => {
 
     const dispatch = useDispatch();
 
@@ -24,7 +24,7 @@ const IngredientsGroup = ({children, ingredients}) => {
 
     
         return(               
-            <li className={`mt-10 ${ingredientsGroupStyles.group}`}>
+            <li className={`mt-10 ${ingredientsGroupStyles.group}`} id={titleId} ref={scrollRef}>
                 <p className={`mb-6 text text_type_main-medium ${ingredientsGroupStyles.type}`}>{children}</p>
                 <ul className={ingredientsGroupStyles.ingredients}>
                     {ingredients.map((ingredient) => (
@@ -41,6 +41,7 @@ const IngredientsGroup = ({children, ingredients}) => {
 IngredientsGroup.propTypes = {
     ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
     children: PropTypes.string.isRequired,
+    titleId: PropTypes.string.isRequired
 }
 
 

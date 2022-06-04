@@ -39,19 +39,19 @@ const App = () => {
     };
    
     //обработчик нажатия на кнопку "Оформить заказ"
-    const openOrderDetails = () => {
-        const idArray = state.selectedIngredients.map((ingredient) => ingredient._id);
-        getOrderNumber(idArray)
-            .then(res => setOrderInfo({
-                number: res.order.number,
-                error: false
-            }))
-            .catch(error => setOrderInfo({
-                number: 0,
-                error: true
-            }))
-            .finally (() => setIsOrderDetailsOpened(true));        
-    }
+    // const openOrderDetails = () => {
+    //     const idArray = state.selectedIngredients.map((ingredient) => ingredient._id);
+    //     getOrderNumber(idArray)
+    //         .then(res => setOrderInfo({
+    //             number: res.order.number,
+    //             error: false
+    //         }))
+    //         .catch(error => setOrderInfo({
+    //             number: 0,
+    //             error: true
+    //         }))
+    //         .finally (() => setIsOrderDetailsOpened(true));        
+    // }
 
     //обработчик клика на ингредиент
     const openIngredientDetails = (ingredient) => {
