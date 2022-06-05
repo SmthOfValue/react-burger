@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { Typography, Box, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientStyles from './ingredient.module.css';
 import {ingredientPropType} from '../../utils/prop-types.js';
-import { useDrag } from 'react-dnd'
+import { useDrag } from 'react-dnd';
+
 
 const Ingredient = ({ingredient, onIngredientClick}) => {
 
-    const {id} = ingredient;
     const [{}, ingredientRef] = useDrag(() => ({
         type: "ingredient",
-        item: { id }
+        item: ingredient
     }))
 
     return (
@@ -23,7 +23,9 @@ const Ingredient = ({ingredient, onIngredientClick}) => {
             <p className={`text text_type_main-default ${ingredientStyles.name}`}>
                 {ingredient.name}
             </p>
-            <Counter count={1} size="default" />
+            {ingredient.__v > 0 &&
+                <Counter count={ingredient.__v} size="default" />
+            }
         </li>
     )
 }

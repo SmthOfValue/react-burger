@@ -1,8 +1,7 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Box, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientsGroup from '../IngredientsGroup/IngredientsGroup.jsx';
-import {ingredientPropType} from '../../utils/prop-types.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { getIngredients } from '../../services/actions/ingredients.js';
 import { useInView } from 'react-hook-inview';
@@ -35,9 +34,7 @@ const BurgerIngredients = ({ onIngredientClick }) => {
         () => {
             dispatch(getIngredients());
         }, 
-        []);
-
-    
+        []);   
     
 
     //обработчик нажатия на вкладку
@@ -68,6 +65,9 @@ const BurgerIngredients = ({ onIngredientClick }) => {
                         Начинки
                     </Tab>
                 </div>
+                {ingredientsRequest &&
+                    <p className={`text text_type_main-large ${burgerIngredientsStyles.loader}`}>Загрузка...</p>
+                }
                 {!ingredientsRequest &&
                 <ul className={burgerIngredientsStyles.list}>
                     <IngredientsGroup scrollRef={bunsRef} titleId="булки" ingredients={filterByType(ingredients, "bun")} onIngredientClick={onIngredientClick}>Булки</IngredientsGroup>
