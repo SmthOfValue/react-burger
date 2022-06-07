@@ -107,21 +107,13 @@ const constructorReducer = (state = constructorInitialState, action) => {
             if (action.payload.type === "bun") {
                 return {
                     ...state,
-                    bun: {
-                        ...action.payload,
-                        constructorId: generateID()
-                    }
+                    bun: action.payload
                 };
             }
             else {
                 return {
                     ...state,
-                    data: [...state.data, 
-                        {
-                            ...action.payload,
-                            constructorId: generateID()
-                        }
-                    ]
+                    data: [...state.data, action.payload]
                 }
             }
         }

@@ -8,8 +8,8 @@ import AppStyles from './App.module.css';
 import OrderDetails from '../OrderDetails/OrderDetails.jsx';
 import IngredientDetails from '../IngredientDetails/IngredientDetails.jsx';
 import { useSelector, useDispatch } from 'react-redux';
-import { RESET_INGREDIENT_MODAL } from '../../services/actions/ingredientDetails.js';
-import {RESET_ORDER_MODAL} from '../../services/actions/orderDetails.js';
+import { resetIngredientModal } from '../../services/actions/ingredientDetails.js';
+import { resetOrderModal } from '../../services/actions/orderDetails.js';
 import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
 
@@ -22,12 +22,8 @@ const App = () => {
     const orderDetailsModalIsOpen = useSelector(store => store.order.modalIsOpen);
 
     const closeAllModals = () => {
-        dispatch({
-            type: RESET_INGREDIENT_MODAL
-        });
-        dispatch({
-            type: RESET_ORDER_MODAL
-        });
+        dispatch(resetIngredientModal());
+        dispatch(resetOrderModal());
     };
 
     return (

@@ -42,3 +42,9 @@ export function getOrder(orderData) {
         ));
     };
 }
+
+export const resetOrderModal = () => {
+    return {
+        type: RESET_ORDER_MODAL                   
+    }
+}

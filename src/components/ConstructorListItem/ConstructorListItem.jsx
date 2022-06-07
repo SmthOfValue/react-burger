@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { Typography, Box, ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from 'react-dnd';
 import ConstructorListItemStyles from './ConstructorListItem.module.css';
-import { MOVE_INGREDIENT, REMOVE_INGREDIENT } from '../../services/actions/burgerConstructor';
-import { DECREASE_INGREDIENT_COUNT } from '../../services/actions/ingredients';
+import { removeIngredient, moveIngredient } from '../../services/actions/burgerConstructor';
+import { decreaseIngredientCount } from '../../services/actions/ingredients';
 import PropTypes from 'prop-types';
 
 
@@ -14,14 +14,8 @@ const ConstructorListItem = ({name, price, image, _id, constructorId, index}) =>
 
     //обработчик нажатия на кнопку удаления ингредиента из конструктора
     const onDelete = (id, constructorId) => {        
-        dispatch({
-            type: DECREASE_INGREDIENT_COUNT,
-            id
-        });
-        dispatch({
-            type: REMOVE_INGREDIENT,
-            constructorId
-        })
+        dispatch(decreaseIngredientCount(id));
+        dispatch(removeIngredient(constructorId));
     }
 
     //механизм сортировки ингредиентов
@@ -58,11 +52,7 @@ const ConstructorListItem = ({name, price, image, _id, constructorId, index}) =>
                 return;
             }
             // диспатч экшена на перетаскивание ингредиента
-            dispatch({
-                type: MOVE_INGREDIENT,
-                dragIndex,
-                hoverIndex
-            });
+            dispatch(moveIngredient(dragIndex, hoverIndex));
             item.index = hoverIndex
         },
     });

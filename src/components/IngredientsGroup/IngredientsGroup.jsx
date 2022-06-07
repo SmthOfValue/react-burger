@@ -5,7 +5,7 @@ import Ingredient from '../Ingredient/Ingredient.jsx';
 import { useDispatch } from 'react-redux';
 import ingredientsGroupStyles from './IngredientsGroup.module.css';
 import {ingredientPropType} from '../../utils/prop-types.js';
-import {SET_INGREDIENT_MODAL} from '../../services/actions/ingredientDetails.js';
+import {setIngredientModal} from '../../services/actions/ingredientDetails.js';
 
 
 const IngredientsGroup = ({children, ingredients, titleId, scrollRef}) => {
@@ -13,13 +13,7 @@ const IngredientsGroup = ({children, ingredients, titleId, scrollRef}) => {
     const dispatch = useDispatch();
 
     const onIngredientClick = (ingredient) => {
-        dispatch(
-            {
-                type: SET_INGREDIENT_MODAL,
-                payload: ingredient 
-            }
-        
-        );
+        dispatch(setIngredientModal(ingredient));
     };
 
     

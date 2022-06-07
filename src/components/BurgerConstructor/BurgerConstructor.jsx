@@ -4,9 +4,8 @@ import BurgerConstructorStyles from './BurgerConstructor.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOrder } from '../../services/actions/orderDetails.js';
 import {useDrop} from 'react-dnd';
-import { ADD_INGREDIENT } from '../../services/actions/burgerConstructor';
-import { INCREASE_INGREDIENT_COUNT, SET_BUNS_COUNT } from '../../services/actions/ingredients';
-import {generateID} from '../../utils/utils.js';
+import { addIngredient } from '../../services/actions/burgerConstructor';
+import { setBunsCount, increaseIngredientCount } from '../../services/actions/ingredients';
 import ConstructorListItem from '../ConstructorListItem/ConstructorListItem.jsx';
 
 const BurgerConstructor = () => {
@@ -19,21 +18,12 @@ const BurgerConstructor = () => {
         accept: "ingredient",
         drop(ingredient) {
             if (ingredient.type === "bun") {
-                dispatch({
-                    type: SET_BUNS_COUNT,
-                    id: ingredient._id
-                })
+                dispatch(setBunsCount(ingredient._id))
             }
             else {
-                dispatch({
-                    type: INCREASE_INGREDIENT_COUNT,
-                    id: ingredient._id
-                });
+                dispatch(increaseIngredientCount(ingredient._id));
             }            
-            dispatch({
-                type: ADD_INGREDIENT,
-                payload: ingredient
-            });
+            dispatch(addIngredient(ingredient));
             
         }
       }))

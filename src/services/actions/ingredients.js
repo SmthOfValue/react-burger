@@ -32,3 +32,24 @@ export function getIngredients() {
         ));
     };
 }
+
+export const decreaseIngredientCount = (id) => {
+    return {
+        type: DECREASE_INGREDIENT_COUNT,
+        id
+    }
+}
+
+export const setBunsCount = (id) => {
+    return {
+        type: SET_BUNS_COUNT,
+        id
+    }
+}
+
+export const increaseIngredientCount = (id) => {
+    return {
+        type: INCREASE_INGREDIENT_COUNT,
+        id
+    }
+}
