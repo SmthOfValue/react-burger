@@ -20,9 +20,11 @@ import {
 } from '../actions/ingredientDetails.js';
 import {
     ADD_INGREDIENT,
-    REMOVE_INGREDIENT
+    REMOVE_INGREDIENT,
+    MOVE_INGREDIENT
 } from '../actions/burgerConstructor.js'
 import { generateID } from '../../utils/utils.js';
+import update from 'immutability-helper'
 
 const ingredientsInitialState = {
     ingredients: [],
@@ -129,6 +131,16 @@ const constructorReducer = (state = constructorInitialState, action) => {
                 data: state.data.filter(ingredient => ingredient.constructorId !== action.constructorId)
             }
         }
+        case MOVE_INGREDIENT: {
+            return {
+                ...state,
+                data: update(state.data, {
+                    $splice: [
+                        [action.dragIndex, 1],
+                        [action.hoverIndex, 0, state.data[action.dragIndex]]
+                    ]})
+            }
+        }
         default: {
             return state;
         }
@@ -189,7 +201,8 @@ const orderReducer = (state = orderInitialState, action) => {
         case RESET_ORDER_MODAL: {
             return {
                 ...state,
-                modalIsOpen: orderInitialState.modalIsOpen
+                modalIsOpen: orderInitialState.modalIsOpen,
+                order: orderInitialState.order
             }
         }
         default: {

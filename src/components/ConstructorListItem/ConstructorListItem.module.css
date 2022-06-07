@@ -1,0 +1,17 @@
+.element {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ingredient {
+    width: 536px;
+    display: flex;
+    align-self: center;
+}
+
+.dragging {
+    opacity: 0;
+}

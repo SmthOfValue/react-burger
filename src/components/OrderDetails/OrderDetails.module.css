@@ -10,3 +10,9 @@
     height: 120px;
     width: 120px;
 }
+
+.loader {
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 5vh;
+}

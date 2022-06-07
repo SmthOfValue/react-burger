@@ -1,12 +1,13 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useCallback} from 'react';
 import { Typography, Box, ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorStyles from './BurgerConstructor.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOrder } from '../../services/actions/orderDetails.js';
 import {useDrop} from 'react-dnd';
-import { ADD_INGREDIENT, REMOVE_INGREDIENT } from '../../services/actions/burgerConstructor';
-import { DECREASE_INGREDIENT_COUNT, INCREASE_INGREDIENT_COUNT, SET_BUNS_COUNT } from '../../services/actions/ingredients';
+import { ADD_INGREDIENT } from '../../services/actions/burgerConstructor';
+import { INCREASE_INGREDIENT_COUNT, SET_BUNS_COUNT } from '../../services/actions/ingredients';
 import {generateID} from '../../utils/utils.js';
+import ConstructorListItem from '../ConstructorListItem/ConstructorListItem.jsx';
 
 const BurgerConstructor = () => {
 
@@ -63,17 +64,7 @@ const BurgerConstructor = () => {
         />
     );
 
-    //обработчик нажатия на кнопку удаления ингредиента из конструктора
-    const onDelete = (id, constructorId) => {        
-        dispatch({
-            type: DECREASE_INGREDIENT_COUNT,
-            id
-        });
-        dispatch({
-            type: REMOVE_INGREDIENT,
-            constructorId
-        })
-    }
+    
 
     //функция подсчета цены заказа
     const totalPrice = useMemo(() => {
@@ -83,25 +74,24 @@ const BurgerConstructor = () => {
         );
       }, [constructorIngredients]);
 
-      
+    //функция рендера ингредиентов между булок
+    const renderMiddleIngredients = (selectedIngredient, index) => {
+        return (
+            <ConstructorListItem 
+                key={selectedIngredient.constructorId}
+                name={selectedIngredient.name}
+                price={selectedIngredient.price}
+                image={selectedIngredient.image}
+                _id={selectedIngredient._id}
+                constructorId={selectedIngredient.constructorId}
+                index={index}
+            />
+        )
+    };
 
-    //создаю список начинок и соусов для рендера
-    const middleIngredientsList = constructorIngredients.data.map((selectedIngredient) => (
-        <li key={generateID()} className={BurgerConstructorStyles.element}>
-            <span className="mr-2">
-                <DragIcon type="primary"></DragIcon>
-            </span>
-            <span className={BurgerConstructorStyles.ingredient}>
-                <ConstructorElement                
-                    isLocked={false}            
-                    text={selectedIngredient.name}
-                    price={selectedIngredient.price}
-                    thumbnail={selectedIngredient.image}
-                    handleClose={() => onDelete(selectedIngredient._id, selectedIngredient.constructorId)}
-                />
-            </span>
-        </li>
-    ));
+    //рендер ингредиентов между булок
+    const middleIngredientsList = constructorIngredients.data.map(
+        (selectedIngredient, index) => renderMiddleIngredients(selectedIngredient, index));
     
    
     return (
