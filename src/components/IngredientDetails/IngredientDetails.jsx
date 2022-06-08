@@ -2,12 +2,13 @@ import React from 'react';
 import { Typography, Box } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientDetailsStyles from './IngredientDetails.module.css';
 import IngredientNutritionItem from '../IngredientNutritionItem/IngredientNutritionItem';
-import PropTypes from 'prop-types';
-import {ingredientPropType} from '../../utils/prop-types.js';
+import { useSelector } from 'react-redux';
 
 
-const IngredientDetails = ({ingredient}) => {
-    const {image, name, calories, fat, carbohydrates, proteins } = ingredient;
+
+const IngredientDetails = () => {
+    
+    const {image, name, calories, fat, carbohydrates, proteins } = useSelector(store => store.detailedIngredient.ingredientInModal);
     
     return (
     <div className={`pb-15 ${IngredientDetailsStyles.container}`}>
@@ -23,8 +24,6 @@ const IngredientDetails = ({ingredient}) => {
     )
 };
 
-IngredientDetails.propTypes = {
-    ingredient: ingredientPropType.isRequired
-}
+
 
 export default IngredientDetails;

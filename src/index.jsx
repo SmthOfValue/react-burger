@@ -2,13 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import App from './components/App/App.jsx';
-
+import { Provider } from 'react-redux';
+import {store} from '../src/services/store.js';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <App></App>
+    <Provider store={store}>
+      <App>
+
+      </App>
+    </Provider>
     
   </React.StrictMode>,
   document.getElementById('root')

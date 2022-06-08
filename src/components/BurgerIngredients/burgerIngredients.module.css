@@ -26,3 +26,9 @@
 .section {
     max-width: 600px;
 }
+
+.loader {
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 30vh;
+}
