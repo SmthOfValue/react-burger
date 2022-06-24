@@ -14,6 +14,9 @@ import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
 import {Route, Switch} from 'react-router-dom';
 import { LoginPage } from '../../pages/LoginPage/LoginPage.jsx';
+import {RegisterPage} from '../../pages/RegisterPage/RegisterPage.jsx';
+import {ForgotPasswordPage} from '../../pages/ForgotPasswordPage/ForgotPasswordPage.jsx';
+import { ResetPasswordPage } from '../../pages/ResetPasswordPage/ResetPasswordPage.jsx';
 
 
 const App = () => {
@@ -35,6 +38,15 @@ const App = () => {
                 <Switch>
                     <Route path="/login">
                         <LoginPage />
+                    </Route>
+                    <Route path="/register">
+                        <RegisterPage />
+                    </Route>
+                    <Route path="/forgot-password">
+                        <ForgotPasswordPage />
+                    </Route>
+                    <Route path="/reset-password">
+                        <ResetPasswordPage />
                     </Route>
                     <Route path="/">
                         <DndProvider backend={HTML5Backend}>         
