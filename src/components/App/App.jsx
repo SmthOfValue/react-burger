@@ -12,6 +12,8 @@ import { resetIngredientModal } from '../../services/actions/ingredientDetails.j
 import { resetOrderModal } from '../../services/actions/orderDetails.js';
 import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
+import {Route, Switch} from 'react-router-dom';
+import { LoginPage } from '../../pages/LoginPage/LoginPage.jsx';
 
 
 const App = () => {
@@ -30,12 +32,18 @@ const App = () => {
         <>
             <AppHeader></AppHeader>
             <main className={AppStyles.main}>
-                <>      
-                    <DndProvider backend={HTML5Backend}>         
-                        <BurgerIngredients />
-                        <BurgerConstructor />
-                    </DndProvider> 
-                </>
+                <Switch>
+                    <Route path="/login">
+                        <LoginPage />
+                    </Route>
+                    <Route path="/">
+                        <DndProvider backend={HTML5Backend}>         
+                            <BurgerIngredients />
+                            <BurgerConstructor />
+                        </DndProvider> 
+                    </Route>
+                </Switch>
+                
             </main>
             {orderDetailsModalIsOpen &&
                 <Modal
