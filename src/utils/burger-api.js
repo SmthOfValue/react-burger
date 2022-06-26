@@ -23,4 +23,16 @@ const getOrderNumber = (ingredientsIdArray) => {
         .then(res => checkResponse(res))
 };
 
-export {getIngredientsRequest, getOrderNumber};
+//запрос на сброс пароля с отправкой email
+const submitForgotPasswordRequest = (email) => {
+    return fetch(`${NORMA_API}/password-reset`, {
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        method: 'POST',
+        body: JSON.stringify({ "email": email })
+    })
+        .then(res => checkResponse(res))
+};
+
+export {getIngredientsRequest, getOrderNumber, submitForgotPasswordRequest};
