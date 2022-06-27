@@ -17,6 +17,7 @@ import { LoginPage } from '../../pages/LoginPage/LoginPage.jsx';
 import {RegisterPage} from '../../pages/RegisterPage/RegisterPage.jsx';
 import {ForgotPasswordPage} from '../../pages/ForgotPasswordPage/ForgotPasswordPage.jsx';
 import { ResetPasswordPage } from '../../pages/ResetPasswordPage/ResetPasswordPage.jsx';
+import {ProfilePage} from '../../pages/ProfilePage/ProfilePage.jsx';
 
 
 const App = () => {
@@ -47,6 +48,9 @@ const App = () => {
                     </Route>
                     <Route path="/reset-password">
                         <ResetPasswordPage />
+                    </Route>
+                    <Route path="/profile">
+                        <ProfilePage />
                     </Route>
                     <Route path="/">
                         <DndProvider backend={HTML5Backend}>         

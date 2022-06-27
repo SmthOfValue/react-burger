@@ -32,7 +32,7 @@ export const LoginPage = () => {
                         placeholder={'Пароль'}
                         onChange={e => setValue(e.target.value)}
                         value={value}
-                        name={'email'}
+                        name={'password'}
                         error={false}
                         icon={"ShowIcon"}
                         ref={passwordRef}

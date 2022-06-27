@@ -35,4 +35,35 @@ const submitForgotPasswordRequest = (email) => {
         .then(res => checkResponse(res))
 };
 
-export {getIngredientsRequest, getOrderNumber, submitForgotPasswordRequest};
+//запрос на установку нового пароля
+const submitResetPasswordRequest = (password, token) => {
+    return fetch(`${NORMA_API}/password-reset/reset`, {
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            "password": password,
+            "token": token 
+        })
+    })
+        .then(res => checkResponse(res))
+}
+
+//запрос на регистрацию пользователя
+const submitRegistrationRequest = (email, password, name) => {
+    return fetch(`${NORMA_API}/auth/register`, {
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            "email": email,
+            "password": password,
+            "name": name 
+        })
+    })
+    .then(res => checkResponse(res))
+}
+
+export {getIngredientsRequest, getOrderNumber, submitForgotPasswordRequest, submitResetPasswordRequest, submitRegistrationRequest};
