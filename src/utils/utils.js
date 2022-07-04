@@ -36,3 +36,12 @@ export function getCookie(name) {
     );
     return matches ? decodeURIComponent(matches[1]) : undefined;
   } 
+
+export const setTokens = (res) => {
+    let accessToken;
+    accessToken = res.accessToken.split('Bearer ')[1];
+    if (accessToken) {                  
+        setCookie('token', accessToken);
+    }
+    localStorage.setItem('refreshToken', res.refreshToken);
+};

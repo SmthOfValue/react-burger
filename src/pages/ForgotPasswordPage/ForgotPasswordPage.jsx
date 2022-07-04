@@ -7,8 +7,8 @@ import { setForgotPasswordFormValue, submitForgotPassword } from '../../services
 
 export const ForgotPasswordPage = () => {
 
-    const emailRef = React.useRef(null);
-    const formRef = React.useRef(null);
+    const emailRef = useRef(null);
+    const formRef = useRef(null);
 
     const form = formRef.current;
 

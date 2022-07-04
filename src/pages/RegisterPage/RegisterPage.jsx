@@ -2,28 +2,29 @@ import React, {useState, useRef} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Box, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import registerPageStyles from './RegisterPage.module.css';
-import {Link} from 'react-router-dom';
-import {setRegistrationFormValue, submitRegisration} from '../../services/actions/registration';
+import {Link, Redirect} from 'react-router-dom';
+import {setRegistrationFormValue, submitRegistration} from '../../services/actions/registration';
 import {onButtonClick} from '../../utils/utils.js';
 
 export const RegisterPage = () => {
     
-    const emailRef = React.useRef(null);
-    const passwordRef = React.useRef(null);
-    const userNameRef = React.useRef(null);
+    const emailRef = useRef(null);
+    const passwordRef = useRef(null);
+    const userNameRef = useRef(null);
 
-    const formRef = React.useRef(null);
+    const formRef = useRef(null);
 
     const form = formRef.current;
 
     const {email, name, password} = useSelector(state => state.registration.form);
+    const {isAuth} = useSelector (state => state.user);
 
     const dispatch = useDispatch();
 
-     //обработчик отправки формы
-     const onFormSubmit = (e) => {
+    //обработчик отправки формы
+    const onFormSubmit = (e) => {
         e.preventDefault();
-        dispatch(submitRegisration(email, password, name));
+        dispatch(submitRegistration(email, password, name));
     }
 
     //обработчик изменения значения полей формы
@@ -35,6 +36,19 @@ export const RegisterPage = () => {
     const onIconClick = () => {
         setTimeout(() => inputRef.current.focus(), 0)
         alert('Icon Click Callback')
+    }
+
+    //редирект на главную после успешного логина
+    if (isAuth) {
+        return (
+            <Redirect
+                to={
+                    {
+                        pathname: '/'
+                    }
+                }
+            />
+        );
     }
 
     return (

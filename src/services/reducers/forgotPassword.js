@@ -1,4 +1,11 @@
-import { FORGOT_PASSWORD_ERROR, FORGOT_PASSWORD_FORM_SET_VALUE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS } from "../actions/forgotPassword";
+import {
+    FORGOT_PASSWORD_ERROR,
+    FORGOT_PASSWORD_FORM_SET_VALUE,
+    FORGOT_PASSWORD_REQUEST,
+    FORGOT_PASSWORD_SUCCESS
+} from "../actions/forgotPassword";
+import { FORM_RESET } from "../actions/forms";
+
 
 const forgotPasswordFormInitialState = {
     form: {
@@ -17,6 +24,9 @@ export const forgotPasswordReducer = (state = forgotPasswordFormInitialState, ac
                     email: action.payload
                 } 
             };
+        }
+        case FORM_RESET: {
+            return forgotPasswordFormInitialState;
         }
         case FORGOT_PASSWORD_REQUEST: {
             return {

@@ -1,4 +1,5 @@
 import {submitForgotPasswordRequest} from '../../utils/burger-api.js';
+import { resetForm } from './forms.js';
 
 export const FORGOT_PASSWORD_FORM_SET_VALUE = "FORGOT_PASSWORD_FORM_SET_VALUE";
 
@@ -24,6 +25,7 @@ export const submitForgotPassword = (email) => {
                 dispatch({
                     type: FORGOT_PASSWORD_SUCCESS
                 });
+                dispatch(resetForm());
             } else {
                 dispatch({
                     type: FORGOT_PASSWORD_ERROR

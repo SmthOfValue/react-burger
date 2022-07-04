@@ -1,5 +1,6 @@
 
 import { NORMA_API } from './constants.js';
+import {getCookie} from './utils.js';
 
 const checkResponse = (res) => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -66,4 +67,73 @@ const submitRegistrationRequest = (email, password, name) => {
     .then(res => checkResponse(res))
 }
 
-export {getIngredientsRequest, getOrderNumber, submitForgotPasswordRequest, submitResetPasswordRequest, submitRegistrationRequest};
+//запрос на авторизацию пользователя
+const submitLoginRequest = (email, password) => {
+    return fetch(`${NORMA_API}/auth/login`, {
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            "email": email,
+            "password": password 
+        })
+    })
+    .then(res => checkResponse(res))
+}
+
+const getUserInfoRequest = () => {
+    return fetch(`${NORMA_API}/auth/user`, {
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: getCookie('token') ? `Bearer ${getCookie('token')}` : '',
+        },
+        method: 'GET'
+    })
+    .then(res => checkResponse(res))
+}
+
+const setUserInfoRequest = (email, password, name) => {
+    return fetch(`${NORMA_API}/auth/user`, {
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            authorization: getCookie('token') ? `Bearer ${getCookie('token')}` : '',
+        },
+        method: 'PATCH',
+        body: JSON.stringify({
+            "email": email,
+            "password": password,
+            "name": name 
+        })
+    })
+    .then(res => checkResponse(res))
+}
+
+const refreshTokenRequest = () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    console.log(refreshToken);
+    return fetch(`${NORMA_API}/auth/token`, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            "token": refreshToken
+        })
+    })
+    .then(res => checkResponse(res))
+}
+
+
+
+export {
+    getIngredientsRequest,
+    getOrderNumber,
+    submitForgotPasswordRequest,
+    submitResetPasswordRequest,
+    submitRegistrationRequest,
+    submitLoginRequest,
+    getUserInfoRequest,
+    setUserInfoRequest,
+    refreshTokenRequest
+};

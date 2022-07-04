@@ -1,5 +1,6 @@
 import {submitRegistrationRequest} from '../../utils/burger-api.js';
-import {setCookie} from '../../utils/utils.js';
+import {setTokens} from '../../utils/utils.js';
+import { resetForm } from './forms.js';
 
 export const REGISTRATION_FORM_SET_VALUE = "REGISTRATION_FORM_SET_VALUE";
 
@@ -15,7 +16,7 @@ export const setRegistrationFormValue = (field, value) => {
     }
 }
 
-export const submitRegisration = (email, password, name) => {
+export const submitRegistration = (email, password, name) => {
     return function(dispatch) {
         dispatch({
             type: REGISTRATION_REQUEST
@@ -27,13 +28,8 @@ export const submitRegisration = (email, password, name) => {
                     type: REGISTRATION_SUCCESS,
                     payload: res.user
                 });
-                let accessToken;
-                accessToken = res.accessToken.split('Bearer ')[1];
-                
-                if (accessToken) {                  
-                    setCookie('accessToken', accessToken);
-                }
-                localStorage.setItem('refreshToken', res.refreshToken);
+                dispatch(resetForm());
+                setTokens(res);
             } else {
                 dispatch({
                     type: REGISTRATION_ERROR

@@ -1,4 +1,10 @@
-import { RESET_PASSWORD_FORM_SET_VALUE, RESET_PASSWORD_REQUEST,  RESET_PASSWORD_ERROR, RESET_PASSWORD_SUCCESS} from "../actions/resetPassword";
+import {
+    RESET_PASSWORD_FORM_SET_VALUE,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_ERROR,
+    RESET_PASSWORD_SUCCESS
+} from "../actions/resetPassword";
+import { FORM_RESET } from "../actions/forms";
 
 
 
@@ -24,6 +30,9 @@ export const resetPasswordReducer = (state = resetPasswordFormInitialState, acti
                     [action.field]: action.value
                 } 
             };
+        }
+        case FORM_RESET: {
+            return resetPasswordFormInitialState;
         }
         case RESET_PASSWORD_REQUEST: {
             return {

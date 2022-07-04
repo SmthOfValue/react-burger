@@ -24,11 +24,6 @@
     flex-direction: column;
 }
 
-.wrapper button {
-    max-width: 128px;
-    margin: 0 auto 80px;
-}
-
 .paragraph {
     text-align: center;
 }
@@ -57,4 +52,16 @@
 
 .nav {
     width: 320px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    max-width: 350px;
+    align-self: flex-end;
+    justify-content: end;
+}
+
+.hidden {
+    display: none;
 }

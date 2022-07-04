@@ -8,9 +8,9 @@ import {onButtonClick} from '../../utils/utils.js';
 
 export const ResetPasswordPage = () => {
     
-    const passwordRef = React.useRef(null);
-    const tokenRef = React.useRef(null);
-    const formRef = React.useRef(null);
+    const passwordRef = useRef(null);
+    const tokenRef = useRef(null);
+    const formRef = useRef(null);
 
     const form = formRef.current;
 
