@@ -1,15 +1,13 @@
 import React, {useRef} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Typography, Box, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Typography, Box, Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import resetPasswordPageStyles from './ResetPasswordPage.module.css';
-import {Link} from 'react-router-dom';
+import {Link, useLocation, useHistory, Redirect} from 'react-router-dom';
 import { setResetPasswordFormValue, submitResetPassword} from '../../services/actions/resetPassword';
 import {onButtonClick} from '../../utils/utils.js';
 
 export const ResetPasswordPage = () => {
     
-    const passwordRef = useRef(null);
-    const tokenRef = useRef(null);
     const formRef = useRef(null);
 
     const form = formRef.current;
@@ -17,6 +15,11 @@ export const ResetPasswordPage = () => {
     const {password, token} = useSelector(state => state.resetPassword.form);
     
     const dispatch = useDispatch();
+    const location = useLocation();
+
+
+    //индикатор отправленного письма с кодом сброса пароля для защиты доступа к маршруту
+    const isEmailSent = location.state?.isEmailSent;
 
     //обработчик изменения значения полей формы
     const onFormChange = (e) => {
@@ -29,28 +32,29 @@ export const ResetPasswordPage = () => {
         dispatch(submitResetPassword(password, token));
     }
 
-    
-    
-    const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0)
-    alert('Icon Click Callback')
-  }
+    if (!isEmailSent) {
+        return (
+            <Redirect
+                to={
+                    {
+                        pathname: '/'
+                    }
+                }
+            />
+        );
+    }
 
     return (
         <div className={resetPasswordPageStyles.wrapper}>
             <h1 className={`${resetPasswordPageStyles.title} mb-6 text text_type_main-medium`}>Восстановление пароля</h1>
             <form onSubmit={onFormSubmit} ref={formRef} className={`${resetPasswordPageStyles.form} mb-6`}>                            
-                    <Input 
+                    <PasswordInput 
                         type={'password'}
                         placeholder={'Введите новый пароль'}
                         onChange={onFormChange}
                         value={password}
                         name={'password'}
                         error={false}
-                        icon={"ShowIcon"}
-                        ref={passwordRef}
-                        onIconClick={onIconClick}
-                        errorText={'Ошибка'}
                         size={'default'}
                     />     
                     <Input                         
@@ -60,7 +64,6 @@ export const ResetPasswordPage = () => {
                         value={token}
                         name={'token'}
                         error={false}
-                        ref={tokenRef}
                         errorText={'Ошибка'}
                         size={'default'}
                     />             

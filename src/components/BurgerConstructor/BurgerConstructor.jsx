@@ -7,11 +7,14 @@ import {useDrop} from 'react-dnd';
 import { addIngredient } from '../../services/actions/burgerConstructor';
 import { setBunsCount, increaseIngredientCount } from '../../services/actions/ingredients';
 import ConstructorListItem from '../ConstructorListItem/ConstructorListItem.jsx';
+import {useHistory} from 'react-router-dom';
 
 const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
     const constructorIngredients = useSelector(store => store.constructorIngredients);
+    const {isAuth} = useSelector(store => store.user);
+    const history = useHistory();
 
     //дроп-таргет для ингредиентов, отправляет экшны на добавление ингредиента в хранилище и изменение счетчиков в зависимости от типа ингредиента
     const [{}, drop] = useDrop(() => ({
@@ -128,7 +131,16 @@ const BurgerConstructor = () => {
                     }
                     <CurrencyIcon type="primary"/>
                 </p>
-                <Button onClick={() => dispatch(getOrder(constructorIngredients))}>Оформить заказ</Button>
+                <Button
+                    onClick={() => {
+                        if (isAuth) {
+                                dispatch(getOrder(constructorIngredients))
+                            } else {
+                               history.push("/login");
+                            }
+                        }}>
+                    Оформить заказ
+                </Button>
             </div>
         </section>
     )

@@ -3,7 +3,6 @@ import { Typography, Box, Tab } from '@ya.praktikum/react-developer-burger-ui-co
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientsGroup from '../IngredientsGroup/IngredientsGroup.jsx';
 import { useSelector, useDispatch } from 'react-redux';
-import { getIngredients } from '../../services/actions/ingredients.js';
 import { useInView } from 'react-hook-inview';
 
 
@@ -29,12 +28,6 @@ const BurgerIngredients = ({ onIngredientClick }) => {
     }, [inViewBuns, inViewMain, inViewSauces]);
 
 
-    //получение ингредиентов
-    useEffect(
-        () => {
-            dispatch(getIngredients());
-        }, 
-        []);   
     
 
     //обработчик нажатия на вкладку

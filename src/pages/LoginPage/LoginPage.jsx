@@ -1,15 +1,12 @@
 import React, {useState, useRef} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Typography, Box, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Typography, Box, Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import loginPageStyles from './LoginPage.module.css';
 import {Link, Redirect} from 'react-router-dom';
 import {setLoginFormValue, submitLogin} from '../../services/actions/login';
 import {onButtonClick} from '../../utils/utils.js';
 
 export const LoginPage = () => {
-    
-    const emailRef = useRef(null);
-    const passwordRef = useRef(null);
 
     const formRef = useRef(null);
 
@@ -31,20 +28,12 @@ export const LoginPage = () => {
         dispatch(setLoginFormValue(e.target.name, e.target.value));
     }
 
-    const onIconClick = () => {
-        setTimeout(() => inputRef.current.focus(), 0)
-        alert('Icon Click Callback')
-    }
-
     //редирект на главную после успешного логина
     if (isAuth) {
+        console.log(state?.from);
         return (
             <Redirect
-                to={
-                    {
-                        pathname: '/'
-                    }
-                }
+                to={ state?.from || '/' }
             />
         );
     }
@@ -60,22 +49,15 @@ export const LoginPage = () => {
                         value={email}
                         name={'email'}
                         error={false}
-                        ref={emailRef}
-                        onIconClick={onIconClick}
                         errorText={'Ошибка'}
                         size={'default'}
                     />                
-                    <Input 
+                    <PasswordInput 
                         type={'password'}
-                        placeholder={'Пароль'}
                         onChange={onFormChange}
                         value={password}
                         name={'password'}
                         error={false}
-                        icon={"ShowIcon"}
-                        ref={passwordRef}
-                        onIconClick={onIconClick}
-                        errorText={'Ошибка'}
                         size={'default'}
                     />                
             </form>

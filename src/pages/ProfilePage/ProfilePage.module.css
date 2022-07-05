@@ -65,3 +65,12 @@
 .hidden {
     display: none;
 }
+
+.button {
+    background: none;
+    border: none;
+}
+
+.button:hover {
+    cursor: pointer;
+}

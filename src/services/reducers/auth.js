@@ -14,7 +14,10 @@ import {
     PROFILE_ERROR,
     PROFILE_FORM_SET_VALUE,
     PROFILE_REQUEST,
-    PROFILE_SUCCESS
+    PROFILE_SUCCESS,
+    LOGOUT_ERROR,
+    LOGOUT_REQUEST,
+    LOGOUT_SUCCESS
 } from '../actions/profile';
 import {FORM_RESET} from '../actions/forms';
 
@@ -37,7 +40,7 @@ const loginFormInitialState = {
 const profileFormInitialState = {
     form: {
         email: '',
-        password: '******',
+        password: '',
         name: ''
     }
 }
@@ -58,7 +61,10 @@ const userInitialState = {
     profileUpdateError: false,
     
     tokenRefreshRequest: false,
-    tokenRefreshError: false
+    tokenRefreshError: false,
+
+    logoutRequest: false,
+    logoutError: false
 }
 
 export const profileFormReducer = (state = profileFormInitialState, action) => {
@@ -131,6 +137,7 @@ export const userReducer = (state = userInitialState, action) => {
                 ...state,
                 email: action.payload.email,
                 name: action.payload.name,
+                isAuth: true,
                 profileUpdateRequest: false,
                 profileUpdateError: false
             };
@@ -186,6 +193,22 @@ export const userReducer = (state = userInitialState, action) => {
                 ...state,
                 loginRequest: false,
                 loginError: true
+            };
+        }
+        case LOGOUT_REQUEST: {
+            return {
+                ...state,
+                logoutRequest: true
+            };
+        }
+        case LOGOUT_SUCCESS: {
+            return userInitialState;
+        }
+        case LOGOUT_ERROR: {
+            return {
+                ...state,
+                logoutRequest: false,
+                logoutError: true
             };
         }
         default: {

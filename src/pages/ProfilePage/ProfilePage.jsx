@@ -2,8 +2,14 @@ import React, {useState, useRef, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Box, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import profilePageStyles from './ProfilePage.module.css';
-import {Link} from 'react-router-dom';
-import {setProfileFormValue, getUserInfo, setUserInfo} from '../../services/actions/profile';
+import {NavLink, Switch, useLocation} from 'react-router-dom';
+import ProtectedRoute from '../../components/ProtectedRoute/ProtectedRoute.jsx';
+import {
+    setProfileFormValue,
+    getUserInfo,
+    setUserInfo,
+    logout
+} from '../../services/actions/profile';
 
 
 export const ProfilePage = () => {
@@ -25,14 +31,12 @@ export const ProfilePage = () => {
 
     const [state, setState] = useState(initialState);
     
-    const emailRef = useRef(null);
-    const passwordRef = useRef(null);
-    const userNameRef = useRef(null);
-
     const buttonsRef = useRef(null);
 
     const formRef = useRef(null);
     const form = formRef.current;
+
+    const location = useLocation();
 
     const {email, name, password} = useSelector(state => state.profile.form);
     const user = useSelector(state => state.user);
@@ -107,30 +111,47 @@ export const ProfilePage = () => {
         setState(initialState);
     }
 
+    const onLogoutButtonClick = () => {
+        dispatch(logout())
+    }
 
     return (
         <>
             <nav className={`${profilePageStyles.nav} mr-15 mt-30`}>
                 <ul className={`${profilePageStyles.list}`}>
                     <li className={profilePageStyles.item}>
-                        <Link to="" className={`${profilePageStyles.link} text text_type_main-medium ${profilePageStyles.link_active}`}>
+                        <NavLink 
+                            exact
+                            to="/profile"
+                            className={`${profilePageStyles.link} text text_type_main-medium text_color_inactive`}
+                            activeClassName={profilePageStyles.link_active}>
                             Профиль
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className={profilePageStyles.item}>
-                        <Link to="" className={`${profilePageStyles.link} text text_type_main-medium text_color_inactive`}>
+                        <NavLink
+                        exact
+                        to="/profile/orders"
+                        className={`${profilePageStyles.link} text text_type_main-medium text_color_inactive`}
+                        activeClassName={profilePageStyles.link_active}>
                             История заказов
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className={profilePageStyles.item}>
-                        <Link to="/login" className={`${profilePageStyles.link} text text_type_main-medium text_color_inactive`}>
+                        <button onClick={onLogoutButtonClick} className={`${profilePageStyles.button} text text_type_main-medium text_color_inactive`}>
                             Выход
-                        </Link>
+                        </button>
                     </li>
                 </ul>
                 <p className='text text_type_main-default mt-20 text_color_inactive'>В этом разделе вы можете изменить свои персональные данные</p>
             </nav>
-            <div className={profilePageStyles.wrapper}>
+            <Switch>
+                <ProtectedRoute path='/profile/orders'>
+                    <></>
+                </ProtectedRoute>
+            </Switch>
+            {location.pathname === '/profile' &&
+            <div className={profilePageStyles.wrapper}>            
                 <form onSubmit={onFormSubmit} ref={formRef} className={`${profilePageStyles.form} mb-6`}>                
                         <Input                         
                             type={'text'}
@@ -139,7 +160,6 @@ export const ProfilePage = () => {
                             value={name}
                             name={'name'}
                             error={false}
-                            ref={userNameRef}
                             icon={state.nameInput.icon}
                             onIconClick={() => onIconClick('nameInput')}
                             errorText={'Ошибка'}
@@ -153,7 +173,6 @@ export const ProfilePage = () => {
                             value={email}
                             name={'email'}
                             error={false}
-                            ref={emailRef}
                             icon={state.emailInput.icon}
                             onIconClick={() => onIconClick('emailInput')}
                             errorText={'Ошибка'}
@@ -167,7 +186,6 @@ export const ProfilePage = () => {
                             value={password}
                             name={'password'}
                             error={false}
-                            ref={passwordRef}
                             icon={state.passwordInput.icon}
                             onIconClick={() => onIconClick('passwordInput')}
                             errorText={'Ошибка'}
@@ -192,7 +210,8 @@ export const ProfilePage = () => {
                     </Button>
                 </div>
                 
-            </div>
+                
+            </div>}
         </>
     );
     

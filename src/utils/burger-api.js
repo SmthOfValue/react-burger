@@ -111,8 +111,21 @@ const setUserInfoRequest = (email, password, name) => {
 
 const refreshTokenRequest = () => {
     const refreshToken = localStorage.getItem('refreshToken');
-    console.log(refreshToken);
     return fetch(`${NORMA_API}/auth/token`, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            "token": refreshToken
+        })
+    })
+    .then(res => checkResponse(res))
+}
+
+const logoutRequest = () => {
+    const refreshToken = localStorage.getItem('refreshToken'); 
+    return fetch(`${NORMA_API}/auth/logout`, {
         headers: {
             'Content-Type': 'application/json',
         },
@@ -135,5 +148,6 @@ export {
     submitLoginRequest,
     getUserInfoRequest,
     setUserInfoRequest,
-    refreshTokenRequest
+    refreshTokenRequest,
+    logoutRequest
 };

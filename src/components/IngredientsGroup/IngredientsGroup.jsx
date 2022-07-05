@@ -6,11 +6,13 @@ import { useDispatch } from 'react-redux';
 import ingredientsGroupStyles from './IngredientsGroup.module.css';
 import {ingredientPropType} from '../../utils/prop-types.js';
 import {setIngredientModal} from '../../services/actions/ingredientDetails.js';
+import { Link, useLocation } from 'react-router-dom';
 
 
 const IngredientsGroup = ({children, ingredients, titleId, scrollRef}) => {
 
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const onIngredientClick = (ingredient) => {
         dispatch(setIngredientModal(ingredient));
@@ -22,10 +24,18 @@ const IngredientsGroup = ({children, ingredients, titleId, scrollRef}) => {
                 <p className={`mb-6 text text_type_main-medium ${ingredientsGroupStyles.type}`}>{children}</p>
                 <ul className={ingredientsGroupStyles.ingredients}>
                     {ingredients.map((ingredient) => (
-                        <Ingredient 
-                        key={ingredient._id}
-                        ingredient={ingredient}
-                        onIngredientClick={() => onIngredientClick(ingredient)}/>
+                        <Link
+                            key={ingredient._id}
+                            to={{
+                                pathname: `/ingredients/${ingredient._id}`,
+                                state: {background: location}
+                            }}
+                            className={ingredientsGroupStyles.link}
+                        >
+                            <Ingredient 
+                                ingredient={ingredient}
+                                />
+                        </Link>
                     ))}
                 </ul>
             </li>

@@ -39,3 +39,7 @@
 .logo {
     flex: 1;
 }
+
+.link_active {
+    color: #F2F2F3;
+}

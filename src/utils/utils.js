@@ -45,3 +45,8 @@ export const setTokens = (res) => {
     }
     localStorage.setItem('refreshToken', res.refreshToken);
 };
+
+export const removeTokens = () => {
+  setCookie('token', '');
+  localStorage.removeItem('refreshToken');
+}

@@ -1,5 +1,6 @@
 import {submitForgotPasswordRequest} from '../../utils/burger-api.js';
 import { resetForm } from './forms.js';
+import {useHistory} from 'react-router-dom';
 
 export const FORGOT_PASSWORD_FORM_SET_VALUE = "FORGOT_PASSWORD_FORM_SET_VALUE";
 
@@ -14,7 +15,7 @@ export const setForgotPasswordFormValue = (value) => {
     }
 }
 
-export const submitForgotPassword = (email) => {
+export const submitForgotPassword = (email, history) => {
     return function(dispatch) {
         dispatch({
             type: FORGOT_PASSWORD_REQUEST
@@ -26,6 +27,12 @@ export const submitForgotPassword = (email) => {
                     type: FORGOT_PASSWORD_SUCCESS
                 });
                 dispatch(resetForm());
+                history.push({
+                    pathname: "/reset-password",
+                    state: {
+                        isEmailSent: true
+                    }
+                });
             } else {
                 dispatch({
                     type: FORGOT_PASSWORD_ERROR
