@@ -15,6 +15,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    text-decoration: none;
     
 }
 
@@ -37,4 +38,8 @@
 
 .logo {
     flex: 1;
+}
+
+.link_active {
+    color: #F2F2F3;
 }

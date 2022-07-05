@@ -24,7 +24,15 @@ import {
     MOVE_INGREDIENT
 } from '../actions/burgerConstructor.js'
 import { generateID } from '../../utils/utils.js';
-import update from 'immutability-helper'
+import update from 'immutability-helper';
+import {resetPasswordReducer} from './resetPassword.js';
+import {forgotPasswordReducer} from './forgotPassword.js';
+import { registrationFormReducer,
+    userReducer,
+    loginFormReducer,
+    profileFormReducer
+} from './auth.js';
+
 
 const ingredientsInitialState = {
     ingredients: [],
@@ -207,7 +215,13 @@ const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
     constructorIngredients: constructorReducer,
     detailedIngredient: detailedIngredientReducer,
-    order: orderReducer
+    order: orderReducer,
+    forgotPassword: forgotPasswordReducer,
+    resetPassword: resetPasswordReducer,
+    registration: registrationFormReducer,
+    login: loginFormReducer,
+    profile: profileFormReducer,
+    user: userReducer
 }) 
 
 export {rootReducer};

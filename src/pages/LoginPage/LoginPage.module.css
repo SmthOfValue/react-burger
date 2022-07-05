@@ -1,0 +1,39 @@
+.wrapper {
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    margin: 180px auto 0;
+
+}
+
+.wrapper div {
+    width: 100%;
+}
+
+.wrapper div div div {
+    max-width: 24px; 
+}
+
+.title {
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+}
+
+.wrapper button {
+    max-width: 128px;
+    margin: 0 auto 80px;
+}
+
+.paragraph {
+    text-align: center;
+}
+
+.link {
+    color: #4C4CFF;
+    text-decoration: none;
+}

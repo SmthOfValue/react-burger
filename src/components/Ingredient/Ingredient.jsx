@@ -6,7 +6,7 @@ import {ingredientPropType} from '../../utils/prop-types.js';
 import { useDrag } from 'react-dnd';
 
 
-const Ingredient = ({ingredient, onIngredientClick}) => {
+const Ingredient = ({ingredient}) => {
 
     const [{}, ingredientRef] = useDrag(() => ({
         type: "ingredient",
@@ -14,7 +14,7 @@ const Ingredient = ({ingredient, onIngredientClick}) => {
     }))
 
     return (
-        <li ref={ingredientRef} className={ingredientStyles.item} onClick={() => onIngredientClick(ingredient)}>
+        <li ref={ingredientRef} className={ingredientStyles.item}>
             <img src={ingredient.image} className={ingredientStyles.image} alt={ingredient.name} />
             <span className={`mt-1 mb-1 ${ingredientStyles.price}`}>
                 <p className="mr-2 text text_type_digits-default">{ingredient.price}</p>
@@ -31,8 +31,7 @@ const Ingredient = ({ingredient, onIngredientClick}) => {
 }
 
 Ingredient.propTypes = {
-    ingredient: ingredientPropType.isRequired,
-    onIngredientClick: PropTypes.func.isRequired
+    ingredient: ingredientPropType.isRequired
 }
 
 export default Ingredient;

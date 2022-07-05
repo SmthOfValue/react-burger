@@ -15,3 +15,8 @@
 .group {
     max-width: 100%;
 }
+
+.link {
+    text-decoration: none;
+    color: #f2f2f3;
+}

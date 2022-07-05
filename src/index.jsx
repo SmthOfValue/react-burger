@@ -6,16 +6,18 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import App from './components/App/App.jsx';
 import { Provider } from 'react-redux';
 import {store} from '../src/services/store.js';
+import {BrowserRouter} from 'react-router-dom';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App>
+    <BrowserRouter>
+      <Provider store={store}>
+        <App>
 
-      </App>
-    </Provider>
-    
+        </App>
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
