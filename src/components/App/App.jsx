@@ -16,6 +16,7 @@ import {RegisterPage} from '../../pages/RegisterPage/RegisterPage.jsx';
 import {ForgotPasswordPage} from '../../pages/ForgotPasswordPage/ForgotPasswordPage.jsx';
 import { ResetPasswordPage } from '../../pages/ResetPasswordPage/ResetPasswordPage.jsx';
 import {ProfilePage} from '../../pages/ProfilePage/ProfilePage.jsx';
+import {FeedPage} from '../../pages/FeedPage/FeedPage.jsx'
 import { NotFoundPage } from '../../pages/NotFoundPage/NotFoundPage.jsx';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.jsx';
 import { getUserInfo } from '../../services/actions/profile.js';
@@ -73,6 +74,9 @@ const App = () => {
                     </ProtectedRoute>
                     <ProtectedRoute path="/reset-password" anonymous={true}>
                         <ResetPasswordPage />
+                    </ProtectedRoute>
+                    <ProtectedRoute path="/feed">
+                        <FeedPage />
                     </ProtectedRoute>
                     <ProtectedRoute path="/profile">
                         <ProfilePage />
