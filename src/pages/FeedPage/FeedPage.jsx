@@ -219,7 +219,7 @@ export const FeedPage =() => {
                         <p className="text text_type_main-medium">
                             Выполнено за все время:
                         </p>
-                        <p className="text text_type_digits-large">
+                        <p className={`${feedPageStyles.digits} text text_type_digits-large`}>
                             12 567
                         </p>
                     </div>
@@ -227,7 +227,7 @@ export const FeedPage =() => {
                         <p className="text text_type_main-medium">
                             Выполнено за сегодня:
                         </p>
-                        <p className="text text_type_digits-large">
+                        <p className={`${feedPageStyles.digits} text text_type_digits-large`}>
                             123
                         </p>
                     </div>
