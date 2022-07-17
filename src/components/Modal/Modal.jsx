@@ -25,7 +25,8 @@ const Modal = ({ title, onCloseClick, children }) => {
         <>
             <div className={modalStyles.window}>
                 <div className={`pl-10 pr-10 pt-10 ${modalStyles.title}`}>
-                    <h3 className='text text_type_main-large'>{title}</h3>
+                    {title &&
+                    <h3 className='text text_type_main-large'>{title}</h3>}
                     <span className={modalStyles.icon}>
                         <CloseIcon onClick={onCloseClick} type="primary" />
                     </span>

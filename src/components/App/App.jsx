@@ -16,7 +16,8 @@ import {RegisterPage} from '../../pages/RegisterPage/RegisterPage.jsx';
 import {ForgotPasswordPage} from '../../pages/ForgotPasswordPage/ForgotPasswordPage.jsx';
 import { ResetPasswordPage } from '../../pages/ResetPasswordPage/ResetPasswordPage.jsx';
 import {ProfilePage} from '../../pages/ProfilePage/ProfilePage.jsx';
-import {FeedPage} from '../../pages/FeedPage/FeedPage.jsx'
+import {FeedPage} from '../../pages/FeedPage/FeedPage.jsx';
+import {OrderPage} from '../../pages/OrderPage/OrderPage.jsx';
 import { NotFoundPage } from '../../pages/NotFoundPage/NotFoundPage.jsx';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.jsx';
 import { getUserInfo } from '../../services/actions/profile.js';
@@ -75,9 +76,12 @@ const App = () => {
                     <ProtectedRoute path="/reset-password" anonymous={true}>
                         <ResetPasswordPage />
                     </ProtectedRoute>
-                    <ProtectedRoute path="/feed">
+                    <Route path="/feed/:id">
+                        <OrderPage />
+                    </Route>
+                    <Route path="/feed">
                         <FeedPage />
-                    </ProtectedRoute>
+                    </Route>
                     <ProtectedRoute path="/profile">
                         <ProfilePage />
                     </ProtectedRoute>
@@ -95,18 +99,30 @@ const App = () => {
                     </Route>
                 </Switch>
                 {background && (
-                    <Route
-                        path="/ingredients/:id"
-                        children={
-                            <Modal 
-                                title="Детали ингредиента"
-                                onCloseClick={closeIngredientModal} >
-                                <IngredientDetails />
-                            </Modal>
-                        }
-                    />
+                    <>
+                        <Route
+                            path="/ingredients/:id"
+                            children={
+                                <Modal 
+                                    title="Детали ингредиента"
+                                    onCloseClick={closeIngredientModal} >
+                                    <IngredientDetails />
+                                </Modal>
+                            }
+                        />
+                        <Route
+                            path="/feed/:id"
+                            children={
+                                <Modal 
+                                    onCloseClick={closeIngredientModal} >
+                                    <OrderPage />
+                                </Modal>
+                            }
+                        />
+                    </>
                     )
                 }
+                
                 
             </main>
             {orderDetailsModalIsOpen &&
