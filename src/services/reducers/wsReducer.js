@@ -1,7 +1,6 @@
 import {
     WS_CONNECTION_CLOSED,
     WS_CONNECTION_ERROR,
-    WS_CONNECTION_START,
     WS_CONNECTION_SUCCESS,
     WS_GET_ORDERS
 } from '../actions/wsActionTypes.js';

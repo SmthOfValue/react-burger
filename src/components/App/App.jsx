@@ -82,6 +82,9 @@ const App = () => {
                     <Route path="/feed">
                         <FeedPage />
                     </Route>
+                    <ProtectedRoute path='/profile/orders/:id'>
+                        <OrderPage />
+                    </ProtectedRoute>
                     <ProtectedRoute path="/profile">
                         <ProfilePage />
                     </ProtectedRoute>
@@ -112,6 +115,15 @@ const App = () => {
                         />
                         <Route
                             path="/feed/:id"
+                            children={
+                                <Modal 
+                                    onCloseClick={closeIngredientModal} >
+                                    <OrderPage />
+                                </Modal>
+                            }
+                        />
+                        <ProtectedRoute
+                            path='/profile/orders/:id'
                             children={
                                 <Modal 
                                     onCloseClick={closeIngredientModal} >

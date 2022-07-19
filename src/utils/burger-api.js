@@ -16,7 +16,8 @@ const getIngredientsRequest = () => {
 const getOrderNumber = (ingredientsIdArray) => {
     return fetch(`${NORMA_API}/orders`, {
         headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
+            authorization: getCookie('token') ? `Bearer ${getCookie('token')}` : ''
         },
         method: 'POST',
         body: JSON.stringify({ "ingredients": ingredientsIdArray })

@@ -13,6 +13,10 @@
     color: #00CCCC;
 }
 
+.status_pending {
+    color: #F2F2F3;
+}
+
 .ingredients {
     list-style: none;
     margin: 0;
@@ -82,5 +86,5 @@
 .loader {
     text-align: center;
     margin: 0 auto;
-    margin-top: 30vh;
+    margin-top: 10vh;
 }

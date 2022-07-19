@@ -1,10 +1,33 @@
 import React, {useEffect} from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Box, CurrencyIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
 import orderPageStyles from './OrderPage.module.css';
-import {useParams} from 'react-router-dom';
+import {useParams, useLocation, matchPath} from 'react-router-dom';
+import { USER_WS_CONNECTION_START, WS_CONNECTION_START, WS_CONNECTION_END } from '../../services/actions/wsActionTypes';
+import { calculateTotalPrice, formatDate } from '../../utils/utils';
 
 export const OrderPage = () => {
+
+    const location = useLocation();
+    const dispatch = useDispatch();
+    const match = matchPath(location.pathname, {
+        path: '/profile/orders/:id',
+        exact: false,
+        strict: false
+    });
+    
+    useEffect(
+        () => {       
+            if (match) {
+                dispatch({ type: USER_WS_CONNECTION_START });
+            }
+            else {
+                dispatch({ type: WS_CONNECTION_START });
+            }
+            return () => dispatch({ type: WS_CONNECTION_END });
+        },
+        [] 
+    );
 
     const { id } = useParams();
     
@@ -13,30 +36,48 @@ export const OrderPage = () => {
 
     const orderData = orders.find(order => order._id === id);
 
+       
+
+    //представление массива ингредиентов заказа в виде объекта
+    //с ключами-ингредиентами и значениями-количеством каждого ингредиента
     const counts = {};
+    let totalPrice = 0;
+    let uniqueIngredients = [];
 
-    for (const id of orderData.ingredients) {
-        counts[id] = counts[id] ? counts[id] + 1 : 1;
+    if (orderData) {
+        for (const id of orderData.ingredients) {
+            counts[id] = counts[id] ? counts[id] + 1 : 1;
+        }
+
+        //массив уникальных ингредиентов
+        uniqueIngredients = Object.keys(counts).filter((ingredient) => ingredient !== 'null');
+
+        totalPrice = calculateTotalPrice(ingredients, orderData.ingredients);
     }
-
-    const uniqueIngredients = Object.keys(counts);
-
+    
 
     return (
         <>
         {!orderData &&
             <p className={`text text_type_main-large ${orderPageStyles.loader}`}>Загрузка...</p>}
+        {!ingredients &&
+            <p className={`text text_type_main-large ${orderPageStyles.loader}`}>Загрузка...</p>}
         {orderData &&
-        <section className={`${orderPageStyles.section}`}>
+        <section className={`pb-10 ${orderPageStyles.section}`}>
             <p className={`text text_type_digits-default mb-10 ${orderPageStyles.number}`}>#{orderData.number}</p>
             <p className="text text_type_main-medium mb-3">{orderData.name}</p>
-            <p className={`text text_type_main-default mb-15 ${orderPageStyles.status_ready}`}>{orderData.status}</p>
+            {orderData.status === 'done' &&
+            <p className={`text text_type_main-default mb-15 ${orderPageStyles.status_ready}`}>Выполнен</p>}
+            {orderData.status === 'pending' &&
+            <p className={`text text_type_main-default mb-15 ${orderPageStyles.status_pending}`}>Готовится</p>}
+            {orderData.status === 'created' &&
+            <p className={`text text_type_main-default mb-15 ${orderPageStyles.status_pending}`}>Создан</p>}            
             <p className="text text_type_main-medium mb-6">Состав:</p>
             <ul className={orderPageStyles.ingredients}>
                 {uniqueIngredients.map((uniqueIngredient) => (
                     <li key={uniqueIngredient} className={`${orderPageStyles.ingredient}`}>
                         <div className={orderPageStyles.wrapper}>
-                            <img className={orderPageStyles.image} src={ingredients.find((ingredient) => ingredient._id === uniqueIngredient).image}/>
+                            <img className={orderPageStyles.image} src={ingredients.find((ingredient) => ingredient._id === uniqueIngredient).image} alt={ingredients.find((ingredient) => ingredient._id === uniqueIngredient).name}/>
                         </div>
                         <p className="text text_type_main-default ml-4 mr-4">{ingredients.find((ingredient) => ingredient._id === uniqueIngredient).name}</p>
                         <span className={orderPageStyles.price}>
@@ -47,9 +88,10 @@ export const OrderPage = () => {
                 ))}
             </ul>
             <div className={`mt-10 ${orderPageStyles.footer}`}>
-                <span className="text text_type_main-default text_color_inactive">Сегодня, 16:20 i-GMT+3</span>
+                <span className="text text_type_main-default text_color_inactive">{formatDate(orderData.createdAt)}</span>
                 <span className={orderPageStyles.total}>
-                        <span className='text text_type_digits-default mr-2'>520</span>
+                    {totalPrice > 0 &&
+                        <span className='text text_type_digits-default mr-2'>{totalPrice}</span>}
                         <CurrencyIcon type="primary" />
                     </span>
             </div>

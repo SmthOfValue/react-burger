@@ -6,18 +6,23 @@ import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_START,
+  USER_WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
+  WS_CONNECTION_END,
   WS_GET_ORDERS
  } from './actions/wsActionTypes.js';
 
 const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
+const userWsUrl = 'wss://norma.nomoreparties.space/orders';
 
 const wsActions = {
   onClose: WS_CONNECTION_CLOSED,
   onError: WS_CONNECTION_ERROR,
   wsInit: WS_CONNECTION_START,
+  userWsInit: USER_WS_CONNECTION_START,
   onOpen: WS_CONNECTION_SUCCESS,
-  wsGetOrders: WS_GET_ORDERS
+  wsGetOrders: WS_GET_ORDERS,
+  wsClose: WS_CONNECTION_END
 };
 
 const composeEnhancers =
@@ -25,5 +30,5 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose; 
 
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl, wsActions)));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl, userWsUrl, wsActions)));
 export const store = createStore(rootReducer, enhancer); 

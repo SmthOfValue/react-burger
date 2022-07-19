@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Typography, Box, Button, CurrencyIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
 import feedPageStyles from './FeedPage.module.css';
-import { WS_CONNECTION_START } from '../../services/actions/wsActionTypes';
-import { generateID } from '../../utils/utils';
+import { WS_CONNECTION_START, WS_CONNECTION_END } from '../../services/actions/wsActionTypes';
+import { generateID, calculateTotalPrice, formatDate} from '../../utils/utils';
 
 
 export const FeedPage =() => {
@@ -15,13 +15,15 @@ export const FeedPage =() => {
     useEffect(
         () => {          
             dispatch({ type: WS_CONNECTION_START });
+            return () => dispatch({ type: WS_CONNECTION_END });
         },
         [] 
     );
 
     const {orders, total, totalToday} = useSelector(store => store.feed);
     const allIngredients = useSelector(store => store.ingredients.ingredients);
-
+    
+    //функция для получения ссылки на изображение ингредиента
     const getImageSrc = (id) => allIngredients.find((ingredient) => ingredient._id === id).image;
     
     return (
@@ -43,26 +45,26 @@ export const FeedPage =() => {
                                 <div className={`${feedPageStyles.card} p-6`}>
                                     <div className={`${feedPageStyles.header} mb-6`}>
                                         <span className="text text_type_digits-default">#{order.number}</span>
-                                        <span className="text text_type_main-default text_color_inactive">{order.createdAt}</span>
+                                        <span className="text text_type_main-default text_color_inactive">{formatDate(order.createdAt)}</span>
                                     </div>
                                     <p className="text text_type_main-medium mb-6">{order.name}</p>
                                     <div className={feedPageStyles.contents}>
                                         <ul className={feedPageStyles.ingredients}>
                                             {order.ingredients.length>5 &&
                                                 <li className={feedPageStyles.wrapper}>                                               
-                                                    <img className={feedPageStyles.image} src={getImageSrc(order.ingredients[5])}/>
+                                                    <img className={feedPageStyles.image} src={getImageSrc(order.ingredients[5])} alt={`Еще ${order.ingredients.length - 5} ингредиентов`}/>
                                                     <p className={`${feedPageStyles.counter} text text_type_digits-default`}>+{order.ingredients.length - 5}</p>
                                                 </li>
                                             }
                                             {order.ingredients.map((ingredient, index) => 
-                                                (index<=4 &&
+                                                (index<=4 && ingredient &&
                                                 <li key={index} className={feedPageStyles.wrapper}>
-                                                    <img className={feedPageStyles.image} src={getImageSrc(ingredient)}/>
+                                                    <img className={feedPageStyles.image} src={getImageSrc(ingredient)} alt={allIngredients.find((item) => item._id === ingredient).name}/>
                                                 </li>)
                                             )}
                                         </ul>
                                         <span className={feedPageStyles.price}>
-                                            <span className='text text_type_digits-default mr-2'>312</span>
+                                            <span className='text text_type_digits-default mr-2'>{calculateTotalPrice(allIngredients, order.ingredients)}</span>
                                             <CurrencyIcon type="primary" />
                                         </span>
                                     </div>

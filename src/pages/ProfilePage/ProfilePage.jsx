@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Typography, Box } from '@ya.praktikum/react-developer-burger-ui-components';
 import profilePageStyles from './ProfilePage.module.css';
 import {NavLink, Switch} from 'react-router-dom';
@@ -8,9 +9,12 @@ import {
 } from '../../services/actions/profile';
 import {OrdersPage} from '../OrdersPage/OrdersPage.jsx';
 import {ProfileEditPage} from '../ProfileEditPage/ProfileEditPage.jsx';
+import { OrderPage } from '../OrderPage/OrderPage';
 
 
 export const ProfilePage = () => {
+
+    const dispatch = useDispatch();
 
     const onLogoutButtonClick = () => {
         dispatch(logout())
