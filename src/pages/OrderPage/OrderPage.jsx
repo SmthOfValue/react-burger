@@ -2,14 +2,19 @@ import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Box, CurrencyIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
 import orderPageStyles from './OrderPage.module.css';
-import {useParams, useLocation, matchPath} from 'react-router-dom';
-import { USER_WS_CONNECTION_START, WS_CONNECTION_START, WS_CONNECTION_END } from '../../services/actions/wsActionTypes';
+import {useParams, useLocation, matchPath, useHistory} from 'react-router-dom';
+import { USER_WS_CONNECTION_START, WS_CONNECTION_START, WS_CONNECTION_END, USER_WS_CONNECTION_END } from '../../services/actions/wsActionTypes';
 import { calculateTotalPrice, formatDate } from '../../utils/utils';
+import { WS_URL, USER_WS_URL } from '../../utils/constants';
+import { getCookie } from '../../utils/utils';
 
 export const OrderPage = () => {
+    
 
     const location = useLocation();
+    const history = useHistory();
     const dispatch = useDispatch();
+    //проверка совпадения текущего пути со ссылкой на заказ авторизованного пользователя
     const match = matchPath(location.pathname, {
         path: '/profile/orders/:id',
         exact: false,
@@ -19,12 +24,22 @@ export const OrderPage = () => {
     useEffect(
         () => {       
             if (match) {
-                dispatch({ type: USER_WS_CONNECTION_START });
+                dispatch({ 
+                    type: USER_WS_CONNECTION_START,
+                    payload: `${USER_WS_URL}?token=${getCookie('token')}`
+                });
             }
-            else {
-                dispatch({ type: WS_CONNECTION_START });
+            else if (!(history.action === 'PUSH' && location.state?.background)) {
+                dispatch({ 
+                    type: WS_CONNECTION_START,
+                    payload: WS_URL
+                });
             }
-            return () => dispatch({ type: WS_CONNECTION_END });
+            if (match && !location.state?.background) {
+                return () => dispatch({ type: USER_WS_CONNECTION_END });
+            } else if (!location.state?.background) {
+                return () => dispatch({ type: WS_CONNECTION_END });
+            }
         },
         [] 
     );
@@ -35,8 +50,6 @@ export const OrderPage = () => {
     const orders = useSelector(store => store.feed.orders);
 
     const orderData = orders.find(order => order._id === id);
-
-       
 
     //представление массива ингредиентов заказа в виде объекта
     //с ключами-ингредиентами и значениями-количеством каждого ингредиента
@@ -54,6 +67,7 @@ export const OrderPage = () => {
 
         totalPrice = calculateTotalPrice(ingredients, orderData.ingredients);
     }
+
     
 
     return (

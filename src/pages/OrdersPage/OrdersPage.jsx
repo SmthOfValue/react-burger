@@ -2,31 +2,38 @@ import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Box, Button, CurrencyIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation } from 'react-router-dom';
-import { USER_WS_CONNECTION_START, WS_CONNECTION_END } from '../../services/actions/wsActionTypes';
+import { USER_WS_CONNECTION_START, USER_WS_CONNECTION_END } from '../../services/actions/wsActionTypes';
 import ordersPageStyles from './OrdersPage.module.css';
-import { calculateTotalPrice, formatDate } from '../../utils/utils';
+import { calculateTotalPrice, formatDate, getCookie } from '../../utils/utils';
+import { USER_WS_URL } from '../../utils/constants';
+
+
 
 export const OrdersPage =() => {
 
     const dispatch = useDispatch();
     const location = useLocation();
+    const {orders, userWsConnected} = useSelector(store => store.feed);
+    const allIngredients = useSelector(store => store.ingredients.ingredients);
 
     useEffect(
         () => {          
-            dispatch({ type: USER_WS_CONNECTION_START });
-            return () => dispatch({ type: WS_CONNECTION_END });
+            dispatch({ 
+                type: USER_WS_CONNECTION_START,
+                payload: `${USER_WS_URL}?token=${getCookie('token')}`
+            });
+            return () => dispatch({ type: USER_WS_CONNECTION_END });
+            
         },
         [] 
     );
 
-    const {orders} = useSelector(store => store.feed);
-    const allIngredients = useSelector(store => store.ingredients.ingredients);
     
     //функция для получения ссылки на изображение ингредиента
     const getImageSrc = (id) => allIngredients.find((ingredient) => ingredient._id === id).image;
 
     return (
-        orders ?
+        orders && userWsConnected ?
         <section>
             {orders.length > 0 ?
             <ul className={ordersPageStyles.orders}>
@@ -75,10 +82,9 @@ export const OrdersPage =() => {
                             </div>
                         </li>
                     </Link>
-                    ))}     
-                    </ul>
-                    :
-                    <p className="text text_type_main-large">Вы еще не заказывали в нашей бургерной</p>}           
+                ))}     
+            </ul>
+            : <p className="text text_type_main-large" >Вы еще не заказывали в нашей бургерной</p>}        
         </section>
         : <p className={`text text_type_main-large ${ordersPageStyles.loader}`}>Загрузка...</p>
     )

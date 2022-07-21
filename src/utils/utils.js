@@ -74,14 +74,11 @@ export const formatDate = (date) => {
       date
         .split('T')[0]
         .split('-')[2]
-        .split('')
-        .filter((num) => num !== '0')
-        .join('')
     );
-    const orderHours = Number(date.split('T')[1].split('.')[0].split(':',2)[0]);
-    const orderMinutes = Number(date.split('T')[1].split('.')[0].split(':',2)[1]);
+    const orderHours = date.split('T')[1].split('.')[0].split(':',2)[0];
+    const orderMinutes = date.split('T')[1].split('.')[0].split(':',2)[1];
   
-    const orderTime = `${orderHours + 3}:${orderMinutes}`;
+    const orderTime = `${Number(orderHours) + 3 >= 24 ? Number(orderHours) - 21 : Number(orderHours) + 3}:${orderMinutes}`;
     const dateNow = new Date().getDate();
     let formattedDate = '';
 

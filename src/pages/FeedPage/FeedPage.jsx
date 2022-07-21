@@ -5,6 +5,7 @@ import { Typography, Box, Button, CurrencyIcon  } from '@ya.praktikum/react-deve
 import feedPageStyles from './FeedPage.module.css';
 import { WS_CONNECTION_START, WS_CONNECTION_END } from '../../services/actions/wsActionTypes';
 import { generateID, calculateTotalPrice, formatDate} from '../../utils/utils';
+import { WS_URL } from '../../utils/constants';
 
 
 export const FeedPage =() => {
@@ -14,19 +15,23 @@ export const FeedPage =() => {
 
     useEffect(
         () => {          
-            dispatch({ type: WS_CONNECTION_START });
+            dispatch({ 
+                type: WS_CONNECTION_START,
+                payload: WS_URL
+            });
             return () => dispatch({ type: WS_CONNECTION_END });
         },
         [] 
     );
 
-    const {orders, total, totalToday} = useSelector(store => store.feed);
+    const {orders, total, totalToday, wsConnected} = useSelector(store => store.feed);
     const allIngredients = useSelector(store => store.ingredients.ingredients);
     
     //функция для получения ссылки на изображение ингредиента
     const getImageSrc = (id) => allIngredients.find((ingredient) => ingredient._id === id).image;
     
     return (
+        wsConnected ?
         <section className={feedPageStyles.section}>
             <h1 className="text text_type_main-large mb-5">Лента заказов</h1>
             <div className={feedPageStyles.content}> 
@@ -121,5 +126,6 @@ export const FeedPage =() => {
                 </div>
             </div>
         </section>
+        : <p className={`text text_type_main-large ${feedPageStyles.loader}`} >Загрузка...</p>
     )
 }

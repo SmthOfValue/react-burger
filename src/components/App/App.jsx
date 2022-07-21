@@ -34,10 +34,8 @@ const App = () => {
     const location = useLocation();
     const history = useHistory();
 
-    const background = location.state && location.state.background;
-
-    const detailedIngredientModalIsOpen = useSelector(store => store.detailedIngredient.modalIsOpen);
     const orderDetailsModalIsOpen = useSelector(store => store.order.modalIsOpen);
+    const {isAuth} = useSelector(store => store.user);
 
     const closeIngredientModal = () => {
         history.goBack();
@@ -58,12 +56,18 @@ const App = () => {
         []
     );
 
+    const background = history.action === 'PUSH' && location.state?.background;
+
+    
 
     return (
         <>
             <AppHeader></AppHeader>
             <main className={AppStyles.main}>
                 <Switch location={background || location}>
+                    <Route path="/ingredients/:id" >
+                        <IngredientDetails />
+                    </Route>
                     <ProtectedRoute path="/login" anonymous={true}>
                         <LoginPage />
                     </ProtectedRoute>
@@ -88,9 +92,6 @@ const App = () => {
                     <ProtectedRoute path="/profile">
                         <ProfilePage />
                     </ProtectedRoute>
-                    <Route path="/ingredients/:id" >
-                        <IngredientDetails />
-                    </Route>
                     <Route path="/" exact>
                         <DndProvider backend={HTML5Backend}>         
                             <BurgerIngredients />
@@ -105,6 +106,7 @@ const App = () => {
                     <>
                         <Route
                             path="/ingredients/:id"
+                            exact
                             children={
                                 <Modal 
                                     title="Детали ингредиента"
@@ -121,7 +123,7 @@ const App = () => {
                                     <OrderPage />
                                 </Modal>
                             }
-                        />
+                        />{isAuth &&
                         <ProtectedRoute
                             path='/profile/orders/:id'
                             children={
@@ -130,7 +132,7 @@ const App = () => {
                                     <OrderPage />
                                 </Modal>
                             }
-                        />
+                        />}
                     </>
                     )
                 }

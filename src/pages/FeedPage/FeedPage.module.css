@@ -167,3 +167,9 @@
     text-decoration: none;
     color: #f2f2f3;
 }
+
+.loader {
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 10vh;
+}

@@ -4,7 +4,6 @@ import { Typography, Box, Input, Button } from '@ya.praktikum/react-developer-bu
 import profilePageStyles from './ProfileEditPage.module.css';
 import {
     setProfileFormValue,
-    getUserInfo,
     setUserInfo
 } from '../../services/actions/profile';
 
@@ -37,13 +36,6 @@ export const ProfileEditPage = () => {
 
     const dispatch = useDispatch();
 
-    //получение информации о пользователе
-    useEffect(
-        () => {
-            dispatch(getUserInfo())
-        }, 
-        []
-    ); 
     
     //обновление формы при изменении данных пользователя
     useEffect(

@@ -3,7 +3,7 @@ import { Redirect, Route, useLocation } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
 export default function ProtectedRoute({ anonymous = false, ...rest }) {
-
+    
     const {isAuth} = useSelector(store => store.user);
     const location = useLocation();
     

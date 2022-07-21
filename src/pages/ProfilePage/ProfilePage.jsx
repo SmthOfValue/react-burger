@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import { Typography, Box } from '@ya.praktikum/react-developer-burger-ui-components';
 import profilePageStyles from './ProfilePage.module.css';
@@ -9,7 +9,7 @@ import {
 } from '../../services/actions/profile';
 import {OrdersPage} from '../OrdersPage/OrdersPage.jsx';
 import {ProfileEditPage} from '../ProfileEditPage/ProfileEditPage.jsx';
-import { OrderPage } from '../OrderPage/OrderPage';
+import { getUserInfo } from '../../services/actions/profile';
 
 
 export const ProfilePage = () => {
@@ -19,6 +19,15 @@ export const ProfilePage = () => {
     const onLogoutButtonClick = () => {
         dispatch(logout())
     }
+
+    //получение информации о пользователе
+    useEffect(
+        () => {
+            dispatch(getUserInfo())
+        }, 
+        []
+    ); 
+    
 
     return (
         <>
