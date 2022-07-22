@@ -45,7 +45,7 @@ export const ForgotPasswordPage = () => {
                         size={'default'}
                     />                
             </form>
-            <Button onClick={() => onButtonClick(form)} className={forgotPasswordPageStyles.button} type="primary" size="medium">Восстановить</Button>
+            <Button disabled={form ? false : true} onClick={() => onButtonClick(form)} className={forgotPasswordPageStyles.button} type="primary" size="medium">Восстановить</Button>
             <p className={`${forgotPasswordPageStyles.paragraph} text text_type_main-small text_color_inactive mb-4`}>
                 Вспомнили пароль? <Link to="/login" className={`${forgotPasswordPageStyles.link}`}>Войти</Link>
             </p>

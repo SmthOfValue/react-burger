@@ -14,11 +14,7 @@ const IngredientsGroup = ({children, ingredients, titleId, scrollRef}) => {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const onIngredientClick = (ingredient) => {
-        dispatch(setIngredientModal(ingredient));
-    };
-
-    
+       
         return(               
             <li className={`mt-10 ${ingredientsGroupStyles.group}`} id={titleId} ref={scrollRef}>
                 <p className={`mb-6 text text_type_main-medium ${ingredientsGroupStyles.type}`}>{children}</p>

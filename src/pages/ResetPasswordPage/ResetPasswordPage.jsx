@@ -13,6 +13,7 @@ export const ResetPasswordPage = () => {
     const form = formRef.current;
 
     const {password, token} = useSelector(state => state.resetPassword.form);
+    const {passwordResetSuccess} = useSelector(state => state.resetPassword)
     
     const dispatch = useDispatch();
     const location = useLocation();
@@ -44,6 +45,18 @@ export const ResetPasswordPage = () => {
         );
     }
 
+    if (passwordResetSuccess) {
+        return (
+            <Redirect
+                to={
+                    {
+                        pathname: '/login'
+                    }
+                }
+            />
+        );
+    }
+
     return (
         <div className={resetPasswordPageStyles.wrapper}>
             <h1 className={`${resetPasswordPageStyles.title} mb-6 text text_type_main-medium`}>Восстановление пароля</h1>
@@ -68,7 +81,7 @@ export const ResetPasswordPage = () => {
                         size={'default'}
                     />             
             </form>
-            <Button onClick={() => onButtonClick(form)} className={resetPasswordPageStyles.button} type="primary" size="medium">Сохранить</Button>
+            <Button disabled={form ? false : true} onClick={() => onButtonClick(form)} className={resetPasswordPageStyles.button} type="primary" size="medium">Сохранить</Button>
             <p className={`${resetPasswordPageStyles.paragraph} text text_type_main-small text_color_inactive mb-4`}>
                 Вспомнили пароль? <Link to="/login" className={`${resetPasswordPageStyles.link}`}>Войти</Link>
             </p>

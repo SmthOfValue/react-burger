@@ -33,7 +33,7 @@ const AppHeader = () => {
                         <li className={`pr-5 pl-5 pt-4 pb-4 mt-4 mb-4`}>
                             <Link
                                 className={`${splitLocation[1] === "feed" ? activeLinkStyles : inactiveLinkStyles} ${appHeaderStyles.link}`}
-                                to="/"
+                                to="/feed"
                                 >
                                 <ListIcon type={`${splitLocation[1] === "feed" ? "primary" : "secondary"}`} />
                                 <span className="ml-2 text text_type_main-default text_color_inactive">

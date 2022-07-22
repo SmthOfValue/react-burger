@@ -75,7 +75,7 @@ export const RegisterPage = () => {
                         size={'default'}
                     />                
             </form>
-            <Button onClick={() => onButtonClick(form)} className={registerPageStyles.button} type="primary" size="medium">Зарегистрироваться</Button>
+            <Button disabled={form ? false : true} onClick={() => onButtonClick(form)} className={registerPageStyles.button} type="primary" size="medium">Зарегистрироваться</Button>
             <p className={`${registerPageStyles.paragraph} text text_type_main-small text_color_inactive mb-4`}>
                 Уже зарегистрированы? <Link to="/login" className={`${registerPageStyles.link}`}>Войти</Link>
             </p>

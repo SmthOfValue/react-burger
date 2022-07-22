@@ -16,6 +16,8 @@ import {RegisterPage} from '../../pages/RegisterPage/RegisterPage.jsx';
 import {ForgotPasswordPage} from '../../pages/ForgotPasswordPage/ForgotPasswordPage.jsx';
 import { ResetPasswordPage } from '../../pages/ResetPasswordPage/ResetPasswordPage.jsx';
 import {ProfilePage} from '../../pages/ProfilePage/ProfilePage.jsx';
+import {FeedPage} from '../../pages/FeedPage/FeedPage.jsx';
+import {OrderPage} from '../../pages/OrderPage/OrderPage.jsx';
 import { NotFoundPage } from '../../pages/NotFoundPage/NotFoundPage.jsx';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.jsx';
 import { getUserInfo } from '../../services/actions/profile.js';
@@ -32,10 +34,8 @@ const App = () => {
     const location = useLocation();
     const history = useHistory();
 
-    const background = location.state && location.state.background;
-
-    const detailedIngredientModalIsOpen = useSelector(store => store.detailedIngredient.modalIsOpen);
     const orderDetailsModalIsOpen = useSelector(store => store.order.modalIsOpen);
+    const {isAuth} = useSelector(store => store.user);
 
     const closeIngredientModal = () => {
         history.goBack();
@@ -56,12 +56,18 @@ const App = () => {
         []
     );
 
+    const background = history.action === 'PUSH' && location.state?.background;
+
+    
 
     return (
         <>
             <AppHeader></AppHeader>
             <main className={AppStyles.main}>
                 <Switch location={background || location}>
+                    <Route path="/ingredients/:id" >
+                        <IngredientDetails />
+                    </Route>
                     <ProtectedRoute path="/login" anonymous={true}>
                         <LoginPage />
                     </ProtectedRoute>
@@ -74,12 +80,18 @@ const App = () => {
                     <ProtectedRoute path="/reset-password" anonymous={true}>
                         <ResetPasswordPage />
                     </ProtectedRoute>
+                    <Route path="/feed/:id">
+                        <OrderPage />
+                    </Route>
+                    <Route path="/feed">
+                        <FeedPage />
+                    </Route>
+                    <ProtectedRoute path='/profile/orders/:id'>
+                        <OrderPage />
+                    </ProtectedRoute>
                     <ProtectedRoute path="/profile">
                         <ProfilePage />
                     </ProtectedRoute>
-                    <Route path="/ingredients/:id" >
-                        <IngredientDetails />
-                    </Route>
                     <Route path="/" exact>
                         <DndProvider backend={HTML5Backend}>         
                             <BurgerIngredients />
@@ -91,18 +103,40 @@ const App = () => {
                     </Route>
                 </Switch>
                 {background && (
-                    <Route
-                        path="/ingredients/:id"
-                        children={
-                            <Modal 
-                                title="Детали ингредиента"
-                                onCloseClick={closeIngredientModal} >
-                                <IngredientDetails />
-                            </Modal>
-                        }
-                    />
+                    <>
+                        <Route
+                            path="/ingredients/:id"
+                            exact
+                            children={
+                                <Modal 
+                                    title="Детали ингредиента"
+                                    onCloseClick={closeIngredientModal} >
+                                    <IngredientDetails />
+                                </Modal>
+                            }
+                        />
+                        <Route
+                            path="/feed/:id"
+                            children={
+                                <Modal 
+                                    onCloseClick={closeIngredientModal} >
+                                    <OrderPage />
+                                </Modal>
+                            }
+                        />{isAuth &&
+                        <ProtectedRoute
+                            path='/profile/orders/:id'
+                            children={
+                                <Modal 
+                                    onCloseClick={closeIngredientModal} >
+                                    <OrderPage />
+                                </Modal>
+                            }
+                        />}
+                    </>
                     )
                 }
+                
                 
             </main>
             {orderDetailsModalIsOpen &&

@@ -14,7 +14,8 @@ const resetPasswordFormInitialState = {
         token: ''
     },
     resetPasswordRequest: false,
-    resetPasswordError: false
+    resetPasswordError: false,
+    passwordResetSuccess: false
 };
 
 
@@ -44,7 +45,8 @@ export const resetPasswordReducer = (state = resetPasswordFormInitialState, acti
             return {
                 ...state,
                 resetPasswordRequest: false,
-                resetPasswordError: false
+                resetPasswordError: false,
+                passwordResetSuccess: true
             };
         }
         case RESET_PASSWORD_ERROR: {

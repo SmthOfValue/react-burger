@@ -32,6 +32,7 @@ import { registrationFormReducer,
     loginFormReducer,
     profileFormReducer
 } from './auth.js';
+import { wsReducer } from './wsReducer.js';
 
 
 const ingredientsInitialState = {
@@ -221,7 +222,8 @@ const rootReducer = combineReducers({
     registration: registrationFormReducer,
     login: loginFormReducer,
     profile: profileFormReducer,
-    user: userReducer
+    user: userReducer,
+    feed: wsReducer
 }) 
 
 export {rootReducer};

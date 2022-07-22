@@ -8,10 +8,6 @@ import {onButtonClick} from '../../utils/utils.js';
 
 export const LoginPage = () => {
 
-    const formRef = useRef(null);
-
-    const form = formRef.current;
-
     const {email, password} = useSelector(state => state.login.form);
     const {isAuth} = useSelector (state => state.user);
 
@@ -30,13 +26,17 @@ export const LoginPage = () => {
 
     //редирект на главную после успешного логина
     if (isAuth) {
-        console.log(state?.from);
         return (
             <Redirect
                 to={ state?.from || '/' }
             />
         );
     }
+
+    const formRef = useRef(null);
+
+    const form = formRef.current;
+
 
     return (
         <div className={loginPageStyles.wrapper}>
@@ -61,7 +61,8 @@ export const LoginPage = () => {
                         size={'default'}
                     />                
             </form>
-            <Button onClick={() => onButtonClick(form)} className={loginPageStyles.button} type="primary" size="medium">Войти</Button>
+            
+            <Button disabled={form ? false : true} onClick={() => onButtonClick(form)} className={loginPageStyles.button} type="primary" size="medium">Войти</Button>
             <p className={`${loginPageStyles.paragraph} text text_type_main-small text_color_inactive mb-4`}>
                 Вы — новый пользователь? <Link to="/register" className={`${loginPageStyles.link}`}>Зарегистрироваться</Link>
             </p>
