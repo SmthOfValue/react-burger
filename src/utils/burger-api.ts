@@ -1,8 +1,12 @@
-
 import { NORMA_API } from './constants.js';
 import {getCookie} from './utils.js';
+import {
+    TOrder,
+    TUser,
+    TTokens
+} from './types';
 
-const checkResponse = (res) => {
+const checkResponse = <T>(res: Response): Promise<T> => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
@@ -12,8 +16,15 @@ const getIngredientsRequest = () => {
         .then(res => checkResponse(res))
 };
 
+type TServerResponse<T> = T & { success: boolean; };
+
+type TNewOrderResponse = TServerResponse<{
+    order: TOrder;
+    name: string;
+  }>;
+
 //запрос на оформление заказа
-const getOrderNumber = (ingredientsIdArray) => {
+const getOrderNumber = (ingredientsIdArray: string[]): Promise<TNewOrderResponse> => {
     return fetch(`${NORMA_API}/orders`, {
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -25,8 +36,10 @@ const getOrderNumber = (ingredientsIdArray) => {
         .then(res => checkResponse(res))
 };
 
+type TMessageResponse = TServerResponse<{ message: string }>
+
 //запрос на сброс пароля с отправкой email
-const submitForgotPasswordRequest = (email) => {
+const submitForgotPasswordRequest = (email: string): Promise<TMessageResponse> => {
     return fetch(`${NORMA_API}/password-reset`, {
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -38,7 +51,7 @@ const submitForgotPasswordRequest = (email) => {
 };
 
 //запрос на установку нового пароля
-const submitResetPasswordRequest = (password, token) => {
+const submitResetPasswordRequest = (password: string, token: string): Promise<TMessageResponse> => {
     return fetch(`${NORMA_API}/password-reset/reset`, {
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -52,8 +65,10 @@ const submitResetPasswordRequest = (password, token) => {
         .then(res => checkResponse(res))
 }
 
+type TAuthResponse = TServerResponse<TUser & TTokens>;
+
 //запрос на регистрацию пользователя
-const submitRegistrationRequest = (email, password, name) => {
+const submitRegistrationRequest = (email: string, password: string, name: string): Promise<TAuthResponse> => {
     return fetch(`${NORMA_API}/auth/register`, {
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -69,7 +84,7 @@ const submitRegistrationRequest = (email, password, name) => {
 }
 
 //запрос на авторизацию пользователя
-const submitLoginRequest = (email, password) => {
+const submitLoginRequest = (email: string, password: string): Promise<TAuthResponse> => {
     return fetch(`${NORMA_API}/auth/login`, {
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -83,7 +98,9 @@ const submitLoginRequest = (email, password) => {
     .then(res => checkResponse(res))
 }
 
-const getUserInfoRequest = () => {
+type TUserInfoResponse = TServerResponse<TUser>;
+
+const getUserInfoRequest = (): Promise<TUserInfoResponse> => {
     return fetch(`${NORMA_API}/auth/user`, {
         headers: {
             'Content-Type': 'application/json',
@@ -94,7 +111,7 @@ const getUserInfoRequest = () => {
     .then(res => checkResponse(res))
 }
 
-const setUserInfoRequest = (email, password, name) => {
+const setUserInfoRequest = (email: string, password: string, name: string): Promise<TUserInfoResponse> => {
     return fetch(`${NORMA_API}/auth/user`, {
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -110,7 +127,8 @@ const setUserInfoRequest = (email, password, name) => {
     .then(res => checkResponse(res))
 }
 
-const refreshTokenRequest = () => {
+type TTokenResponse = TServerResponse<TTokens>;
+const refreshTokenRequest = (): Promise<TTokenResponse> => {
     const refreshToken = localStorage.getItem('refreshToken');
     return fetch(`${NORMA_API}/auth/token`, {
         headers: {
@@ -124,7 +142,7 @@ const refreshTokenRequest = () => {
     .then(res => checkResponse(res))
 }
 
-const logoutRequest = () => {
+const logoutRequest = (): Promise<TMessageResponse> => {
     const refreshToken = localStorage.getItem('refreshToken'); 
     return fetch(`${NORMA_API}/auth/logout`, {
         headers: {
