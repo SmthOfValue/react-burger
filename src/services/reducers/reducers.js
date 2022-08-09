@@ -6,24 +6,20 @@ import {
     INCREASE_INGREDIENT_COUNT,
     DECREASE_INGREDIENT_COUNT,
     SET_BUNS_COUNT
-} from '../actions/ingredients.js';
+} from '../actions/ingredients';
 import {
     GET_ORDER_REQUEST,
     GET_ORDER_SUCCESS,
     GET_ORDER_ERROR,
     SET_ORDER_MODAL,
     RESET_ORDER_MODAL
-} from '../actions/orderDetails.js';
-import {
-    SET_INGREDIENT_MODAL,
-    RESET_INGREDIENT_MODAL
-} from '../actions/ingredientDetails.js';
+} from '../actions/orderDetails';
 import {
     ADD_INGREDIENT,
     REMOVE_INGREDIENT,
     MOVE_INGREDIENT
-} from '../actions/burgerConstructor.js'
-import { generateID } from '../../utils/utils.js';
+} from '../actions/burgerConstructor'
+import { generateID } from '../../utils/utils';
 import update from 'immutability-helper';
 import {resetPasswordReducer} from './resetPassword.js';
 import {forgotPasswordReducer} from './forgotPassword.js';
@@ -46,10 +42,6 @@ const constructorInitialState = {
     data: []
 }
 
-const detailedIngredientInitialState = {
-    ingredientInModal: {},
-    modalIsOpen: false
-}
 
 const orderInitialState = {
     order: {},
@@ -148,27 +140,6 @@ const constructorReducer = (state = constructorInitialState, action) => {
     }
 }
 
-const detailedIngredientReducer = (state = detailedIngredientInitialState, action) => {
-    switch (action.type) {
-        case SET_INGREDIENT_MODAL: {
-            return {
-                ...state,
-                ingredientInModal: action.payload,
-                modalIsOpen: true
-            };            
-        }
-        case RESET_INGREDIENT_MODAL: {
-            return {
-                ...state,
-                ingredientInModal: detailedIngredientInitialState.ingredientInModal,
-                modalIsOpen: false
-            };
-        }
-        default: {
-            return state;
-        }
-    }    
-}
 
 const orderReducer = (state = orderInitialState, action) => {
     switch (action.type) {
@@ -215,7 +186,6 @@ const orderReducer = (state = orderInitialState, action) => {
 const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
     constructorIngredients: constructorReducer,
-    detailedIngredient: detailedIngredientReducer,
     order: orderReducer,
     forgotPassword: forgotPasswordReducer,
     resetPassword: resetPasswordReducer,

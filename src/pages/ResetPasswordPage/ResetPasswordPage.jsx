@@ -4,7 +4,7 @@ import { Typography, Box, Input, Button, PasswordInput } from '@ya.praktikum/rea
 import resetPasswordPageStyles from './ResetPasswordPage.module.css';
 import {Link, useLocation, useHistory, Redirect} from 'react-router-dom';
 import { setResetPasswordFormValue, submitResetPassword} from '../../services/actions/resetPassword';
-import {onButtonClick} from '../../utils/utils.js';
+import {onButtonClick} from '../../utils/utils';
 
 export const ResetPasswordPage = () => {
     

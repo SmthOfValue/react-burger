@@ -4,7 +4,7 @@ import { Typography, Box, Input, Button, PasswordInput } from '@ya.praktikum/rea
 import registerPageStyles from './RegisterPage.module.css';
 import {Link, Redirect} from 'react-router-dom';
 import {setRegistrationFormValue, submitRegistration} from '../../services/actions/registration';
-import {onButtonClick} from '../../utils/utils.js';
+import {onButtonClick} from '../../utils/utils';
 
 export const RegisterPage = () => {
     

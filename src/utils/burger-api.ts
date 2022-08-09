@@ -1,27 +1,33 @@
 import { NORMA_API } from './constants.js';
-import {getCookie} from './utils.js';
+import {getCookie} from './utils';
 import {
     TOrder,
     TUser,
-    TTokens
+    TTokens,
+    TIngredient
 } from './types';
+
+type TServerResponse<T> = T & { success: boolean; };
+
 
 const checkResponse = <T>(res: Response): Promise<T> => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
+type TIngredientsResponse = TServerResponse<{
+    data: TIngredient[];
+}>;
+
 //запрос на получение списка ингредиентов
-const getIngredientsRequest = () => {
+const getIngredientsRequest = (): Promise<TIngredientsResponse> => {
     return fetch(`${NORMA_API}/ingredients`)
         .then(res => checkResponse(res))
 };
 
-type TServerResponse<T> = T & { success: boolean; };
-
 type TNewOrderResponse = TServerResponse<{
     order: TOrder;
     name: string;
-  }>;
+}>;
 
 //запрос на оформление заказа
 const getOrderNumber = (ingredientsIdArray: string[]): Promise<TNewOrderResponse> => {
@@ -65,7 +71,7 @@ const submitResetPasswordRequest = (password: string, token: string): Promise<TM
         .then(res => checkResponse(res))
 }
 
-type TAuthResponse = TServerResponse<TUser & TTokens>;
+type TAuthResponse = TServerResponse<{user: TUser} & TTokens>;
 
 //запрос на регистрацию пользователя
 const submitRegistrationRequest = (email: string, password: string, name: string): Promise<TAuthResponse> => {
@@ -98,7 +104,7 @@ const submitLoginRequest = (email: string, password: string): Promise<TAuthRespo
     .then(res => checkResponse(res))
 }
 
-type TUserInfoResponse = TServerResponse<TUser>;
+export type TUserInfoResponse = TServerResponse<{user: TUser}>;
 
 const getUserInfoRequest = (): Promise<TUserInfoResponse> => {
     return fetch(`${NORMA_API}/auth/user`, {

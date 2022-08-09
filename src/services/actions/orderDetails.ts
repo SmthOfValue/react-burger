@@ -1,14 +1,20 @@
-import { getOrderNumber } from '../../utils/burger-api.js'
+import { getOrderNumber } from '../../utils/burger-api'
+import { TIngredient } from '../../utils/types';
 
-export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
-export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
-export const GET_ORDER_ERROR = 'GET_ORDER_ERROR';
+export const GET_ORDER_REQUEST: 'GET_ORDER_REQUEST' = 'GET_ORDER_REQUEST';
+export const GET_ORDER_SUCCESS: 'GET_ORDER_SUCCESS' = 'GET_ORDER_SUCCESS';
+export const GET_ORDER_ERROR: 'GET_ORDER_ERROR' = 'GET_ORDER_ERROR';
 
-export const SET_ORDER_MODAL = 'SET_ORDER_MODAL';
-export const RESET_ORDER_MODAL = 'RESET_ORDER_MODAL';
+export const SET_ORDER_MODAL: 'SET_ORDER_MODAL' = 'SET_ORDER_MODAL';
+export const RESET_ORDER_MODAL: 'RESET_ORDER_MODAL' = 'RESET_ORDER_MODAL';
 
-export function getOrder(orderData) {
-    return function(dispatch) {
+type TOrderData = {
+    data: TIngredient[];
+    bun: TIngredient;
+};
+
+export function getOrder(orderData: TOrderData) {
+    return function(dispatch: any) {
         dispatch({
             type: GET_ORDER_REQUEST
         });
@@ -43,7 +49,11 @@ export function getOrder(orderData) {
     };
 }
 
-export const resetOrderModal = () => {
+interface IResetOrderModalAction {
+    readonly type: typeof RESET_ORDER_MODAL;
+};
+
+export const resetOrderModal = (): IResetOrderModalAction => {
     return {
         type: RESET_ORDER_MODAL                   
     }

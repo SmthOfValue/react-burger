@@ -1,5 +1,5 @@
-import {submitResetPasswordRequest} from '../../utils/burger-api.js';
-import { resetForm } from './forms.js';
+import {submitResetPasswordRequest} from '../../utils/burger-api';
+import { resetForm } from './forms';
 
 export const RESET_PASSWORD_FORM_SET_VALUE = "RESET_PASSWORD_FORM_SET_VALUE";
 

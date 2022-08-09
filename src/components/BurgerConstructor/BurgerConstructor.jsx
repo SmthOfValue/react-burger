@@ -2,7 +2,7 @@ import React, {useMemo, useCallback} from 'react';
 import { Typography, Box, ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorStyles from './BurgerConstructor.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { getOrder } from '../../services/actions/orderDetails.js';
+import { getOrder } from '../../services/actions/orderDetails';
 import {useDrop} from 'react-dnd';
 import { addIngredient } from '../../services/actions/burgerConstructor';
 import { setBunsCount, increaseIngredientCount } from '../../services/actions/ingredients';

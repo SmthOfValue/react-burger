@@ -1,19 +1,24 @@
 import { getUserInfoRequest, setUserInfoRequest, refreshTokenRequest, logoutRequest } from "../../utils/burger-api";
 import { setTokens, removeTokens } from "../../utils/utils";
+import { TUserInfoResponse } from "../../utils/burger-api";
 
-export const PROFILE_REQUEST = "PROFILE_REQUEST";
-export const PROFILE_SUCCESS = "PROFILE_SUCESS";
-export const PROFILE_ERROR = "PROFILE_ERROR";
+export const PROFILE_REQUEST: "PROFILE_REQUEST" = "PROFILE_REQUEST";
+export const PROFILE_SUCCESS: "PROFILE_SUCESS" = "PROFILE_SUCESS";
+export const PROFILE_ERROR: "PROFILE_ERROR" = "PROFILE_ERROR";
 
-export const PROFILE_FORM_SET_VALUE = "PROFILE_FORM_SET_VALUE";
+export const PROFILE_FORM_SET_VALUE: "PROFILE_FORM_SET_VALUE" = "PROFILE_FORM_SET_VALUE";
 
-export const LOGOUT_REQUEST = "LOGOUT_REQUEST"
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-export const LOGOUT_ERROR = "LOGOUT_ERROR";
+export const LOGOUT_REQUEST: "LOGOUT_REQUEST" = "LOGOUT_REQUEST";
+export const LOGOUT_SUCCESS: "LOGOUT_SUCCESS" = "LOGOUT_SUCCESS";
+export const LOGOUT_ERROR: "LOGOUT_ERROR" = "LOGOUT_ERROR";
 
+interface ISetProfileFormValueAction {
+    type: typeof PROFILE_FORM_SET_VALUE;
+    field: string;
+    value: string;
+}
 
-
-export const setProfileFormValue = (field, value) => {
+export const setProfileFormValue = (field: string, value: string): ISetProfileFormValueAction => {
     return {
         type: PROFILE_FORM_SET_VALUE,
         field,
@@ -21,30 +26,32 @@ export const setProfileFormValue = (field, value) => {
     }
 }
 
+type TCallback = () => Promise<TUserInfoResponse>;
+
 //функция обертка для запросов с обработкой случаев, когда истек срок годности токена
-export const fetchWithRefresh = (callback, params) => {
-    return callback(params)
-    .then(res => res)
-    .catch(error => {
-        if (error.message !== "jwt expired") {
-            return Promise.reject(error);
-        } else {
-            return refreshTokenRequest()
-            .then(res => {
-                if (res && res.success) {
-                    setTokens(res);
-                    return Promise.resolve(callback(params))
-                }
-            })
-            .catch(error => {
-                return Promise.reject(error.message);
-            });
-        }
-    });
+export const fetchWithRefresh = (callback: TCallback): Promise<TUserInfoResponse | undefined> => {
+        return callback()
+        .then(res => res)
+        .catch(error => {
+            if (error.message !== "jwt expired") {
+                return Promise.reject(error);
+            } else {
+                return refreshTokenRequest()
+                .then(res => {
+                    if (res && res.success) {
+                        setTokens(res.accessToken, res.refreshToken);
+                        return Promise.resolve(callback())
+                    }
+                })
+                .catch(error => {
+                    return Promise.reject(error.message);
+                });
+            }
+        });
 }
 
 export const getUserInfo = () => {
-    return function(dispatch) {
+    return function(dispatch: any) {
         dispatch({
             type: PROFILE_REQUEST
         });
@@ -70,8 +77,8 @@ export const getUserInfo = () => {
     };
 }
 
-export const setUserInfo = (email, password, name) => {
-    return function(dispatch) {
+export const setUserInfo = (email: string, password: string, name: string) => {
+    return function(dispatch: any) {
         dispatch({
             type: PROFILE_REQUEST
         });
@@ -97,7 +104,7 @@ export const setUserInfo = (email, password, name) => {
 }
 
 export const logout = () => {
-    return function(dispatch) {
+    return function(dispatch: any) {
         dispatch({
             type: LOGOUT_REQUEST
         })

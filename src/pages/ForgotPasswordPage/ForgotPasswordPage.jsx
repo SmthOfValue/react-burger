@@ -4,7 +4,7 @@ import { Typography, Box, Input, Button } from '@ya.praktikum/react-developer-bu
 import forgotPasswordPageStyles from './ForgotPasswordPage.module.css';
 import {Link, useHistory} from 'react-router-dom';
 import { setForgotPasswordFormValue, submitForgotPassword } from '../../services/actions/forgotPassword';
-import {onButtonClick} from '../../utils/utils.js';
+import {onButtonClick} from '../../utils/utils';
 
 export const ForgotPasswordPage = () => {
 

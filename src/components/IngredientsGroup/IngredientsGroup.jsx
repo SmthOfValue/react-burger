@@ -5,7 +5,6 @@ import Ingredient from '../Ingredient/Ingredient.jsx';
 import { useDispatch } from 'react-redux';
 import ingredientsGroupStyles from './IngredientsGroup.module.css';
 import {ingredientPropType} from '../../utils/prop-types.js';
-import {setIngredientModal} from '../../services/actions/ingredientDetails.js';
 import { Link, useLocation } from 'react-router-dom';
 
 
@@ -37,13 +36,6 @@ const IngredientsGroup = ({children, ingredients, titleId, scrollRef}) => {
             </li>
         )
 }
-
-IngredientsGroup.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-    children: PropTypes.string.isRequired,
-    titleId: PropTypes.string.isRequired
-}
-
 
 
 

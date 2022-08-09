@@ -20,10 +20,10 @@ import {FeedPage} from '../../pages/FeedPage/FeedPage.jsx';
 import {OrderPage} from '../../pages/OrderPage/OrderPage.jsx';
 import { NotFoundPage } from '../../pages/NotFoundPage/NotFoundPage.jsx';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.jsx';
-import { getUserInfo } from '../../services/actions/profile.js';
-import { getCookie } from '../../utils/utils.js';
-import { getIngredients } from '../../services/actions/ingredients.js';
-import { resetOrderModal } from '../../services/actions/orderDetails.js';
+import { getUserInfo } from '../../services/actions/profile';
+import { getCookie } from '../../utils/utils';
+import { getIngredients } from '../../services/actions/ingredients';
+import { resetOrderModal } from '../../services/actions/orderDetails';
 
 
 

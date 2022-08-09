@@ -1,4 +1,4 @@
-import {refreshTokenRequest} from '../../utils/burger-api.js';
+import {refreshTokenRequest} from '../../utils/burger-api';
 
 export const socketMiddlewareWithReconnect = (wsActions, userWsActions) => {
     return store => {

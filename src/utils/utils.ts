@@ -1,5 +1,9 @@
+import {
+  TIngredient
+} from './types';
+
 //генератор уникальных ключей для метода map
-export const generateID = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
+export const generateID = (): string => Date.now().toString(36) + Math.random().toString(36).substr(2);
 
 //обработчик нажатия на кнопку
 export const onButtonClick = (form: HTMLFormElement) => {
@@ -7,7 +11,7 @@ export const onButtonClick = (form: HTMLFormElement) => {
 }
 
 //установщик cookie
-export function setCookie(name: string, value: string, props: Record<string, string | number | Date | boolean>) {
+export function setCookie(name: string, value: string, props?: Record<string, string | number | Date | boolean>) {
     props = props || {};
     let exp = props.expires;
     if (typeof exp == 'number' && exp) {
@@ -37,13 +41,13 @@ export function getCookie(name: string): string | undefined {
     return matches ? decodeURIComponent(matches[1]) : undefined;
   } 
 
-export const setTokens = (res) => {
+export const setTokens = (accessTokenString: string, refreshTokenString: string) => {
     let accessToken;
-    accessToken = res.accessToken.split('Bearer ')[1];
+    accessToken = accessTokenString.split('Bearer ')[1];
     if (accessToken) {                  
         setCookie('token', accessToken);
     }
-    localStorage.setItem('refreshToken', res.refreshToken);
+    localStorage.setItem('refreshToken', refreshTokenString);
 };
 
 export const removeTokens = () => {
@@ -52,24 +56,24 @@ export const removeTokens = () => {
 }
 
 //функция подсчета цены заказа
-export const calculateTotalPrice = (ingredients, orderIngredients) => {
+export const calculateTotalPrice = (ingredients: TIngredient[], orderIngredients: string[]): number => {
     //массив для подсчета цены заказа
     const ingredientsForTotalPrice = orderIngredients.filter((ingredient) => ingredient)
     .map((orderIngredient) =>
     ingredients.find((ingredient) => ingredient._id === orderIngredient));
 
-    const bun = ingredientsForTotalPrice.find(ingredient => ingredient.type === 'bun');
-    const middleIngredients = ingredientsForTotalPrice.filter(ingredient => ingredient.type !== 'bun');
+    const bun = ingredientsForTotalPrice.find(ingredient => ingredient?.type === 'bun');
+    const middleIngredients = ingredientsForTotalPrice.filter(ingredient => ingredient?.type !== 'bun');
 
     const total = (bun ? bun.price * 2 : 0) + middleIngredients.reduce((sum, ingredient) => {
-        return sum + ingredient.price
+        return ingredient ? sum + ingredient.price : sum;
     }, 0);
 
     return total;
 };
 
 //функция приведения времени в читаемый вид
-export const formatDate = (date) => {
+export const formatDate = (date: string): string => {
     const orderDate = Number(
       date
         .split('T')[0]

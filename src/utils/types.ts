@@ -1,13 +1,28 @@
 export type TOrder = {
-    number: number;
+    readonly number: number;
 };
 
 export type TUser = {
-    name: string;
-    email: string;
+    readonly name: string;
+    readonly email: string;
 };
 
 export type TTokens = {
-    accessToken: string;
-    refreshToken: string;
+    readonly accessToken: string;
+    readonly refreshToken: string;
 };
+
+export type TIngredient = {
+    readonly _id: string;
+    readonly name: string;
+    readonly type: "bun" | "main" | "sauce";
+    readonly proteins: number;
+    readonly fat: number;
+    readonly carbohydrates: number;
+    readonly calories: number;
+    readonly price: number;
+    readonly image: string;
+    readonly image_mobile: string;
+    readonly image_large: string;
+    readonly __v: number;
+}

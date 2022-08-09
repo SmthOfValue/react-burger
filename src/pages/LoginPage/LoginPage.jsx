@@ -4,7 +4,7 @@ import { Typography, Box, Input, Button, PasswordInput } from '@ya.praktikum/rea
 import loginPageStyles from './LoginPage.module.css';
 import {Link, Redirect} from 'react-router-dom';
 import {setLoginFormValue, submitLogin} from '../../services/actions/login';
-import {onButtonClick} from '../../utils/utils.js';
+import {onButtonClick} from '../../utils/utils';
 
 export const LoginPage = () => {
 
