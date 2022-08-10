@@ -1,5 +1,7 @@
 import { getOrderNumber } from '../../utils/burger-api'
-import { TIngredient } from '../../utils/types';
+import type { 
+    TIngredient,
+    TOrder } from '../../utils/types';
 
 export const GET_ORDER_REQUEST: 'GET_ORDER_REQUEST' = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS: 'GET_ORDER_SUCCESS' = 'GET_ORDER_SUCCESS';
@@ -7,6 +9,26 @@ export const GET_ORDER_ERROR: 'GET_ORDER_ERROR' = 'GET_ORDER_ERROR';
 
 export const SET_ORDER_MODAL: 'SET_ORDER_MODAL' = 'SET_ORDER_MODAL';
 export const RESET_ORDER_MODAL: 'RESET_ORDER_MODAL' = 'RESET_ORDER_MODAL';
+
+interface IGetOrderRequestAction {
+    readonly type: typeof GET_ORDER_REQUEST;
+}
+
+interface IGetOrderSuccessAction {
+    readonly type: typeof GET_ORDER_SUCCESS;
+    order: {
+        name: string;
+        number: number;
+    }
+}
+
+interface IGetOrderErrorAction {
+    readonly type: typeof GET_ORDER_ERROR;
+}
+
+interface ISetOrderModalAction {
+    readonly type: typeof SET_ORDER_MODAL;
+}
 
 type TOrderData = {
     data: TIngredient[];
@@ -58,3 +80,10 @@ export const resetOrderModal = (): IResetOrderModalAction => {
         type: RESET_ORDER_MODAL                   
     }
 }
+
+export type TOrderDetailsActions = 
+    | IResetOrderModalAction
+  | IGetOrderRequestAction
+  | IGetOrderSuccessAction
+  | IGetOrderErrorAction
+  | ISetOrderModalAction;

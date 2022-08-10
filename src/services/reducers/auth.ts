@@ -19,10 +19,23 @@ import {
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS
 } from '../actions/profile';
-import {FORM_RESET} from '../actions/forms';
+import {
+    FORM_RESET,
+    TFormsActions
+} from '../actions/forms';
+import type { TRegistrationActions } from '../actions/registration';
+import type { TProfileActions } from "../actions/profile";
+import type { TLoginActions } from "../actions/login";
 
+type TRegistrationFormState = {
+    form: {
+        email: string;
+        password: string;
+        name: string
+    };
+}
 
-const registrationFormInitialState = {
+const registrationFormInitialState: TRegistrationFormState = {
     form: {
         email: '',
         password: '',
@@ -30,14 +43,29 @@ const registrationFormInitialState = {
     }    
 }
 
-const loginFormInitialState = {
+type TLoginFormState = {
+    form: {
+        email: string;
+        password: string;
+    };
+};
+
+const loginFormInitialState: TLoginFormState = {
     form: {
         email: '',
         password: ''
     }    
 }
 
-const profileFormInitialState = {
+type TProfileFormState = {
+    form: {
+        email: string;
+        password: string;
+        name: string;
+    };
+}
+
+const profileFormInitialState: TProfileFormState = {
     form: {
         email: '',
         password: '',
@@ -45,7 +73,28 @@ const profileFormInitialState = {
     }
 }
 
-const userInitialState = {
+type TUserState = {
+    email: string;
+    name: string;
+    isAuth: boolean;
+
+    registerRequest: boolean;
+    registerError: boolean;
+
+    loginRequest: boolean;
+    loginError: boolean;
+
+    profileUpdateRequest: boolean;
+    profileUpdateError: boolean;
+    
+    tokenRefreshRequest: boolean;
+    tokenRefreshError: boolean;
+
+    logoutRequest: boolean;
+    logoutError: boolean;
+};
+
+const userInitialState: TUserState = {
     email: '',
     name: '',
 
@@ -67,7 +116,7 @@ const userInitialState = {
     logoutError: false
 }
 
-export const profileFormReducer = (state = profileFormInitialState, action) => {
+export const profileFormReducer = (state = profileFormInitialState, action: TProfileActions): TProfileFormState => {
     switch (action.type) {
         case PROFILE_FORM_SET_VALUE: {
             return {
@@ -84,7 +133,7 @@ export const profileFormReducer = (state = profileFormInitialState, action) => {
     }
 };
 
-export const registrationFormReducer = (state = registrationFormInitialState, action) => {
+export const registrationFormReducer = (state = registrationFormInitialState, action: TRegistrationActions | TFormsActions): TRegistrationFormState => {
     switch (action.type) {
         case REGISTRATION_FORM_SET_VALUE: {
             return {
@@ -104,7 +153,7 @@ export const registrationFormReducer = (state = registrationFormInitialState, ac
     }
 };
 
-export const loginFormReducer = (state = loginFormInitialState, action) => {
+export const loginFormReducer = (state = loginFormInitialState, action: TLoginActions | TFormsActions) => {
     switch (action.type) {
         case LOGIN_FORM_SET_VALUE: {
             return {
@@ -124,7 +173,7 @@ export const loginFormReducer = (state = loginFormInitialState, action) => {
     }
 };
 
-export const userReducer = (state = userInitialState, action) => {
+export const userReducer = (state = userInitialState, action: TProfileActions | TFormsActions | TRegistrationActions | TLoginActions): TUserState => {
     switch (action.type) {
         case PROFILE_REQUEST: {
             return {

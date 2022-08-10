@@ -7,7 +7,18 @@ import {
     USER_WS_CONNECTION_CLOSED,
     USER_WS_CONNECTION_SUCCESS,
     USER_WS_CONNECTION_ERROR
-} from '../actions/wsActionTypes.js';
+} from '../actions/wsActionTypes';
+import type { TWebSocketActions } from '../actions/wsActionTypes';
+import type {TOrder} from '../../utils/types';
+
+type TWebSocketState = {
+  wsConnected: boolean;
+  userWsConnected: boolean;
+  orders: ReadonlyArray<TOrder>;
+  total: number;
+  totalToday: number;
+  error: Event | undefined;
+};
 
 const initialState = {
     wsConnected: false,
@@ -18,7 +29,7 @@ const initialState = {
     error: undefined
 }
 
-export const wsReducer = (state = initialState, action) => {
+export const wsReducer = (state = initialState, action: TWebSocketActions): TWebSocketState => {
     switch (action.type) {
       case WS_CONNECTION_SUCCESS:
         return {

@@ -1,7 +1,7 @@
 export const FORM_RESET: "FORM_RESET" = "FORM_RESET";
 
-interface IResetFormAction {
-    type: typeof FORM_RESET;
+export interface IResetFormAction {
+    readonly type: typeof FORM_RESET;
 }
 
 export const resetForm = (): IResetFormAction => {
@@ -9,3 +9,5 @@ export const resetForm = (): IResetFormAction => {
         type: FORM_RESET                   
     }
 }
+
+export type TFormsActions = IResetFormAction;

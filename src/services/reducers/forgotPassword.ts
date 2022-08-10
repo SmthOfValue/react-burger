@@ -4,10 +4,18 @@ import {
     FORGOT_PASSWORD_REQUEST,
     FORGOT_PASSWORD_SUCCESS
 } from "../actions/forgotPassword";
-import { FORM_RESET } from "../actions/forms";
+import { FORM_RESET, TFormsActions } from "../actions/forms";
+import type { TForgotPasswordActions } from "../actions/forgotPassword";
 
+type TForgotPasswordState = {
+    form: {
+        email: string;
+    };
+    forgotPasswordRequest: boolean;
+    forgotPasswordError: boolean;
+}
 
-const forgotPasswordFormInitialState = {
+const forgotPasswordFormInitialState: TForgotPasswordState = {
     form: {
         email: ''
     },
@@ -15,7 +23,7 @@ const forgotPasswordFormInitialState = {
     forgotPasswordError: false
 };
 
-export const forgotPasswordReducer = (state = forgotPasswordFormInitialState, action) => {
+export const forgotPasswordReducer = (state = forgotPasswordFormInitialState, action: TForgotPasswordActions | TFormsActions): TForgotPasswordState => {
     switch (action.type) {
         case FORGOT_PASSWORD_FORM_SET_VALUE: {
             return {

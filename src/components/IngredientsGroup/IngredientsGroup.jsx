@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import { Typography, Box } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from '../Ingredient/Ingredient.jsx';
 import { useDispatch } from 'react-redux';
 import ingredientsGroupStyles from './IngredientsGroup.module.css';
-import {ingredientPropType} from '../../utils/prop-types.js';
 import { Link, useLocation } from 'react-router-dom';
 
 
@@ -36,7 +35,6 @@ const IngredientsGroup = ({children, ingredients, titleId, scrollRef}) => {
             </li>
         )
 }
-
 
 
 export default IngredientsGroup;

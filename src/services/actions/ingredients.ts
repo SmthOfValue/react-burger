@@ -1,4 +1,5 @@
 import { getIngredientsRequest } from '../../utils/burger-api';
+import type {TIngredient} from '../../utils/types';
 
 export const GET_INGREDIENTS_REQUEST: 'GET_INGREDIENTS_REQUEST' = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS: 'GET_INGREDIENTS_SUCCESS' = 'GET_INGREDIENTS_SUCCESS';
@@ -6,6 +7,20 @@ export const GET_INGREDIENTS_ERROR: 'GET_INGREDIENTS_ERROR' = 'GET_INGREDIENTS_E
 export const INCREASE_INGREDIENT_COUNT: 'INCREASE_INGREDIENT_COUNT' = 'INCREASE_INGREDIENT_COUNT';
 export const DECREASE_INGREDIENT_COUNT: 'DECREASE_INGREDIENT_COUNT' = 'DECREASE_INGREDIENT_COUNT';
 export const SET_BUNS_COUNT: 'SET_BUNS_COUNT' = 'SET_BUNS_COUNT';
+
+interface IGetIngredientsRequestAction {
+    readonly type: typeof GET_INGREDIENTS_REQUEST;
+}
+
+interface IGetIngredientsSuccessAction {
+    readonly type: typeof GET_INGREDIENTS_SUCCESS;
+    ingredients: ReadonlyArray<TIngredient>
+}
+
+interface IGetIngredientsErrorAction {
+    readonly type: typeof GET_INGREDIENTS_ERROR;
+}
+
 
 export function getIngredients() {
     return function(dispatch: any) {
@@ -68,3 +83,11 @@ export const increaseIngredientCount = (id: string): IIncreaseIngredientCountAct
         id
     }
 }
+
+export type TIngredientsActions = 
+    | IDecreaseIngredientCountAction
+  | ISetBunsCountAction
+  | IIncreaseIngredientCountAction
+  | IGetIngredientsRequestAction
+  | IGetIngredientsSuccessAction
+  | IGetIngredientsErrorAction;

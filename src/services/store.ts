@@ -1,6 +1,6 @@
-import { rootReducer } from './reducers/reducers.js';
+import { rootReducer } from './reducers/reducers';
 import { compose, createStore, applyMiddleware } from 'redux';
-import { socketMiddlewareWithReconnect } from './middleware/socketMiddleware.js';
+import { socketMiddlewareWithReconnect } from './middleware/socketMiddleware';
 import thunk from 'redux-thunk';
 import { 
   WS_CONNECTION_CLOSED,
@@ -15,7 +15,18 @@ import {
   USER_WS_CONNECTION_SUCCESS,
   USER_WS_CONNECTION_END,
   USER_WS_GET_ORDERS
- } from './actions/wsActionTypes.js';
+ } from './actions/wsActionTypes';
+
+export type RootState = ReturnType<typeof rootReducer>;
+
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  TApplicationActions
+>;
+
+export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
 
 const wsActions = {
   onWsClose: WS_CONNECTION_CLOSED,

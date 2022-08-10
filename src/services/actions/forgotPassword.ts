@@ -20,6 +20,18 @@ export const setForgotPasswordFormValue = (value: string): ISetForgotPasswordFor
     }
 }
 
+interface IForgotPasswordRequestAction {
+    readonly type: typeof FORGOT_PASSWORD_REQUEST;
+};
+
+interface IForgotPasswordSuccessAction {
+    readonly type: typeof FORGOT_PASSWORD_SUCCESS;
+};
+
+interface IForgotpasswordErrorAction {
+    readonly type: typeof FORGOT_PASSWORD_ERROR;
+};
+
 export const submitForgotPassword = (email: string, history: RouteComponentProps['history']) => {
     return function(dispatch: any) {
         dispatch({
@@ -50,3 +62,9 @@ export const submitForgotPassword = (email: string, history: RouteComponentProps
         );
     };
 }
+
+export type TForgotPasswordActions = 
+    | ISetForgotPasswordFormValueAction
+  | IForgotPasswordRequestAction
+  | IForgotPasswordSuccessAction
+  | IForgotpasswordErrorAction;

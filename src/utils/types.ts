@@ -1,5 +1,10 @@
 export type TOrder = {
+    readonly ingredients: ReadonlyArray<string>;
+    readonly _id: string;
+    readonly status: "done" | "pending" | "created";
     readonly number: number;
+    readonly createdAt: string;
+    readonly updatedAt: string;
 };
 
 export type TUser = {
@@ -24,5 +29,5 @@ export type TIngredient = {
     readonly image: string;
     readonly image_mobile: string;
     readonly image_large: string;
-    readonly __v: number;
+    __v: number;
 }

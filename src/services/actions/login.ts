@@ -1,12 +1,26 @@
 import {submitLoginRequest} from '../../utils/burger-api';
 import {setTokens} from '../../utils/utils';
 import { resetForm } from './forms';
+import type {TUser} from '../../utils/types';
 
 export const LOGIN_FORM_SET_VALUE: "LOGIN_FORM_SET_VALUE" = "LOGIN_FORM_SET_VALUE";
 
 export const LOGIN_REQUEST: "LOGIN_REQUEST" = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS: "LOGIN_SUCCESS" = "LOGIN_SUCCESS";
 export const LOGIN_ERROR: "LOGIN_ERROR" = "LOGIN_ERROR";
+
+interface ILoginRequestAction {
+    readonly type: typeof LOGIN_REQUEST;
+}
+
+interface ILoginSuccessAction {
+    readonly type: typeof LOGIN_SUCCESS;
+    payload: TUser;
+}
+
+interface ILoginErrorAction {
+    readonly type: typeof LOGIN_ERROR;
+}
 
 interface ISetLoginFormValueAction {
     readonly type: typeof LOGIN_FORM_SET_VALUE;
@@ -48,3 +62,9 @@ export const submitLogin = (email: string, password: string) => {
         );
     };
 }
+
+export type TLoginActions = 
+    | ISetLoginFormValueAction
+  | ILoginRequestAction
+  | ILoginSuccessAction
+  | ILoginErrorAction;

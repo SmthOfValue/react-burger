@@ -1,6 +1,7 @@
 import { getUserInfoRequest, setUserInfoRequest, refreshTokenRequest, logoutRequest } from "../../utils/burger-api";
 import { setTokens, removeTokens } from "../../utils/utils";
 import { TUserInfoResponse } from "../../utils/burger-api";
+import { TUser } from "../../utils/types";
 
 export const PROFILE_REQUEST: "PROFILE_REQUEST" = "PROFILE_REQUEST";
 export const PROFILE_SUCCESS: "PROFILE_SUCESS" = "PROFILE_SUCESS";
@@ -12,8 +13,33 @@ export const LOGOUT_REQUEST: "LOGOUT_REQUEST" = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS: "LOGOUT_SUCCESS" = "LOGOUT_SUCCESS";
 export const LOGOUT_ERROR: "LOGOUT_ERROR" = "LOGOUT_ERROR";
 
+interface IProfileRequestAction {
+    readonly type: typeof PROFILE_REQUEST;
+}
+
+interface IProfileSuccessAction {
+    readonly type: typeof PROFILE_SUCCESS;
+    payload: TUser;
+}
+
+interface IProfileErrorAction {
+    readonly type: typeof PROFILE_ERROR;
+}
+
+interface ILogoutRequestAction {
+    readonly type: typeof LOGOUT_REQUEST;
+}
+
+interface ILogoutSuccessAction {
+    readonly type: typeof LOGOUT_SUCCESS;
+}
+
+interface ILogoutErrorAction {
+    readonly type: typeof LOGOUT_ERROR;
+}
+
 interface ISetProfileFormValueAction {
-    type: typeof PROFILE_FORM_SET_VALUE;
+    readonly type: typeof PROFILE_FORM_SET_VALUE;
     field: string;
     value: string;
 }
@@ -130,3 +156,11 @@ export const logout = () => {
     };
 }
 
+export type TProfileActions = 
+    | ISetProfileFormValueAction
+  | IProfileRequestAction
+  | IProfileSuccessAction
+  | IProfileErrorAction
+  | ILogoutRequestAction
+  | ILogoutSuccessAction
+  | ILogoutErrorAction;

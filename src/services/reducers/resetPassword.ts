@@ -4,11 +4,20 @@ import {
     RESET_PASSWORD_ERROR,
     RESET_PASSWORD_SUCCESS
 } from "../actions/resetPassword";
-import { FORM_RESET } from "../actions/forms";
+import { FORM_RESET, TFormsActions } from "../actions/forms";
+import type { TResetPasswordActions } from "../actions/resetPassword";
 
+type TResetPasswordState = {
+    form: {
+        password: string;
+        token: string;
+    }
+    resetPasswordRequest: boolean;
+    resetPasswordError: boolean;
+    passwordResetSuccess: boolean;
+}
 
-
-const resetPasswordFormInitialState = {
+const resetPasswordFormInitialState: TResetPasswordState = {
     form: {
         password: '',
         token: ''
@@ -21,7 +30,7 @@ const resetPasswordFormInitialState = {
 
 
 
-export const resetPasswordReducer = (state = resetPasswordFormInitialState, action) => {
+export const resetPasswordReducer = (state = resetPasswordFormInitialState, action: TResetPasswordActions | TFormsActions): TResetPasswordState => {
     switch (action.type) {
         case RESET_PASSWORD_FORM_SET_VALUE: {
             return {

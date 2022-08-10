@@ -1,4 +1,5 @@
 import {submitRegistrationRequest} from '../../utils/burger-api';
+import { TUser } from '../../utils/types';
 import {setTokens} from '../../utils/utils';
 import { resetForm } from './forms';
 
@@ -8,13 +9,26 @@ export const REGISTRATION_REQUEST: "REGISTRATION_REQUEST" = "REGISTRATION_REQUES
 export const REGISTRATION_SUCCESS: "REGISTRATION_SUCCESS" = "REGISTRATION_SUCCESS";
 export const REGISTRATION_ERROR: "REGISTRATION_ERROR" = "REGISTRATION_ERROR";
 
-interface ISetRegistrationFormValue {
-    type: typeof REGISTRATION_FORM_SET_VALUE;
+interface IRegistrationRequestAction {
+    readonly type: typeof REGISTRATION_REQUEST;
+}
+
+interface IRegistrationSuccessAction {
+    readonly type: typeof REGISTRATION_SUCCESS;
+    payload: TUser;
+}
+
+interface IRegistrationErrorAction {
+    readonly type: typeof REGISTRATION_ERROR;
+}
+
+interface ISetRegistrationFormValueAction {
+    readonly type: typeof REGISTRATION_FORM_SET_VALUE;
     field: string;
     value: string;
 }
 
-export const setRegistrationFormValue = (field: string, value: string): ISetRegistrationFormValue => {
+export const setRegistrationFormValue = (field: string, value: string): ISetRegistrationFormValueAction => {
     return {
         type: REGISTRATION_FORM_SET_VALUE,
         field,
@@ -48,3 +62,9 @@ export const submitRegistration = (email: string, password: string, name: string
         );
     };
 }
+
+export type TRegistrationActions = 
+    | ISetRegistrationFormValueAction
+  | IRegistrationRequestAction
+  | IRegistrationSuccessAction
+  | IRegistrationErrorAction;

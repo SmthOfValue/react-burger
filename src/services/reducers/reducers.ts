@@ -19,31 +19,57 @@ import {
     REMOVE_INGREDIENT,
     MOVE_INGREDIENT
 } from '../actions/burgerConstructor'
-import { generateID } from '../../utils/utils';
 import update from 'immutability-helper';
-import {resetPasswordReducer} from './resetPassword.js';
-import {forgotPasswordReducer} from './forgotPassword.js';
+import {resetPasswordReducer} from './resetPassword';
+import {forgotPasswordReducer} from './forgotPassword';
 import { registrationFormReducer,
     userReducer,
     loginFormReducer,
     profileFormReducer
-} from './auth.js';
-import { wsReducer } from './wsReducer.js';
+} from './auth';
+import { wsReducer } from './wsReducer';
+import type {
+    TIngredient,
+    TOrder
+} from '../../utils/types';
+import type { TIngredientsActions } from '../actions/ingredients';
+import type { TBurgerConstructorActions } from '../actions/burgerConstructor';
+import type { TOrderDetailsActions } from '../actions/orderDetails';
 
 
-const ingredientsInitialState = {
+type TIngredientsState = {
+    ingredients: ReadonlyArray<TIngredient>;
+    ingredientsRequest: boolean;
+    ingredientsError: boolean;
+}
+
+const ingredientsInitialState: TIngredientsState = {
     ingredients: [],
     ingredientsRequest: false,
     ingredientsError: false,
 }
 
-const constructorInitialState = {
+type TConstructorState = {
+    bun: TIngredient & {constructorId: string} | {};
+    data: Array<TIngredient & {constructorId: string}>;
+}
+
+const constructorInitialState: TConstructorState = {
     bun: {},
     data: []
 }
 
+type TOrderState = {
+    order: {
+        name: string;
+        number: number;
+    } | {};
+    orderRequest: boolean;
+    orderError: boolean;
+    modalIsOpen: boolean;
+}
 
-const orderInitialState = {
+const orderInitialState: TOrderState = {
     order: {},
     orderRequest: false,
     orderError: false,
@@ -51,7 +77,7 @@ const orderInitialState = {
 }
 
 
-const ingredientsReducer = (state = ingredientsInitialState, action) => {
+const ingredientsReducer = (state = ingredientsInitialState, action: TIngredientsActions): TIngredientsState => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {
@@ -102,7 +128,7 @@ const ingredientsReducer = (state = ingredientsInitialState, action) => {
     }
 }
 
-const constructorReducer = (state = constructorInitialState, action) => {
+const constructorReducer = (state = constructorInitialState, action: TBurgerConstructorActions): TConstructorState => {
     switch (action.type) {
         case ADD_INGREDIENT: {
             if (action.payload.type === "bun") {
@@ -141,7 +167,7 @@ const constructorReducer = (state = constructorInitialState, action) => {
 }
 
 
-const orderReducer = (state = orderInitialState, action) => {
+const orderReducer = (state = orderInitialState, action: TOrderDetailsActions): TOrderState => {
     switch (action.type) {
         case GET_ORDER_REQUEST: {
             return {

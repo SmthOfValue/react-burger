@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Typography, Box, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientStyles from './ingredient.module.css';
-import {ingredientPropType} from '../../utils/prop-types.js';
+
 import { useDrag } from 'react-dnd';
 
 
@@ -30,8 +29,5 @@ const Ingredient = ({ingredient}) => {
     )
 }
 
-Ingredient.propTypes = {
-    ingredient: ingredientPropType.isRequired
-}
 
 export default Ingredient;

@@ -1,5 +1,5 @@
 import { generateID } from "../../utils/utils";
-import { TIngredient } from "../../utils/types";
+import type { TIngredient } from "../../utils/types";
 
 export const ADD_INGREDIENT: 'ADD_INGREDIENT' = 'ADD_INGREDIENT';
 export const REMOVE_INGREDIENT: 'REMOVE_INGREDIENT' = 'REMOVE_INGREDIENT';
@@ -45,3 +45,8 @@ export const moveIngredient = (dragIndex: number, hoverIndex: number): IMoveIngr
         hoverIndex
     }
 }
+
+export type TBurgerConstructorActions = 
+    | IAddIngredientAction
+  | IRemoveIngredientAction
+  | IMoveIngredientAction;

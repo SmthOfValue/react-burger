@@ -1,13 +1,12 @@
 import { NORMA_API } from './constants.js';
 import {getCookie} from './utils';
 import {
-    TOrder,
     TUser,
     TTokens,
     TIngredient
 } from './types';
 
-type TServerResponse<T> = T & { success: boolean; };
+type TServerResponse<T> = T & { readonly success: boolean; };
 
 
 const checkResponse = <T>(res: Response): Promise<T> => {
@@ -25,8 +24,10 @@ const getIngredientsRequest = (): Promise<TIngredientsResponse> => {
 };
 
 type TNewOrderResponse = TServerResponse<{
-    order: TOrder;
-    name: string;
+    order: {
+        readonly number: number;
+    };
+    readonly name: string;
 }>;
 
 //запрос на оформление заказа
@@ -42,7 +43,7 @@ const getOrderNumber = (ingredientsIdArray: string[]): Promise<TNewOrderResponse
         .then(res => checkResponse(res))
 };
 
-type TMessageResponse = TServerResponse<{ message: string }>
+type TMessageResponse = TServerResponse<{ readonly message: string }>
 
 //запрос на сброс пароля с отправкой email
 const submitForgotPasswordRequest = (email: string): Promise<TMessageResponse> => {
@@ -134,6 +135,7 @@ const setUserInfoRequest = (email: string, password: string, name: string): Prom
 }
 
 type TTokenResponse = TServerResponse<TTokens>;
+
 const refreshTokenRequest = (): Promise<TTokenResponse> => {
     const refreshToken = localStorage.getItem('refreshToken');
     return fetch(`${NORMA_API}/auth/token`, {
