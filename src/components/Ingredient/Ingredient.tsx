@@ -1,13 +1,21 @@
-import React from 'react';
-import { Typography, Box, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, {FC} from 'react';
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientStyles from './ingredient.module.css';
-
+import type { TIngredient } from '../../utils/types';
 import { useDrag } from 'react-dnd';
 
+interface IIngredientProps {
+    ingredient: TIngredient;
+}
 
-const Ingredient = ({ingredient}) => {
+interface IDragItem {
+    type: "ingredient";
+    item: TIngredient;
+}
 
-    const [{}, ingredientRef] = useDrag(() => ({
+const Ingredient: FC<IIngredientProps> = ({ingredient}) => {
+
+    const [, ingredientRef] = useDrag((): IDragItem => ({
         type: "ingredient",
         item: ingredient
     }))

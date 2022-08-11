@@ -78,18 +78,21 @@ interface IUserWsGetOrdersAction {
     payload: TWebSocketResponse;
 }
 
-
-
-export type TWebSocketActions = 
+export type TFeedWebSocketActions = 
     | IWsConnectionStartAction
+    | IWsConnectionSuccessAction
+    | IWsConnectionErrorAction
+    | IWsConnectionClosedAction
+    | IWsConnectionEndAction
+    | IWsGetOrdersAction
+;
+
+export type TProfileOrdersWebSocketActions = 
   | IUserWsConnectionStartAction
-  | IWsConnectionSuccessAction
   | IUserWsConnectionSuccessAction
-  | IWsConnectionErrorAction
   | IUserWsConnectionErrorAction
-  | IWsConnectionClosedAction
   | IUserWsConnectionClosedAction
-  | IWsConnectionEndAction
   | IUserWsConnectionEndAction
-  | IWsGetOrdersAction
   | IUserWsGetOrdersAction;
+
+export type TWebSocketActions = TFeedWebSocketActions | TProfileOrdersWebSocketActions;

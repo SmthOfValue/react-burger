@@ -1,5 +1,6 @@
 import {submitResetPasswordRequest} from '../../utils/burger-api';
 import { resetForm } from './forms';
+import { AppThunk } from '../store';
 
 export const RESET_PASSWORD_FORM_SET_VALUE: "RESET_PASSWORD_FORM_SET_VALUE" = "RESET_PASSWORD_FORM_SET_VALUE";
 
@@ -33,12 +34,12 @@ export const setResetPasswordFormValue = (field: string, value: string): ISetRes
     }
 }
 
-export const submitResetPassword = (password: string, token: string) => {
-    return function(dispatch: any) {
+export const submitResetPassword = (password: string, token: string): AppThunk<Promise<unknown>> => {
+    return function(dispatch) {
         dispatch({
             type: RESET_PASSWORD_REQUEST
         });
-        submitResetPasswordRequest(password, token)
+        return submitResetPasswordRequest(password, token)
         .then(res => {
             if (res && res.success) {
                 dispatch({
@@ -52,8 +53,8 @@ export const submitResetPassword = (password: string, token: string) => {
             }
         })
         .catch(error => dispatch({
-            type: RESET_PASSWORD_ERROR
-        })
+                type: RESET_PASSWORD_ERROR
+            })
         );
     };
 }

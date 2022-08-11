@@ -1,7 +1,6 @@
-import { getOrderNumber } from '../../utils/burger-api'
-import type { 
-    TIngredient,
-    TOrder } from '../../utils/types';
+import { getOrderNumber } from '../../utils/burger-api';
+import type { TIngredient } from '../../utils/types';
+import type { AppThunk } from '../store';
 
 export const GET_ORDER_REQUEST: 'GET_ORDER_REQUEST' = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS: 'GET_ORDER_SUCCESS' = 'GET_ORDER_SUCCESS';
@@ -35,14 +34,17 @@ type TOrderData = {
     bun: TIngredient;
 };
 
-export function getOrder(orderData: TOrderData) {
-    return function(dispatch: any) {
+export function getOrder(orderData: TOrderData): AppThunk<Promise<unknown>> {
+    return function(dispatch) {
         dispatch({
             type: GET_ORDER_REQUEST
         });
+        dispatch({
+            type: SET_ORDER_MODAL
+        });
         const idArray = orderData.data.map((ingredient) => ingredient._id);
         idArray.push(orderData.bun._id);
-        getOrderNumber(idArray)
+        return getOrderNumber(idArray)
         .then(res => {
             if (res && res.success) {
                 dispatch({
@@ -58,11 +60,6 @@ export function getOrder(orderData: TOrderData) {
                 });
             }
         })
-        .then(
-            dispatch({
-                type: SET_ORDER_MODAL
-            })
-        )
         .catch(error => dispatch(
             {
                 type: GET_ORDER_ERROR

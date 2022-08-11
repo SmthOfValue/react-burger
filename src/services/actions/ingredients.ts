@@ -1,5 +1,6 @@
 import { getIngredientsRequest } from '../../utils/burger-api';
 import type {TIngredient} from '../../utils/types';
+import { AppThunk } from '../store';
 
 export const GET_INGREDIENTS_REQUEST: 'GET_INGREDIENTS_REQUEST' = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS: 'GET_INGREDIENTS_SUCCESS' = 'GET_INGREDIENTS_SUCCESS';
@@ -22,12 +23,12 @@ interface IGetIngredientsErrorAction {
 }
 
 
-export function getIngredients() {
-    return function(dispatch: any) {
+export function getIngredients(): AppThunk<Promise<unknown>> {
+    return function(dispatch) {
         dispatch({
             type: GET_INGREDIENTS_REQUEST
         });
-        getIngredientsRequest()
+        return getIngredientsRequest()
         .then(res => {
             if (res && res.success) {
                 dispatch({

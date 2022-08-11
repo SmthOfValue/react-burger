@@ -1,21 +1,22 @@
-import React from 'react';
-import { Typography, Box } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, {FC} from 'react';
 import IngredientDetailsStyles from './IngredientDetails.module.css';
 import IngredientNutritionItem from '../IngredientNutritionItem/IngredientNutritionItem';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 import {useParams, useLocation} from 'react-router-dom';
+import type { TIngredient } from '../../utils/types';
+
+interface ILocationState {
+    background: Location;
+}
 
 
+const IngredientDetails: FC = () => {
 
-
-
-const IngredientDetails = () => {
-
-    const { id } = useParams();
-    const ingredients = useSelector(store => store.ingredients.ingredients );   
+    const { id } = useParams<{ id: string }>();
+    const ingredients: ReadonlyArray<TIngredient> = useSelector(store => store.ingredients.ingredients );   
     const ingredientData = ingredients.find(ingredient => ingredient._id === id);
 
-    const location = useLocation();
+    const location = useLocation<ILocationState>();
     const background = location.state && location.state.background;
     
     return (

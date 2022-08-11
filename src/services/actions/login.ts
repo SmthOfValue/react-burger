@@ -2,6 +2,7 @@ import {submitLoginRequest} from '../../utils/burger-api';
 import {setTokens} from '../../utils/utils';
 import { resetForm } from './forms';
 import type {TUser} from '../../utils/types';
+import type { AppThunk } from '../store';
 
 export const LOGIN_FORM_SET_VALUE: "LOGIN_FORM_SET_VALUE" = "LOGIN_FORM_SET_VALUE";
 
@@ -36,12 +37,12 @@ export const setLoginFormValue = (field: string, value: string): ISetLoginFormVa
     }
 }
 
-export const submitLogin = (email: string, password: string) => {
-    return function(dispatch: any) {
+export const submitLogin = (email: string, password: string): AppThunk<Promise<unknown>> => {
+    return function(dispatch) {
         dispatch({
             type: LOGIN_REQUEST
         });
-        submitLoginRequest(email, password)
+        return submitLoginRequest(email, password)
         .then(res => {
             if (res && res.success) {
                 dispatch({

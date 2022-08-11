@@ -2,6 +2,7 @@ import { getUserInfoRequest, setUserInfoRequest, refreshTokenRequest, logoutRequ
 import { setTokens, removeTokens } from "../../utils/utils";
 import { TUserInfoResponse } from "../../utils/burger-api";
 import { TUser } from "../../utils/types";
+import { AppThunk } from "../store";
 
 export const PROFILE_REQUEST: "PROFILE_REQUEST" = "PROFILE_REQUEST";
 export const PROFILE_SUCCESS: "PROFILE_SUCESS" = "PROFILE_SUCESS";
@@ -76,12 +77,12 @@ export const fetchWithRefresh = (callback: TCallback): Promise<TUserInfoResponse
         });
 }
 
-export const getUserInfo = () => {
-    return function(dispatch: any) {
+export const getUserInfo = (): AppThunk<Promise<unknown>> => {
+    return function(dispatch) {
         dispatch({
             type: PROFILE_REQUEST
         });
-        fetchWithRefresh(getUserInfoRequest)
+        return fetchWithRefresh(getUserInfoRequest)
         .then(res => {
             if (res && res.success) {
                 dispatch({
@@ -103,12 +104,12 @@ export const getUserInfo = () => {
     };
 }
 
-export const setUserInfo = (email: string, password: string, name: string) => {
-    return function(dispatch: any) {
+export const setUserInfo = (email: string, password: string, name: string): AppThunk<Promise<unknown>> => {
+    return function(dispatch) {
         dispatch({
             type: PROFILE_REQUEST
         });
-        fetchWithRefresh(() => setUserInfoRequest(email, password, name))
+        return fetchWithRefresh(() => setUserInfoRequest(email, password, name))
         .then(res => {
             if (res && res.success) {
                 dispatch({
@@ -129,12 +130,12 @@ export const setUserInfo = (email: string, password: string, name: string) => {
     };
 }
 
-export const logout = () => {
-    return function(dispatch: any) {
+export const logout = (): AppThunk<Promise<unknown>> => {
+    return function(dispatch) {
         dispatch({
             type: LOGOUT_REQUEST
         })
-        logoutRequest()
+        return logoutRequest()
         .then(res => {
             if (res && res.success) {
                 removeTokens();

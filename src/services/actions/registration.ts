@@ -2,6 +2,7 @@ import {submitRegistrationRequest} from '../../utils/burger-api';
 import { TUser } from '../../utils/types';
 import {setTokens} from '../../utils/utils';
 import { resetForm } from './forms';
+import { AppThunk } from '../store';
 
 export const REGISTRATION_FORM_SET_VALUE: "REGISTRATION_FORM_SET_VALUE" = "REGISTRATION_FORM_SET_VALUE";
 
@@ -36,12 +37,12 @@ export const setRegistrationFormValue = (field: string, value: string): ISetRegi
     }
 }
 
-export const submitRegistration = (email: string, password: string, name: string) => {
-    return function(dispatch: any) {
+export const submitRegistration = (email: string, password: string, name: string): AppThunk<Promise<unknown>> => {
+    return function(dispatch) {
         dispatch({
             type: REGISTRATION_REQUEST
         });
-        submitRegistrationRequest(email, password, name)
+        return submitRegistrationRequest(email, password, name)
         .then(res => {
             if (res && res.success) {
                 dispatch({

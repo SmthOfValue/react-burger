@@ -1,6 +1,7 @@
 import {submitForgotPasswordRequest} from '../../utils/burger-api';
 import { resetForm } from './forms';
 import { RouteComponentProps } from 'react-router-dom';
+import { AppThunk } from '../store';
 
 export const FORGOT_PASSWORD_FORM_SET_VALUE: "FORGOT_PASSWORD_FORM_SET_VALUE" = "FORGOT_PASSWORD_FORM_SET_VALUE";
 
@@ -32,12 +33,12 @@ interface IForgotpasswordErrorAction {
     readonly type: typeof FORGOT_PASSWORD_ERROR;
 };
 
-export const submitForgotPassword = (email: string, history: RouteComponentProps['history']) => {
-    return function(dispatch: any) {
+export const submitForgotPassword = (email: string, history: RouteComponentProps['history']): AppThunk<Promise<unknown>> => {
+    return function(dispatch) {
         dispatch({
             type: FORGOT_PASSWORD_REQUEST
         });
-        submitForgotPasswordRequest(email)
+        return submitForgotPasswordRequest(email)
         .then(res => {
             if (res && res.success) {
                 dispatch({

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Typography, Box } from '@ya.praktikum/react-developer-burger-ui-components';
-import Ingredient from '../Ingredient/Ingredient.jsx';
+import Ingredient from '../Ingredient/Ingredient';
 import { useDispatch } from 'react-redux';
 import ingredientsGroupStyles from './IngredientsGroup.module.css';
 import { Link, useLocation } from 'react-router-dom';

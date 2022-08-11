@@ -1,4 +1,4 @@
-import { NORMA_API } from './constants.js';
+import { NORMA_API } from './constants';
 import {getCookie} from './utils';
 import {
     TUser,
