@@ -1,18 +1,17 @@
-import React, {useEffect} from 'react';
-import { useDispatch } from 'react-redux';
-import { Typography, Box } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, {useEffect, FC} from 'react';
+import { useDispatch } from '../../services/store';
 import profilePageStyles from './ProfilePage.module.css';
 import {NavLink, Switch} from 'react-router-dom';
-import ProtectedRoute from '../../components/ProtectedRoute/ProtectedRoute.jsx';
+import {ProtectedRoute} from '../../components/ProtectedRoute/ProtectedRoute';
 import {
     logout
 } from '../../services/actions/profile';
-import {OrdersPage} from '../OrdersPage/OrdersPage.jsx';
-import {ProfileEditPage} from '../ProfileEditPage/ProfileEditPage.jsx';
+import {OrdersPage} from '../OrdersPage/OrdersPage';
+import {ProfileEditPage} from '../ProfileEditPage/ProfileEditPage';
 import { getUserInfo } from '../../services/actions/profile';
 
 
-export const ProfilePage = () => {
+export const ProfilePage: FC = () => {
 
     const dispatch = useDispatch();
 

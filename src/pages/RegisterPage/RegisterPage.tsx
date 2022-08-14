@@ -1,14 +1,14 @@
-import React, {useState, useRef} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Typography, Box, Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, { useRef, FC} from 'react';
+import { useSelector, useDispatch } from '../../services/store';
+import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import registerPageStyles from './RegisterPage.module.css';
 import {Link, Redirect} from 'react-router-dom';
 import {setRegistrationFormValue, submitRegistration} from '../../services/actions/registration';
 import {onButtonClick} from '../../utils/utils';
 
-export const RegisterPage = () => {
+export const RegisterPage: FC = () => {
     
-    const formRef = useRef(null);
+    const formRef = useRef<HTMLFormElement>(null);
 
     const form = formRef.current;
 
@@ -18,13 +18,13 @@ export const RegisterPage = () => {
     const dispatch = useDispatch();
 
     //обработчик отправки формы
-    const onFormSubmit = (e) => {
+    const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(submitRegistration(email, password, name));
     }
 
     //обработчик изменения значения полей формы
-    const onFormChange = (e) => {
+    const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setRegistrationFormValue(e.target.name, e.target.value));
     }
 
@@ -67,15 +67,13 @@ export const RegisterPage = () => {
                         size={'default'}
                     />                
                     <PasswordInput 
-                        type={'password'}
                         onChange={onFormChange}
                         value={password}
                         name={'password'}
-                        error={false}
                         size={'default'}
                     />                
             </form>
-            <Button disabled={form ? false : true} onClick={() => onButtonClick(form)} className={registerPageStyles.button} type="primary" size="medium">Зарегистрироваться</Button>
+            <Button disabled={form ? false : true} onClick={() => onButtonClick(form)} type="primary" size="medium">Зарегистрироваться</Button>
             <p className={`${registerPageStyles.paragraph} text text_type_main-small text_color_inactive mb-4`}>
                 Уже зарегистрированы? <Link to="/login" className={`${registerPageStyles.link}`}>Войти</Link>
             </p>

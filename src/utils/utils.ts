@@ -6,8 +6,10 @@ import {
 export const generateID = (): string => Date.now().toString(36) + Math.random().toString(36).substr(2);
 
 //обработчик нажатия на кнопку
-export const onButtonClick = (form: HTMLFormElement) => {
+export const onButtonClick = (form: HTMLFormElement | null) => {
+  if (form) {
     form.requestSubmit();
+  }
 }
 
 //установщик cookie
@@ -56,7 +58,7 @@ export const removeTokens = () => {
 }
 
 //функция подсчета цены заказа
-export const calculateTotalPrice = (ingredients: TIngredient[], orderIngredients: string[]): number => {
+export const calculateTotalPrice = (ingredients: ReadonlyArray<TIngredient>, orderIngredients: ReadonlyArray<string>): number => {
     //массив для подсчета цены заказа
     const ingredientsForTotalPrice = orderIngredients.filter((ingredient) => ingredient)
     .map((orderIngredient) =>

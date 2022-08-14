@@ -1,25 +1,25 @@
-import React, {useEffect} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, {useEffect, FC} from 'react';
+import { useSelector, useDispatch } from '../../services/store';
 import { Link, useLocation } from 'react-router-dom';
-import { Typography, Box, Button, CurrencyIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CurrencyIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
 import feedPageStyles from './FeedPage.module.css';
 import { WS_CONNECTION_START, WS_CONNECTION_END } from '../../services/actions/wsActionTypes';
 import { generateID, calculateTotalPrice, formatDate} from '../../utils/utils';
 import { WS_URL } from '../../utils/constants';
 
 
-export const FeedPage =() => {
+export const FeedPage: FC =() => {
 
     const dispatch = useDispatch();
     const location = useLocation();
 
     useEffect(
-        () => {          
+        () => {
             dispatch({ 
                 type: WS_CONNECTION_START,
                 payload: WS_URL
             });
-            return () => dispatch({ type: WS_CONNECTION_END });
+            return () => {dispatch({ type: WS_CONNECTION_END });}
         },
         [] 
     );
@@ -28,7 +28,7 @@ export const FeedPage =() => {
     const allIngredients = useSelector(store => store.ingredients.ingredients);
     
     //функция для получения ссылки на изображение ингредиента
-    const getImageSrc = (id) => allIngredients.find((ingredient) => ingredient._id === id).image;
+    const getImageSrc = (id: string): string | undefined => allIngredients.find((ingredient) => ingredient._id === id)?.image;
     
     return (
         wsConnected ?
@@ -64,7 +64,7 @@ export const FeedPage =() => {
                                             {order.ingredients.map((ingredient, index) => 
                                                 (index<=4 && ingredient &&
                                                 <li key={index} className={feedPageStyles.wrapper}>
-                                                    <img className={feedPageStyles.image} src={getImageSrc(ingredient)} alt={allIngredients.find((item) => item._id === ingredient).name}/>
+                                                    <img className={feedPageStyles.image} src={getImageSrc(ingredient)} alt={allIngredients.find((item) => item._id === ingredient)?.name}/>
                                                 </li>)
                                             )}
                                         </ul>

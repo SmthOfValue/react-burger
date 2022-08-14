@@ -1,5 +1,5 @@
 import { getOrderNumber } from '../../utils/burger-api';
-import type { TIngredient } from '../../utils/types';
+import type { TIngredient, TConstructorIngredient } from '../../utils/types';
 import type { AppThunk } from '../store';
 
 export const GET_ORDER_REQUEST: 'GET_ORDER_REQUEST' = 'GET_ORDER_REQUEST';
@@ -30,8 +30,8 @@ interface ISetOrderModalAction {
 }
 
 type TOrderData = {
-    data: TIngredient[];
-    bun: TIngredient;
+    data: TConstructorIngredient[];
+    bun?: TConstructorIngredient;
 };
 
 export function getOrder(orderData: TOrderData): AppThunk<Promise<unknown>> {
@@ -41,9 +41,11 @@ export function getOrder(orderData: TOrderData): AppThunk<Promise<unknown>> {
         });
         dispatch({
             type: SET_ORDER_MODAL
-        });
+        });        
         const idArray = orderData.data.map((ingredient) => ingredient._id);
-        idArray.push(orderData.bun._id);
+        if (orderData.bun) {
+            idArray.push(orderData.bun._id);
+        }
         return getOrderNumber(idArray)
         .then(res => {
             if (res && res.success) {

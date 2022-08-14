@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Typography, Box, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, { useState, useEffect, FC } from 'react';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
-import IngredientsGroup from '../IngredientsGroup/IngredientsGroup.jsx';
-import { useSelector, useDispatch } from 'react-redux';
+import IngredientsGroup from '../IngredientsGroup/IngredientsGroup';
+import { useSelector } from '../../services/store';
 import { useInView } from 'react-hook-inview';
+import { TIngredient } from '../../utils/types';
 
 
 
-const BurgerIngredients = ({ onIngredientClick }) => {
+const BurgerIngredients: FC = ({}) => {
     
-    const dispatch = useDispatch();
-    const {ingredients, ingredientsRequest} = useSelector(state => state.ingredients);
+     const {ingredients, ingredientsRequest} = useSelector(state => state.ingredients);
 
     //использование хука useInView для смены вкладок навигации при скролле
-    const [bunsRef, inViewBuns] = useInView({ threshold: 0.35 });
-    const [saucesRef, inViewSauces] = useInView({ threshold: 0.4 });
-    const [mainRef, inViewMain] = useInView({ threshold: 0.2 });
+    const [bunsRef, inViewBuns] = useInView({ threshold: 0.35 }) as unknown as [React.RefObject<HTMLLIElement>, boolean];
+    const [saucesRef, inViewSauces] = useInView({ threshold: 0.4 }) as unknown as [React.RefObject<HTMLLIElement>, boolean];;
+    const [mainRef, inViewMain] = useInView({ threshold: 0.2 }) as unknown as [React.RefObject<HTMLLIElement>, boolean];;
 
     useEffect(() => {
         if (inViewBuns) {
@@ -31,16 +31,16 @@ const BurgerIngredients = ({ onIngredientClick }) => {
     
 
     //обработчик нажатия на вкладку
-    const onTabClick = (tab) => {
+    const onTabClick = (tab: string) => {
         setCurrentTab(tab);
         const element = document.getElementById(tab);
         if (element) element.scrollIntoView({ behavior: "smooth" });
     };
 
     
-    const [currentTab, setCurrentTab] = useState('булки');
+    const [currentTab, setCurrentTab] = useState<string>('булки');
     //функция фильтрации массива ингредиентов по типу ингредиента
-    const filterByType = (ingredientsArray, typeName) => {
+    const filterByType = (ingredientsArray: ReadonlyArray<TIngredient>, typeName: string) => {
         return ingredientsArray.filter((ingredient) => ingredient.type === typeName);
     }
     
@@ -63,9 +63,9 @@ const BurgerIngredients = ({ onIngredientClick }) => {
                 }
                 {!ingredientsRequest &&
                 <ul className={burgerIngredientsStyles.list}>
-                    <IngredientsGroup scrollRef={bunsRef} titleId="булки" ingredients={filterByType(ingredients, "bun")} onIngredientClick={onIngredientClick}>Булки</IngredientsGroup>
-                    <IngredientsGroup scrollRef={saucesRef} titleId="соусы" ingredients={filterByType(ingredients, "sauce")} onIngredientClick={onIngredientClick}>Соусы</IngredientsGroup>
-                    <IngredientsGroup scrollRef={mainRef} titleId="начинки" ingredients={filterByType(ingredients, "main")} onIngredientClick={onIngredientClick}>Начинки</IngredientsGroup>
+                    <IngredientsGroup scrollRef={bunsRef} titleId="булки" ingredients={filterByType(ingredients, "bun")}>Булки</IngredientsGroup>
+                    <IngredientsGroup scrollRef={saucesRef} titleId="соусы" ingredients={filterByType(ingredients, "sauce")}>Соусы</IngredientsGroup>
+                    <IngredientsGroup scrollRef={mainRef} titleId="начинки" ingredients={filterByType(ingredients, "main")}>Начинки</IngredientsGroup>
                 </ul>    
                 }         
             </section>

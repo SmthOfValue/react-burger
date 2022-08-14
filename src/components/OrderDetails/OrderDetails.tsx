@@ -1,10 +1,9 @@
-import React from 'react';
-import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, {FC} from 'react';
 import OrderDetailsStyles from './OrderDetails.module.css';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 
 
-const OrderDetails = ({}) => {
+const OrderDetails: FC = ({}) => {
 
     const {order, orderError, orderRequest} = useSelector(store => store.order)
 

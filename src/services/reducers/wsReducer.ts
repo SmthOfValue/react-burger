@@ -20,7 +20,7 @@ type TWebSocketState = {
   error: Event | undefined;
 };
 
-const initialState = {
+const initialState: TWebSocketState = {
     wsConnected: false,
     userWsConnected: false,
     orders: [],

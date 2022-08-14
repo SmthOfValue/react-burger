@@ -1,25 +1,24 @@
-import React, {useEffect} from 'react';
-import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
-import AppHeader from '../AppHeader/AppHeader.jsx';
-import BurgerIngredients from '../BurgerIngredients/BurgerIngredients.jsx';
-import BurgerConstructor from '../BurgerConstructor/BurgerConstructor.jsx';
+import React, {useEffect, FC} from 'react';
+import AppHeader from '../AppHeader/AppHeader';
+import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
+import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import Modal from '../Modal/Modal';
 import AppStyles from './App.module.css';
-import OrderDetails from '../OrderDetails/OrderDetails.jsx';
+import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/store';
 import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
 import {Route, Switch, useLocation, useHistory} from 'react-router-dom';
-import { LoginPage } from '../../pages/LoginPage/LoginPage.jsx';
-import {RegisterPage} from '../../pages/RegisterPage/RegisterPage.jsx';
-import {ForgotPasswordPage} from '../../pages/ForgotPasswordPage/ForgotPasswordPage.jsx';
-import { ResetPasswordPage } from '../../pages/ResetPasswordPage/ResetPasswordPage.jsx';
-import {ProfilePage} from '../../pages/ProfilePage/ProfilePage.jsx';
-import {FeedPage} from '../../pages/FeedPage/FeedPage.jsx';
-import {OrderPage} from '../../pages/OrderPage/OrderPage.jsx';
-import { NotFoundPage } from '../../pages/NotFoundPage/NotFoundPage.jsx';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.jsx';
+import { LoginPage } from '../../pages/LoginPage/LoginPage';
+import {RegisterPage} from '../../pages/RegisterPage/RegisterPage';
+import {ForgotPasswordPage} from '../../pages/ForgotPasswordPage/ForgotPasswordPage';
+import { ResetPasswordPage } from '../../pages/ResetPasswordPage/ResetPasswordPage';
+import {ProfilePage} from '../../pages/ProfilePage/ProfilePage';
+import {FeedPage} from '../../pages/FeedPage/FeedPage';
+import {OrderPage} from '../../pages/OrderPage/OrderPage';
+import { NotFoundPage } from '../../pages/NotFoundPage/NotFoundPage';
+import {ProtectedRoute} from '../ProtectedRoute/ProtectedRoute';
 import { getUserInfo } from '../../services/actions/profile';
 import { getCookie } from '../../utils/utils';
 import { getIngredients } from '../../services/actions/ingredients';
@@ -27,11 +26,21 @@ import { resetOrderModal } from '../../services/actions/orderDetails';
 
 
 
-const App = () => {
+const App: FC = () => {
     
     const dispatch = useDispatch();
 
-    const location = useLocation();
+    interface ILocationState {
+        background: {
+            pathname: string;
+            search: string;
+            state: {background: Location};
+            hash: string;
+            key?: string | undefined;
+        };
+    }
+
+    const location = useLocation<ILocationState>();
     const history = useHistory();
 
     const orderDetailsModalIsOpen = useSelector(store => store.order.modalIsOpen);
@@ -56,15 +65,13 @@ const App = () => {
         []
     );
 
-    const background = history.action === 'PUSH' && location.state?.background;
-
-    
+    const background = location.state?.background;  
 
     return (
         <>
             <AppHeader></AppHeader>
             <main className={AppStyles.main}>
-                <Switch location={background || location}>
+                <Switch location={ background || location }>
                     <Route path="/ingredients/:id" >
                         <IngredientDetails />
                     </Route>

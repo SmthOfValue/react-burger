@@ -1,15 +1,18 @@
-import React from 'react';
-
-import { Typography, Box } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, {FC} from 'react';
 import Ingredient from '../Ingredient/Ingredient';
-import { useDispatch } from 'react-redux';
 import ingredientsGroupStyles from './IngredientsGroup.module.css';
 import { Link, useLocation } from 'react-router-dom';
+import type {TIngredient} from '../../utils/types';
+
+interface IIngredientsGroupProps {
+    ingredients: ReadonlyArray<TIngredient>;
+    titleId: string;
+    scrollRef: React.RefObject<HTMLLIElement>
+}
 
 
-const IngredientsGroup = ({children, ingredients, titleId, scrollRef}) => {
+const IngredientsGroup: FC<IIngredientsGroupProps> = ({children, ingredients, titleId, scrollRef}) => {
 
-    const dispatch = useDispatch();
     const location = useLocation();
 
        

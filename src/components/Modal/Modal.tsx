@@ -7,9 +7,9 @@ import ModalOverlay from '../ModalOverlay/ModalOverlay';
 const modalsContainer = document.getElementById('modals');
 
 interface IModalProps {
-    title: string;
+    title?: string;
     onCloseClick: () => void;
-    children: FC;
+    children: React.ReactNode;
 }
 
 const Modal: FC<IModalProps> = ({ title, onCloseClick, children }) => {

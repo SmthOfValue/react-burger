@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Typography, Box, CurrencyIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, {useEffect, FC} from 'react';
+import { useSelector, useDispatch } from '../../services/store';
+import { CurrencyIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
 import orderPageStyles from './OrderPage.module.css';
 import {useParams, useLocation, matchPath, useHistory} from 'react-router-dom';
 import { USER_WS_CONNECTION_START, WS_CONNECTION_START, WS_CONNECTION_END, USER_WS_CONNECTION_END } from '../../services/actions/wsActionTypes';
@@ -8,10 +8,12 @@ import { calculateTotalPrice, formatDate } from '../../utils/utils';
 import { WS_URL, USER_WS_URL } from '../../utils/constants';
 import { getCookie } from '../../utils/utils';
 
-export const OrderPage = () => {
+export const OrderPage: FC = () => {
     
-
-    const location = useLocation();
+    interface ILocationState {
+        background: Location;
+    }
+    const location = useLocation<ILocationState>();
     const history = useHistory();
     const dispatch = useDispatch();
     //проверка совпадения текущего пути со ссылкой на заказ авторизованного пользователя
@@ -20,9 +22,11 @@ export const OrderPage = () => {
         exact: false,
         strict: false
     });
+
+    
     
     useEffect(
-        () => {       
+        () => {
             if (match) {
                 dispatch({ 
                     type: USER_WS_CONNECTION_START,
@@ -36,15 +40,19 @@ export const OrderPage = () => {
                 });
             }
             if (match && !location.state?.background) {
-                return () => dispatch({ type: USER_WS_CONNECTION_END });
+                return () => {dispatch({ type: USER_WS_CONNECTION_END });}
             } else if (!location.state?.background) {
-                return () => dispatch({ type: WS_CONNECTION_END });
+                return () => {dispatch({ type: WS_CONNECTION_END });}
             }
         },
         [] 
     );
 
-    const { id } = useParams();
+    type TParamsType = {
+        id: string;
+    }
+
+    const { id } = useParams<TParamsType>();
     
     const ingredients = useSelector(store => store.ingredients.ingredients);
     const orders = useSelector(store => store.feed.orders);
@@ -53,9 +61,9 @@ export const OrderPage = () => {
 
     //представление массива ингредиентов заказа в виде объекта
     //с ключами-ингредиентами и значениями-количеством каждого ингредиента
-    const counts = {};
+    const counts: Record<string, number> = {};
     let totalPrice = 0;
-    let uniqueIngredients = [];
+    let uniqueIngredients: string[] = [];
 
     if (orderData) {
         for (const id of orderData.ingredients) {
@@ -91,11 +99,11 @@ export const OrderPage = () => {
                 {uniqueIngredients.map((uniqueIngredient) => (
                     <li key={uniqueIngredient} className={`${orderPageStyles.ingredient}`}>
                         <div className={orderPageStyles.wrapper}>
-                            <img className={orderPageStyles.image} src={ingredients.find((ingredient) => ingredient._id === uniqueIngredient).image} alt={ingredients.find((ingredient) => ingredient._id === uniqueIngredient).name}/>
+                            <img className={orderPageStyles.image} src={ingredients.find((ingredient) => ingredient._id === uniqueIngredient)?.image} alt={ingredients.find((ingredient) => ingredient._id === uniqueIngredient)?.name}/>
                         </div>
-                        <p className="text text_type_main-default ml-4 mr-4">{ingredients.find((ingredient) => ingredient._id === uniqueIngredient).name}</p>
+                        <p className="text text_type_main-default ml-4 mr-4">{ingredients.find((ingredient) => ingredient._id === uniqueIngredient)?.name}</p>
                         <span className={orderPageStyles.price}>
-                            <span className='text text_type_digits-default mr-2'>{counts[uniqueIngredient]} x {ingredients.find((ingredient) => ingredient._id === uniqueIngredient).price}</span>
+                            <span className='text text_type_digits-default mr-2'>{counts[uniqueIngredient]} x {ingredients.find((ingredient) => ingredient._id === uniqueIngredient)?.price}</span>
                             <CurrencyIcon type="primary" />
                         </span>
                     </li>

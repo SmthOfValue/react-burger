@@ -1,15 +1,25 @@
-import React, {useState, useRef, useEffect} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Typography, Box, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, {useState, useRef, useEffect, FC, ReactType} from 'react';
+import { useSelector, useDispatch } from '../../services/store';
+import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import profilePageStyles from './ProfileEditPage.module.css';
 import {
     setProfileFormValue,
     setUserInfo
 } from '../../services/actions/profile';
 
-export const ProfileEditPage = () => {
+export const ProfileEditPage: FC = () => {
 
-    const initialState = {
+    type TIconType = "EditIcon" | "CloseIcon";
+
+    type TInputType = {icon: TIconType; disabled: boolean};
+    
+    type TInitialStateType = {
+        nameInput: TInputType;
+        emailInput: TInputType;
+        passwordInput: TInputType;
+    };
+    
+    const initialState: TInitialStateType = {
         'nameInput': {
             icon: "EditIcon",
             disabled: true
@@ -26,9 +36,9 @@ export const ProfileEditPage = () => {
 
     const [state, setState] = useState(initialState);
     
-    const buttonsRef = useRef(null);
+    const buttonsRef = useRef<HTMLDivElement>(null);
 
-    const formRef = useRef(null);
+    const formRef = useRef<HTMLFormElement>(null);
     const form = formRef.current;
 
     const {email, name, password} = useSelector(state => state.profile.form);
@@ -49,18 +59,18 @@ export const ProfileEditPage = () => {
     );
 
     //обработчик отправки формы
-    const onFormSubmit = (e) => {
+    const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(setUserInfo(email, password, name));
     }
 
     //обработчик изменения значения полей формы
-    const onFormChange = (e) => {
+    const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setProfileFormValue(e.target.name, e.target.value));
     }
 
     //обработчик нажатия на иконку поля
-    const onIconClick = (input) => {        
+    const onIconClick = (input: keyof TInitialStateType) => {        
         setState({
             ...state,
             [input]: {
@@ -70,15 +80,22 @@ export const ProfileEditPage = () => {
         });
     }
 
+    type TStateKeys ='nameInput'| 'emailInput' | 'passwordInput';
+
+
     //смена видимости кнопок Сохранить и Отмена в зависимости от состояния полей ввода
     useEffect(
         () => {
-            const stateKeysArray = Object.keys(state);
+            const stateKeysArray: TStateKeys[] = ['nameInput', 'emailInput', 'passwordInput']
             if (stateKeysArray.every(element => state[element].disabled)) {
-                buttonsRef.current.classList.add(profilePageStyles.hidden);
+                if (buttonsRef.current !== null) {
+                    buttonsRef.current.classList.add(profilePageStyles.hidden);
+                }
             }
             else {
-                buttonsRef.current.classList.remove(profilePageStyles.hidden);
+                if (buttonsRef.current !== null) {
+                    buttonsRef.current.classList.remove(profilePageStyles.hidden);
+                }
             }
         }, 
         [state]); 
@@ -93,7 +110,9 @@ export const ProfileEditPage = () => {
 
     //обработчик нажатия на кнопку Сохранить
     const onSaveButtonClick = () => {
-        form.requestSubmit();
+        if (form !== null) {
+            form.requestSubmit();
+        }
         setState(initialState);
     }
 

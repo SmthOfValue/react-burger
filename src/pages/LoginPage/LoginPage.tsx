@@ -1,26 +1,31 @@
-import React, {useState, useRef} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Typography, Box, Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, {FC, useRef} from 'react';
+import { useSelector, useDispatch } from '../../services/store';
+import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import loginPageStyles from './LoginPage.module.css';
-import {Link, Redirect} from 'react-router-dom';
+import {Link, Redirect, useLocation} from 'react-router-dom';
 import {setLoginFormValue, submitLogin} from '../../services/actions/login';
 import {onButtonClick} from '../../utils/utils';
 
-export const LoginPage = () => {
+export const LoginPage: FC = () => {
 
     const {email, password} = useSelector(state => state.login.form);
     const {isAuth} = useSelector (state => state.user);
 
+    interface IStateType {
+        from: { pathname: string }
+     }
+
     const dispatch = useDispatch();
+    const { state } = useLocation<IStateType>();
 
     //обработчик отправки формы
-    const onFormSubmit = (e) => {
+    const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(submitLogin(email, password));
     }
 
     //обработчик изменения значения полей формы
-    const onFormChange = (e) => {
+    const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setLoginFormValue(e.target.name, e.target.value));
     }
 
@@ -33,7 +38,7 @@ export const LoginPage = () => {
         );
     }
 
-    const formRef = useRef(null);
+    const formRef = useRef<HTMLFormElement>(null);
 
     const form = formRef.current;
 
@@ -53,16 +58,14 @@ export const LoginPage = () => {
                         size={'default'}
                     />                
                     <PasswordInput 
-                        type={'password'}
                         onChange={onFormChange}
                         value={password}
                         name={'password'}
-                        error={false}
                         size={'default'}
                     />                
             </form>
             
-            <Button disabled={form ? false : true} onClick={() => onButtonClick(form)} className={loginPageStyles.button} type="primary" size="medium">Войти</Button>
+            <Button disabled={form ? false : true} onClick={() => onButtonClick(form)} type="primary" size="medium">Войти</Button>
             <p className={`${loginPageStyles.paragraph} text text_type_main-small text_color_inactive mb-4`}>
                 Вы — новый пользователь? <Link to="/register" className={`${loginPageStyles.link}`}>Зарегистрироваться</Link>
             </p>

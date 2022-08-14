@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Typography, Box, Button, CurrencyIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, {useEffect, FC} from 'react';
+import { useSelector, useDispatch } from '../../services/store';
+import { CurrencyIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation } from 'react-router-dom';
 import { USER_WS_CONNECTION_START, USER_WS_CONNECTION_END } from '../../services/actions/wsActionTypes';
 import ordersPageStyles from './OrdersPage.module.css';
@@ -9,7 +9,7 @@ import { USER_WS_URL } from '../../utils/constants';
 
 
 
-export const OrdersPage =() => {
+export const OrdersPage: FC =() => {
 
     const dispatch = useDispatch();
     const location = useLocation();
@@ -17,12 +17,12 @@ export const OrdersPage =() => {
     const allIngredients = useSelector(store => store.ingredients.ingredients);
 
     useEffect(
-        () => {          
+        () => {
             dispatch({ 
                 type: USER_WS_CONNECTION_START,
                 payload: `${USER_WS_URL}?token=${getCookie('token')}`
             });
-            return () => dispatch({ type: USER_WS_CONNECTION_END });
+            return () => {dispatch({ type: USER_WS_CONNECTION_END });}
             
         },
         [] 
@@ -30,7 +30,7 @@ export const OrdersPage =() => {
 
     
     //функция для получения ссылки на изображение ингредиента
-    const getImageSrc = (id) => allIngredients.find((ingredient) => ingredient._id === id).image;
+    const getImageSrc = (id: string) => allIngredients.find((ingredient) => ingredient._id === id)?.image;
 
     return (
         orders && userWsConnected ?
@@ -70,7 +70,7 @@ export const OrdersPage =() => {
                                         {order.ingredients.map((ingredient, index) => 
                                             (index<=4 && ingredient &&
                                             <li key={index} className={ordersPageStyles.wrapper}>
-                                                <img className={ordersPageStyles.image} src={getImageSrc(ingredient)} alt={allIngredients.find((item) => item._id === ingredient).name}/>
+                                                <img className={ordersPageStyles.image} src={getImageSrc(ingredient)} alt={allIngredients.find((item) => item._id === ingredient)?.name}/>
                                             </li>)
                                         )}
                                     </ul>

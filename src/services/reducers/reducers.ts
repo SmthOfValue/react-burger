@@ -30,7 +30,7 @@ import { registrationFormReducer,
 import { wsReducer } from './wsReducer';
 import type {
     TIngredient,
-    TOrder
+    TConstructorIngredient
 } from '../../utils/types';
 import type { TIngredientsActions } from '../actions/ingredients';
 import type { TBurgerConstructorActions } from '../actions/burgerConstructor';
@@ -49,13 +49,14 @@ const ingredientsInitialState: TIngredientsState = {
     ingredientsError: false,
 }
 
+
 type TConstructorState = {
-    bun: TIngredient & {constructorId: string} | {};
-    data: Array<TIngredient & {constructorId: string}>;
+    bun?: TConstructorIngredient;
+    data: Array<TConstructorIngredient>;
 }
 
 const constructorInitialState: TConstructorState = {
-    bun: {},
+    bun: undefined,
     data: []
 }
 
@@ -63,14 +64,17 @@ type TOrderState = {
     order: {
         name: string;
         number: number;
-    } | {};
+    };
     orderRequest: boolean;
     orderError: boolean;
     modalIsOpen: boolean;
 }
 
 const orderInitialState: TOrderState = {
-    order: {},
+    order: {
+        name: '',
+        number: 0
+    },
     orderRequest: false,
     orderError: false,
     modalIsOpen: false
