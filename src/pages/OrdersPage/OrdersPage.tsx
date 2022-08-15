@@ -20,7 +20,7 @@ export const OrdersPage: FC =() => {
         () => {
             dispatch({ 
                 type: USER_WS_CONNECTION_START,
-                payload: `${USER_WS_URL}?token=${getCookie('token')}`
+                payload: new URL(`${USER_WS_URL}?token=${getCookie('token')}`)
             });
             return () => {dispatch({ type: USER_WS_CONNECTION_END });}
             

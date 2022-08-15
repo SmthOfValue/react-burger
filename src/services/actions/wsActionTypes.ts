@@ -22,12 +22,12 @@ type TWebSocketResponse = {
 
 interface IWsConnectionStartAction {
     readonly type: typeof WS_CONNECTION_START;
-    payload: string;
+    payload: URL;
 }
 
 interface IUserWsConnectionStartAction {
     readonly type: typeof USER_WS_CONNECTION_START;
-    payload: string;
+    payload: URL;
 }
 
 interface IWsConnectionSuccessAction {

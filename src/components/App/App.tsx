@@ -65,11 +65,11 @@ const App: FC = () => {
         []
     );
 
-    const background = location.state?.background;  
+    const background = history.action === 'PUSH' && location.state?.background;  
 
     return (
         <>
-            <AppHeader></AppHeader>
+            <AppHeader />
             <main className={AppStyles.main}>
                 <Switch location={ background || location }>
                     <Route path="/ingredients/:id" >

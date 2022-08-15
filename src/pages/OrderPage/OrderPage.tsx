@@ -30,7 +30,7 @@ export const OrderPage: FC = () => {
             if (match) {
                 dispatch({ 
                     type: USER_WS_CONNECTION_START,
-                    payload: `${USER_WS_URL}?token=${getCookie('token')}`
+                    payload: new URL(`${USER_WS_URL}?token=${getCookie('token')}`)
                 });
             }
             else if (!(history.action === 'PUSH' && location.state?.background)) {

@@ -1,10 +1,11 @@
 import {refreshTokenRequest} from '../../utils/burger-api';
-import { ThunkMiddleware } from 'redux-thunk';
-import type { TWsActions, TUserWsActions } from '../store';
+import { Middleware, MiddlewareAPI } from 'redux';
+import type { TWsActions, TUserWsActions, AppDispatch, RootState } from '../store';
 import type { TWebSocketActions } from '../actions/wsActionTypes';
 
-export const socketMiddlewareWithReconnect = (wsActions: TWsActions, userWsActions: TUserWsActions): ThunkMiddleware => {
-    return store => {
+
+export const socketMiddlewareWithReconnect = <TActionTypes extends TWsActions | TUserWsActions>(wsActions: TActionTypes): Middleware => {
+    return (store: MiddlewareAPI<AppDispatch, RootState>) => {
         const { 
             wsInit,            
             wsGetOrders,            
@@ -13,22 +14,10 @@ export const socketMiddlewareWithReconnect = (wsActions: TWsActions, userWsActio
             onWsError,            
             wsClose            
         } = wsActions;
-        const {
-            userWsInit,
-            userWsGetOrders,
-            onUserWsOpen,
-            onUserWsClose,
-            onUserWsError,
-            userWsClose
-        } = userWsActions;
         let socket: WebSocket | null = null;
-        let userSocket: WebSocket | null = null;
         let socketIsConnected: boolean = false;
-        let userSocketIsConnected: boolean = false;
         let socketReconnectTimer: number = 0;
-        let userSocketReconnectTimer: number = 0;
-        let socketUrl: string = "";
-        let userSocketUrl: string = "";
+        let socketUrl: URL;
   
         return (next) => (action: TWebSocketActions) => {
             const { dispatch } = store;
@@ -49,7 +38,28 @@ export const socketMiddlewareWithReconnect = (wsActions: TWsActions, userWsActio
             socket.onmessage = (event) => {
                 const { data } = event;
                 const parsedData = JSON.parse(data);
-    
+        
+                if (parsedData.message === "Invalid or missing token") {
+                    refreshTokenRequest()
+                    .then((refreshData) => {
+                        const userWsUrl = new URL(socketUrl);
+                        userWsUrl.searchParams.set(
+                            "token",
+                            refreshData.accessToken.replace("Bearer ", "")
+                        );
+                        dispatch({
+                            type: wsInit,
+                            payload: userWsUrl,
+                        });
+                    })
+                    .catch((err) => {
+                        dispatch({ type: onWsError, payload: err });
+                    });
+        
+                    dispatch({ type: wsClose });
+                    return;
+                }
+        
                 dispatch({
                     type: wsGetOrders,
                     payload: parsedData,
@@ -75,70 +85,6 @@ export const socketMiddlewareWithReconnect = (wsActions: TWsActions, userWsActio
             socketIsConnected = false;
             socketReconnectTimer = 0;
             socket.close();
-        }
-
-        if (type === userWsInit) {
-            userSocketUrl = action.payload;
-            userSocket = new WebSocket(userSocketUrl);
-            userSocketIsConnected = true;
-    
-            userSocket.onopen = event => {
-                dispatch({ type: onUserWsOpen, payload: event });
-            };
-            userSocket.onerror = event => {
-                dispatch({ type: onUserWsError, payload: event });
-            };
-    
-            userSocket.onmessage = (event) => {
-                const { data } = event;
-                const parsedData = JSON.parse(data);
-        
-                if (parsedData.message === "Invalid or missing token") {
-                    refreshTokenRequest()
-                    .then((refreshData) => {
-                        const userWsUrl = new URL(userSocketUrl);
-                        userWsUrl.searchParams.set(
-                            "token",
-                            refreshData.accessToken.replace("Bearer ", "")
-                        );
-                        dispatch({
-                            type: userWsInit,
-                            payload: userWsUrl,
-                        });
-                    })
-                    .catch((err) => {
-                        dispatch({ type: onUserWsError, payload: err });
-                    });
-        
-                    dispatch({ type: userWsClose });
-                    return;
-                }
-        
-                dispatch({
-                    type: userWsGetOrders,
-                    payload: parsedData,
-                });
-            };
-        
-            userSocket.onclose = (event) => {
-                dispatch({ type: onUserWsClose, payload: event });
-        
-                if (userSocketIsConnected) {
-                    userSocketReconnectTimer = window.setTimeout(() => {
-                    dispatch({
-                        type: userWsInit,
-                        payload: userSocketUrl,
-                    });
-                    }, 5000);
-                }
-                };
-        }
-    
-        if (userWsClose && type === userWsClose && userSocket) {
-            clearTimeout(userSocketReconnectTimer);
-            userSocketIsConnected = false;
-            userSocketReconnectTimer = 0;
-            userSocket.close();
         }
   
         next(action);

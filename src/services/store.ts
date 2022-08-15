@@ -79,21 +79,21 @@ const wsActions: TWsActions = {
 };
 
 export type TUserWsActions = {
-  userWsInit: typeof USER_WS_CONNECTION_START;
-  userWsGetOrders: typeof USER_WS_GET_ORDERS;
-  onUserWsOpen: typeof USER_WS_CONNECTION_SUCCESS;
-  onUserWsClose: typeof USER_WS_CONNECTION_CLOSED;
-  userWsClose: typeof USER_WS_CONNECTION_END;
-  onUserWsError: typeof USER_WS_CONNECTION_ERROR;
+  wsInit: typeof USER_WS_CONNECTION_START;
+  wsGetOrders: typeof USER_WS_GET_ORDERS;
+  onWsOpen: typeof USER_WS_CONNECTION_SUCCESS;
+  onWsClose: typeof USER_WS_CONNECTION_CLOSED;
+  wsClose: typeof USER_WS_CONNECTION_END;
+  onWsError: typeof USER_WS_CONNECTION_ERROR;
 };
 
 const userWsActions: TUserWsActions = {
-  userWsInit: USER_WS_CONNECTION_START,
-  userWsGetOrders: USER_WS_GET_ORDERS,
-  onUserWsOpen: USER_WS_CONNECTION_SUCCESS,
-  onUserWsClose: USER_WS_CONNECTION_CLOSED,
-  userWsClose: USER_WS_CONNECTION_END,
-  onUserWsError: USER_WS_CONNECTION_ERROR
+  wsInit: USER_WS_CONNECTION_START,
+  wsGetOrders: USER_WS_GET_ORDERS,
+  onWsOpen: USER_WS_CONNECTION_SUCCESS,
+  onWsClose: USER_WS_CONNECTION_CLOSED,
+  wsClose: USER_WS_CONNECTION_END,
+  onWsError: USER_WS_CONNECTION_ERROR
 }
 
 declare global {
@@ -104,10 +104,5 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// const composeEnhancers =
-//   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-//     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-//     : compose; 
-
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddlewareWithReconnect(wsActions, userWsActions)));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddlewareWithReconnect<TWsActions>(wsActions), socketMiddlewareWithReconnect<TUserWsActions>(userWsActions)));
 export const store = createStore(rootReducer, enhancer); 
