@@ -5,17 +5,19 @@ import reportWebVitals from './reportWebVitals';
 import App from './components/App/App';
 import { Provider } from 'react-redux';
 import {store} from './services/store';
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter, HashRouter} from 'react-router-dom';
 
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Provider store={store}>
-        <App>
+      <HashRouter basename='/react-burger'>
+        <Provider store={store}>
+          <App>
 
-        </App>
-      </Provider>
+          </App>
+        </Provider>
+      </HashRouter>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
